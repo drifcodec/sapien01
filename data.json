@@ -1,0 +1,23 @@
+[
+    {
+        "name":"device1",
+        "section":"a",
+        "status":"off" ,
+        "tyoe":"green" 
+        
+    },
+    {
+        "name":"device1",
+        "section":"b",
+        "status":"on" ,
+        "tyoe":"red" 
+        
+    }, 
+    {
+        "name":"device1",
+        "section":"c",
+        "status":"off",
+        "tyoe":"dim redjj" 
+        
+    }
+]

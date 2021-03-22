@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="refresh" contente="500" />
+  <!--css-->
+  <link rel="stylesheet" type="text/css" href="styles_file/mystyle.css">
+  </link>
+  <!---->
+  <script src="js_files/jquery.min.js" type="text/javascript" language="javascript"></script>
+  <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
+  <script src="js_files/push.min.js" type="text/javascript"></script>
+
+  <!--google chart scripts-->
+  <script type="text/javascript" src="https://cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.2/echarts.min.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!---->
+  <script src="js_files/serviceWorker.min.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+  <link rel="stylesheet" href="https://nightly.datatables.net/responsive/css/responsive.dataTables.min.css">
+
+  <title>Sapien IO</title>
+</head>
+
+<body>
+  <div id="notification">
+    <div style='height:35px;'>
+      <span id="total_sites"></span>
+    </div>
+    <div id="" style='height:35px;'>
+      <span id="total_wo"></span>
+    </div>
+  </div>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 6,
+        center: { lat: -27.80603, lng: 23.209105 },
+        styles: mapStyle_,
+        draggable: true, mapTypeIds: ['roadmap', 'terrain']
+      });
+
+      setTimeout(function () {
+        for (var i = 0; i < weather_list.length; i++) {
+          addMarker(weather_list[i]);
+        }
+
+        var wofun = wo_list.map(function (wo) {
+
+          var map_google = new google.maps.Marker({
+            position: { "lat": -25.826671, "lng": 28.268273 },
+          });
+
+          return map_google
+        });
+        var markersfun = device_list.map(function (marker) {
+
+          var map_google = new google.maps.Marker({
+            position: marker.coords,
+            icon: {
+              url: marker.iconImage,
+              size: new google.maps.Size(26, 26),
+              scaledSize: new google.maps.Size(26, 26),
+            }
+          });
+
+          if (marker.content) {
+            var infoWindow = new google.maps.InfoWindow({
+              content: marker.content
+            });
+
+            map_google.addListener('mouseover', function () {
+              infoWindow.open(map, map_google);
+            });
+
+            map_google.addListener('click', function () {
+              infoWindow.close();
+              $('#popup1').remove()
+               pop_site(marker)
+            });
+
+            map_google.addListener('mouseout', function () {
+              infoWindow.close();
+            });
+          }
+          return map_google
+        });
+        // Add a marker clusterer to manage the markers.
+        //console.log(markersfun)
+        mcOptions = {styles: [{
+                height: 27,
+                url: "image.png",
+                width: 35
+                }],
+                maxZoom: 8
+                }
+        var markerCluster = new MarkerClusterer(map, markersfun , { imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m' 
+                                      });
+
+      }, 2000);
+
+
+      // Add Marker Function
+      function addMarker(props) {
+        var marker = new google.maps.Marker({
+          position: props.coords,
+          map: map
+        });
+        if (props.iconImage) {
+          // Set icon image
+          marker.setIcon(props.iconImage);
+        }
+        if (props.content) {
+          var infoWindow = new google.maps.InfoWindow({
+            content: props.content
+          });
+
+          marker.addListener('mouseover', function () {
+            infoWindow.open(map, marker);
+          });
+          marker.addListener('mouseout', function () {
+            infoWindow.close();
+          });
+        }
+      }
+
+
+
+    }
+
+
+
+
+
+
+
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"
+    type="text/javascript"></script>
+  <script src="map_style_file/map_style.js" type="text/javascript" language="javascript"></script>
+  <script src="data_file/weather.js" type="text/javascript" language="javascript"></script>
+  <script src="components/pop_up_site.js" type="text/javascript" language="javascript"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGFnyszA_dpXvvYW63HqTSOvz04JJps&callback=initMap"></script>
+  <script src="https://unpkg.com/@google/markerclustererplus@5.1.0/dist/markerclustererplus.min.js"></script>
+</body>
+
+</html>
