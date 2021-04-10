@@ -1,6 +1,6 @@
 
 var vandalism_list = [];
-var vandalism_list_storage = [];
+var vandalism_list_storage = [];/* 
 var counter = 0.60 * 60 * 1000
 function vandalism_load() {
   axios.get('http://localhost:3000/api/vandalism', {
@@ -14,7 +14,7 @@ vandalism_load()
 
 function vandalism_func(marker) {
   var high_priority = 0
-  var medioum_priority = 0
+  var medium_priority = 0
   var low_priority = 0
   
   for (i = 0; i < marker.length; i++) {
@@ -45,7 +45,7 @@ function vandalism_func(marker) {
      // $('.filter_red').text(offline)
     } else if
       (data.priority == 'medium') {
-        medioum_priority += 1
+        medium_priority += 1
      // $('.filter_green').text(online)
     } else if (data.priority == 'low') {
         low_priority += 1
@@ -120,3 +120,4 @@ vandalism_load()
 console.log("vandalism call made")
 }, counter
 )
+ */

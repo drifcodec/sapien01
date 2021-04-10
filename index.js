@@ -15,6 +15,7 @@ const user_role=require('./routes/user_role')
 const parent_menu=require('./routes/parent_menu')
 const roll_out=require('./routes/rollout')
 const page_access=require('./routes/page_access')
+const mobile_access=require('./routes/mobile_access')
 const device_stats_check=require('./background_worker/device_status_cherker')
 let port=process.env.PORT || 3000
 var connection_string='mongodb+srv://dannynho:dannynho@ourdb-uczbc.mongodb.net/test?retryWrites=true&w=majority'
@@ -44,7 +45,8 @@ app.use('/api/vandalism',vandalism);
 app.use('/api/roll_out',roll_out);
 app.use('/api/page_auth',page_auth);
 app.use('/api/parent_menu',parent_menu); 
-app.use('/api/page_access',page_access); 
+app.use('/api/page_access',page_access);
+app.use('/api/mobile_access',mobile_access); 
 //cron.schedule("*/10 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)

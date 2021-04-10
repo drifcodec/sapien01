@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema({
       user_status:{ type: String,required:false,default:'Pending'},
       last_gps_last:{ type: String},
       last_gps_long:{ type: String},
-      email: { type: String, required: true, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/}
+      email: { type: String, required: true, unique: false, match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/}
 });
 
 module.exports = mongoose.model('User', userSchema);

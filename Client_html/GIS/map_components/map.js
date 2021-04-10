@@ -143,6 +143,7 @@ function initialize() {
   //
   // Inherits from OverlayView from the Google Maps API
   // xxx
+
   inherit(Tooltip, google.maps.OverlayView);
   var bounds = new google.maps.LatLngBounds();
   var mapOptions = {
@@ -164,7 +165,8 @@ function initialize() {
   });
   setTimeout(function () {
     load_all_markers()
-  }, 2000)
+  }, 1000)
+  
   setInterval(() => {
     load_all_markers()
   }, timer_interval)

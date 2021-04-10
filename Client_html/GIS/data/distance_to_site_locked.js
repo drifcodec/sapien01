@@ -2,13 +2,12 @@
 getLocation()
 function getLocation() {
   if (navigator.geolocation) {
-
-    console.log(navigator.geolocation)
+    console.log("location current is:",navigator.geolocation)
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
   }
 }
-var cur_lat = -2444.80603
+var cur_lat = -24.80603
 var cur_lng = 23.209105
 var cur_coords = [{"lat":-2444.80603,"lng":23.209105}]
 function showPosition(position) {

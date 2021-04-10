@@ -2,17 +2,21 @@
 var device_list = [];
 var device_list_storage = [];
 var counter_site =  0.60* 60 * 1000
+
+
+side_bar()
+load_site()
+
 function side_bar() {
   var append_html = `
    <div id='side_bar'>
-   <button id='site_tracking' class=''>Site Tracking</button><br>
-   <button id='wo_tracking'>wo tracking</button><br>
-   <button id='se_tracking'> Engineer Tracking</button>
+      <button id='site_tracking' class=''>Site Tracking</button><br>
+      <button id='wo_tracking'>wo tracking</button><br>
+      <button id='se_tracking'> Engineer Tracking</button>
    </div>`
   $('body').append(append_html)
   $("#site_status").draggable()
 }
-side_bar()
 function load_site() {
   axios.post('http://localhost:3000/api/device/getList', /* {
     "town": "",
@@ -31,8 +35,6 @@ function load_site() {
     })
     .catch(error => console.error(error));
 };
-load_site()
-
 
 function pop_site(marker) {
   var online = 0
@@ -135,7 +137,6 @@ $('#from_count_busy').click(function () {
 
 var device_contents = {
   content: function (device_id, status) {
-    var device_id_ = device_id
     var device_tooltip_content = ` 
   <div class="hoverTips">
  <div class="tipsTable">
