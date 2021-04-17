@@ -2,7 +2,7 @@
 getLocation()
 function getLocation() {
   if (navigator.geolocation) {
-    console.log("location current is:",navigator.geolocation)
+    //console.log("location current is:",navigator.geolocation)
     navigator.geolocation.getCurrentPosition(showPosition);
   } else {
   }

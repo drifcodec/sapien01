@@ -1,6 +1,6 @@
 
 var vandalism_list = [];
-var vandalism_list_storage = [];/* 
+var vandalism_list_storage = [];
 var counter = 0.60 * 60 * 1000
 function vandalism_load() {
   axios.get('http://localhost:3000/api/vandalism', {
@@ -120,4 +120,4 @@ vandalism_load()
 console.log("vandalism call made")
 }, counter
 )
- */
+ 

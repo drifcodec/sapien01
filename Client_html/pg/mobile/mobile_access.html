@@ -70,10 +70,11 @@
         <th>Mobile Page</th> 
         <th>Parent Compoment</th> 
         <th>Protocol</th> 
-        <th>Url</th> 
+        <th>Mobile Page Url</th> 
         <th>Image Path</th> 
-        <th>Image </th>    
-        <th>Access Roles</th> 
+        <th>Image</th>    
+        <th>Access Roles</th>
+        <th>Page Status</th> 
         <th>Operation</th>
             </tr>
           </thead>
@@ -83,7 +84,7 @@
       $.fn.dataTable.ext.errMode = 'none';
       $('#table_id').DataTable({
         dom: 'lBfrtip',
-        buttons: [
+       /*  buttons: [
           'copy',
           {
             extend: 'excel',
@@ -97,7 +98,7 @@
               }
             }
           }
-        ],
+        ], */
         /* buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ], *//* 
@@ -135,6 +136,8 @@
             }
           },
           { "data": "roles" },
+          { "data": "status" },
+          
           {
             'data': null, "render": function (item, type, full, meta) {
               console.log(item._id)
@@ -144,22 +147,34 @@
             }
           }
         ],
+     
         "columnDefs": [
-         /*  {
+          {
             orderable: false,
             targets: [4, 2]
-          }, */
+          },
           /* {
             "targets" : [ 0, 1, 2],
             "visible" : false,
             "searchable" : false
         }, // this hides specific columns*/
-          { "width": "10px", "targets": 6 },
-      ]
+          { "width": "20%", "targets": 3 },
+        {
+            "targets": 7,
+            "createdCell": function (td, cellData, rowData, row, col) {
+              if (cellData === 'online') {
+                $(td).css('background', 'green').css('color', 'white');
+              } if (cellData === 'offline') {
+                $(td).css('background', 'red').css('color', 'white');
+              }  if (cellData === 'pending') {
+                $(td).css('background', 'orange').css('color', 'white');
+              } 
+            }
+          }]
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`http://localhost:3000/api/page_access/${id}`)
+        axios.delete(`http://localhost:3000/api/mobile_access/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -179,6 +194,7 @@
             protocol: $("#protocol").val(),
             url: $('#url').val(),
             img_path: $('#img_path').val(),
+            status: $('#status').val(),
             roles: $('#roles').val(),
 
           }).then(response => {
@@ -208,6 +224,7 @@
             protocol: $('#protocol').val(),
             url: $('#url').val(),
             roles: $('#roles').val(),
+            status: $('#status').val(),
           }).then(response => {
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -230,6 +247,7 @@
           $('#page').val(data.page)
           $('#url').val(data.url)
           $('#img_path').val(data.img_path)
+          $('#status').val(data.status)
           $('#protocol').val(data.protocol)
           $('#roles').val(data.roles)
           $("#create_update").val('update')
@@ -250,6 +268,7 @@
       $('#url').val('')
       $('#img_path').val('')
       $('#protocol').val('')
+      $('#status').val('')
       $('#roles').val('')
       $('#AddUser').modal();
     }
@@ -304,9 +323,17 @@
               <label for="sel1">Page Name:</label>
               <input type="text" class="form-control" id="page" placeholder="">
             </div>
+
             <div class="form-group">
               <label for="sel1">Image Path:</label>
               <input type="text" class="form-control" id="img_path" placeholder="">
+            </div>
+            <div class="form-group">
+              <label for="sel1">Page Status::</label>
+              <select class="form-control" id="status">
+                <option value="online">Online</option>
+                <option value='offline'>Offline</option>
+              </select>
             </div>
             <div class="form-group">
               <label for="sel1">Protocol:</label>

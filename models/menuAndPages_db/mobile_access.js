@@ -6,6 +6,7 @@ const mobile_access = mongoose.Schema({
       url:{type: String, required: true},
       img_path:{type: String, required: true},
       protocol:{type: String, required: true},
+      status:{type: String,default:"pending"},
       roles:[],
       
 });

@@ -1,12 +1,7 @@
 
 var device_list = [];
 var device_list_storage = [];
-var counter_site =  0.60* 60 * 1000
-
-
-side_bar()
-load_site()
-
+var counter_site = 0.11* 60 * 1000 // 0 .60* 60 * 1000
 function side_bar() {
   var append_html = `
    <div id='side_bar'>
@@ -193,3 +188,6 @@ setInterval(function () {
   console.log("site call made")
 }, counter_site
 )
+
+side_bar()
+load_site()

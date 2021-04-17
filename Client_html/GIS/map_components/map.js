@@ -1,9 +1,9 @@
 var map;
 var all_markers = []
-var siteCluster=[]
-var vandalismCluster=[]
+var siteCluster = []
+var vandalismCluster = []
 var hide_show = 1
-var timer_interval =  0.70* 60 * 1000
+var timer_interval = 0.12 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
 function initialize() {
@@ -147,7 +147,7 @@ function initialize() {
   inherit(Tooltip, google.maps.OverlayView);
   var bounds = new google.maps.LatLngBounds();
   var mapOptions = {
-    zoom: 6,
+    zoom: 7,
     center: { lat: -27.760670805627804, lng: 26.816038817267415 },
     styles: mapStyle_ //white_style//mapStyle_,
   };
@@ -166,13 +166,14 @@ function initialize() {
   setTimeout(function () {
     load_all_markers()
   }, 1000)
-  
+
   setInterval(() => {
     load_all_markers()
   }, timer_interval)
   function load_all_markers() {
     //var newarray = device_list.concat(weather_list,vandalism_list)
     
+    clear_cluster("site")
     for (i = 0; i < device_list.length; i++) {
       addMarker(device_list[i])
     }
@@ -182,17 +183,16 @@ function initialize() {
     for (i = 0; i < vandalism_list.length; i++) {
       addMarker(vandalism_list[i])
     }
-
     device_list.length = 0
     weather_list.length = 0
-    vandalism_list.length=0
+    vandalism_list.length = 0
   }
 
   function addMarker(props) {
-    var icon_size = 35
+    var icon_size = 28
     if (props.type == "weather") {
       icon_size = 50
-    }if (props.type == "vandalism") {
+    } if (props.type == "vandalism") {
       icon_size = 20
 
     }
@@ -200,15 +200,15 @@ function initialize() {
     bounds.extend(myLatlng);
 
 
-   var pulse=props.status==0?'f':'f'
+    var pulse = props.status == 0 ? 'blue_sos' :props.status == 1 ?'red_sos':''
     var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
-      icon: {
+       icon: {
         url: props.iconImage,
         size: new google.maps.Size(icon_size, icon_size),
         scaledSize: new google.maps.Size(icon_size, icon_size),
-      },
+      }, 
       marker_type: { type: props.type },
       /*label: {
         text: props.id===undefined?'':(props.id).toString(05),
@@ -217,7 +217,7 @@ function initialize() {
       title: pulse,
       tooltip: props.tooltip === undefined ? 'Await' : props.tooltip
     })
-   
+
     if (!site_visibility && props.type == 'site') {
       marker.setVisible(false);
     }
@@ -228,8 +228,8 @@ function initialize() {
       marker.setVisible(false);
     }
     if (props.status == "0") {
-      marker.setIcon(resize_icon(20));
-     // marker.setAnimation(google.maps.Animation.BOUNCE);
+      //marker.setIcon(resize_icon(20));
+      // marker.setAnimation(google.maps.Animation.BOUNCE);
     }
     var infowindow = new google.maps.InfoWindow(
       {
@@ -249,26 +249,26 @@ function initialize() {
       return resetIcon
     }
 
-    props.type == "site" ?siteCluster.addMarker(marker):''
-    props.type == "vandalism"?vandalismCluster.addMarker(marker):''
+    props.type == "site" ? siteCluster.addMarker(marker) : ''
+    // props.type == "vandalism"?vandalismCluster.addMarker(marker):''
 
     google.maps.event.addListener(marker, 'mouseover', function () {
       tooltip.addTip();
       tooltip.getPos2(marker.getPosition());
-      if (props.type === 'site' && props.status == "0") {
+      /* if (props.type === 'site' && props.status == "0") {
         marker.setIcon(resize_icon(25));
-      }
-      if (props.type === 'site' && props.status != "0") {
-        marker.setIcon(resize_icon(40))
+      } */
+      if (props.type === 'site') {
+        marker.setIcon(resize_icon(30))
       } else if (props.type === 'weather') {
         marker.setIcon(resize_icon(55))
       }
     });
 
     google.maps.event.addListener(marker, 'mouseout', function () {
-      if (props.type === 'site' && props.status == "0") {
+      /* if (props.type === 'site' && props.status == "0") {
         marker.setIcon(resize_icon(20));
-      }
+      } */
       if (props.type === 'site' && props.status != "0") {
         marker.setIcon(resize_icon(icon_size))
       } else if (props.type === 'weather') {
@@ -288,18 +288,22 @@ function initialize() {
     //map.fitBounds(bounds);
     // ;
   };
-  mcOptions = {styles: [{
-    height: 36,
-    url:"/GIS/icons_maps/ClusterTL.png",
-    width: 30
-    }]} 
-    vandalism_icon = {styles: [{
+  mcOptions = {
+    styles: [{
       height: 36,
-      url:"/GIS/icons_maps/cluster_se12.png",
+      url: "/GIS/icons_maps/ClusterTL.png",
       width: 30
-      }]}
-     siteCluster = new MarkerClusterer(map, all_markers,mcOptions);
-     vandalismCluster = new MarkerClusterer(map, all_markers,vandalism_icon);
+    }]
+  }
+  vandalism_icon = {
+    styles: [{
+      height: 36,
+      url: "/GIS/icons_maps/cluster_se12.png",
+      width: 30
+    }]
+  }
+  siteCluster = new MarkerClusterer(map, all_markers, mcOptions);
+  vandalismCluster = new MarkerClusterer(map, all_markers, vandalism_icon);
 }
 
 // Sets the map on all markers in the array.
@@ -322,31 +326,44 @@ function showMarkers() {
 }
 
 // Deletes all markers in the array by removing references to them.
-function deleteMarkers() {
-  markers = [];       
-  siteCluster.length=0;
-  vandalismCluster.length=0;
 
+/* function deleteMarkers() {
+  markers = [];
+  siteCluster.length = 0;
+  vandalismCluster.length = 0;
   $(".tooltip").remove()
-}
-
+} */
+/* 
 setInterval(() => {
   deleteMarkers()
-}, timer_interval)
+}, timer_interval) */
+
+function clear_cluster(type) {
+  for (let i = 0; i < all_markers.length; i++) {
+    if (all_markers[i].marker_type.type === type) {
+      var marker = all_markers[i];
+      $(".tooltip").remove()
+      if (type === 'site') {
+        siteCluster.clearMarkers()
+        marker.setMap(null);
+      }
+    }
+  }
+}
 function marker_toggles(type) {
- 
   for (let i = 0; i < all_markers.length; i++) {
     if (all_markers[i].marker_type.type === type) {
       var marker = all_markers[i];
       if (!marker.getVisible()) {
         if (marker.status == "0") {
-         // marker.setAnimation(google.maps.Animation.BOUNCE);
-        } 
+          // marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
         if (type === 'weather') {
           weather_visibility = true
         } if (type === 'site') {
+          marker.setMap(null);
           site_visibility = true
-        }if (type === 'vandalism') {
+        } if (type === 'vandalism') {
           site_visibility = true
         }
         marker.setVisible(true);

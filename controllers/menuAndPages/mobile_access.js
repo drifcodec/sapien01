@@ -16,6 +16,7 @@ module.exports.Mobile_access_create = (req, res) => {
     url: req.body.url,
     protocol: req.body.protocol,
     img_path: req.body.img_path,
+    status: req.body.status?req.body.status:"pending",
     roles: req.body.roles,
   }
   const OrderObj_input = new Mobile_access(post_data)
