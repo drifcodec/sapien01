@@ -20,6 +20,11 @@ var vandalism_icons = {
    medium: 'icons_maps/idle_se1.png',
    low: 'icons_maps/idle_se1.png',
 }
+var towers_icons = {
+   normal: 'icons_maps/PlanClock.png',
+   medium: 'icons_maps/transformer.png',
+   low: 'icons_maps/idle_se1.png',
+}
 
 
 

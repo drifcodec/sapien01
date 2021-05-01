@@ -1,7 +1,7 @@
 
 var device_list = [];
 var device_list_storage = [];
-var counter_site = 0.11* 60 * 1000 // 0 .60* 60 * 1000
+var counter_site = 0.12* 60 * 1000 // 0 .60* 60 * 1000
 function side_bar() {
   var append_html = `
    <div id='side_bar'>
@@ -13,17 +13,17 @@ function side_bar() {
   $("#site_status").draggable()
 }
 function load_site() {
-  axios.post('http://localhost:3000/api/device/getList', /* {
+  axios.post('http://localhost:3000/api/device/getList'/* ,  {
     "town": "",
     "device_id": "",
     "device_name": "",
     "device_address": "",
     "region": "",
     "device_status": "",
-    "sort": "region",
+    "sort": "",
     "record_date": "",
-    "limit": 1000
-  } */)
+    "limit": ""
+  }  */)
     .then(response => {
       console.log(response.data)
       pop_site(response.data.data)
@@ -61,7 +61,7 @@ function pop_site(marker) {
     device_data.tooltip = device_contents.tooltip(data.device_id, data.device_status)
 
     if (typeof device_lat == 'number' && typeof device_lng == 'number') {
-      device_list.push(device_data)
+     // device_list.push(device_data)
       device_list_storage.push(device_data)
     }
     if (data.device_status == 0) {

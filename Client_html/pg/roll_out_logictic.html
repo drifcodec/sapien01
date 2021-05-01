@@ -229,23 +229,35 @@
       });
       $("#example_filter").remove()
 
-    $('#example tbody').on('dblclick', 'tr', function () {
-        var data = table.row( this ).data();
-        
-        alert( 'You clicked on '+JSON.stringify(data));
-    } );
+      $('#example tbody').on('dblclick', 'tr', function () {
+        var data = table.row(this).data();
+
+        alert('You clicked on ' + JSON.stringify(data));
+      });
     })
   </script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="https://nightly.datatables.net/responsive/css/responsive.dataTables.min.css">
-
+	<!--google chart scripts-->
+	<script type="text/javascript" src="https://cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.2/echarts.min.js"></script>
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="../Dashboard/charts/chart.js" type="text/javascript" language="javascript"></script>
+	<!----> 
   <title>Sapien IO</title>
 
 </head>
 
 <body>
+	<div id='main_grapth'>
+					<div id="chart_div" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
+				
+					<div id="chart_div2" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
+			</div>
+	</div>
   <div class="col no-padding">
     <div class="form-group col-md-4 no-padding">
       Operator:&nbsp;
@@ -283,7 +295,6 @@
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js" type="text/javascript"></script>
   <script src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js"
     type="text/javascript"></script>
-  <script src="../GIS/data/bubble.js" type="text/javascript" language="javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js" type="text/javascript"></script>

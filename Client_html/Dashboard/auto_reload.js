@@ -1,6 +1,6 @@
 // Refresh Rate is how often you want to refresh the page 
 // bassed off the user inactivity. 
-var refresh_rate =  20//60*60*1; //<-- In seconds, change to your needs 60*1 =one mimute
+var refresh_rate = 60*60*1; //<-- In seconds, change to your needs 60*1 =one mimute
 var last_user_action = 0;
 var has_focus = false;
 var lost_focus_count = 0;

@@ -10,6 +10,7 @@ const mongoose=require('mongoose')
 const user=require('./routes/user') 
 const page_auth=require('./routes/page-auth') 
 const device=require('./routes/device')
+const site=require('./routes/site_route/site')
 const vandalism=require('./routes/vandalism')
 const user_role=require('./routes/user_role')
 const parent_menu=require('./routes/parent_menu')
@@ -40,6 +41,7 @@ app.use(express.static("Client_html"))
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',user); 
 app.use('/api/device',device);
+app.use('/api/site',site); 
 app.use('/api/user_role',user_role);
 app.use('/api/vandalism',vandalism);
 app.use('/api/roll_out',roll_out);

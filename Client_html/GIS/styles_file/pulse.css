@@ -1,14 +1,16 @@
-/* 
-#map div[title="red_pulse"] {
-    width: 300px ;
-    height: 300px;
-    position: absolute; 
+#map div[title="blue_sos"] {
+    width: 100px !important;
+    height: 100px !important;
+    position: relative;
     top: 0;
-    background: blue ;
+    display: block;
+    background: rgba(5, 43, 255, 0.4);
     border-radius: 50%;
-    opacity: 5;
-    animation: pulsate 4000ms ease-out infinite;
-} */
+    opacity: 0;
+    animation: pulsate 2400ms ease-out infinite;
+    margin:-36px 0 0 -36px; 
+    z-index: -9999;
+}
 #map div[title="red_sos"] {
     width: 100px !important;
     height: 100px !important;

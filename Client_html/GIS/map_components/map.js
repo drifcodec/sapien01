@@ -6,7 +6,7 @@ var hide_show = 1
 var timer_interval = 0.12 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
-function initialize() {
+async function initialize() {
   // The custom tooltip class
   // Constructor function
   function Tooltip(opts, marker) {// Initialization
@@ -161,22 +161,26 @@ function initialize() {
   const geocoder = new google.maps.Geocoder();
   const infowindow = new google.maps.InfoWindow();
   document.getElementById("submit").addEventListener("click", () => {
-    //geocodeLatLng(geocoder, map, infowindow);
+  geocodeLatLng(geocoder, map, infowindow);
   });
   setTimeout(function () {
     load_all_markers()
-  }, 1000)
+  }, 300)
 
-  setInterval(() => {
+  setInterval(async() => {
     load_all_markers()
   }, timer_interval)
   function load_all_markers() {
     //var newarray = device_list.concat(weather_list,vandalism_list)
-    
+
     clear_cluster("site")
+    clear_cluster("all_site")
+    for (i = 0; i < site_all_list.length; i++) {
+      addMarker(site_all_list[i])
+    }
     for (i = 0; i < device_list.length; i++) {
       addMarker(device_list[i])
-    }
+    } 
     for (i = 0; i < weather_list.length; i++) {
       addMarker(weather_list[i])
     }
@@ -184,36 +188,40 @@ function initialize() {
       addMarker(vandalism_list[i])
     }
     device_list.length = 0
+    site_all_list.length = 0
     weather_list.length = 0
     vandalism_list.length = 0
   }
 
   function addMarker(props) {
-    var icon_size = 28
+    var icon_size = 18
+    var site_label=''
     if (props.type == "weather") {
       icon_size = 50
     } if (props.type == "vandalism") {
       icon_size = 20
-
+    } if (props.type == "all_site") {
+      /* site_label= {
+        text: props.id===undefined?'':(props.site_id).toString(05),
+        color: "white",
+        style:"bold"
+      },  */
+      icon_size = 40
     }
     var myLatlng = new google.maps.LatLng(props.coords.lat, props.coords.lng);
     bounds.extend(myLatlng);
-
-
-    var pulse = props.status == 0 ? 'blue_sos' :props.status == 1 ?'red_sos':''
+    var pulse = props.status == 0 ? 'blue_sos' : props.status == 1 ? 'red_sos' : ''
     var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
-       icon: {
+      optimized: false,
+      icon: {
         url: props.iconImage,
         size: new google.maps.Size(icon_size, icon_size),
         scaledSize: new google.maps.Size(icon_size, icon_size),
-      }, 
+      },
       marker_type: { type: props.type },
-      /*label: {
-        text: props.id===undefined?'':(props.id).toString(05),
-        color: "#fff",
-      },  */
+      label: site_label,
       title: pulse,
       tooltip: props.tooltip === undefined ? 'Await' : props.tooltip
     })
@@ -259,9 +267,11 @@ function initialize() {
         marker.setIcon(resize_icon(25));
       } */
       if (props.type === 'site') {
-        marker.setIcon(resize_icon(30))
+        marker.setIcon(resize_icon(20))
       } else if (props.type === 'weather') {
         marker.setIcon(resize_icon(55))
+      }else if (props.type === 'all_site') {
+        marker.setIcon(resize_icon(43))
       }
     });
 
@@ -272,6 +282,8 @@ function initialize() {
       if (props.type === 'site' && props.status != "0") {
         marker.setIcon(resize_icon(icon_size))
       } else if (props.type === 'weather') {
+        marker.setIcon(resize_icon(icon_size))
+      }else if (props.type === 'all_site') {
         marker.setIcon(resize_icon(icon_size))
       }
       tooltip.removeTip();
@@ -342,9 +354,11 @@ function clear_cluster(type) {
   for (let i = 0; i < all_markers.length; i++) {
     if (all_markers[i].marker_type.type === type) {
       var marker = all_markers[i];
-      $(".tooltip").remove()
+       $(".tooltip").remove()
       if (type === 'site') {
         siteCluster.clearMarkers()
+        marker.setMap(null);
+      }if (type === 'all_site') {
         marker.setMap(null);
       }
     }
