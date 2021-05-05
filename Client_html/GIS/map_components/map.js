@@ -199,7 +199,7 @@ async function initialize() {
     if (props.type == "weather") {
       icon_size = 50
     } if (props.type == "vandalism") {
-      icon_size = 20
+      icon_size = 35
     } if (props.type == "all_site") {
       /* site_label= {
         text: props.id===undefined?'':(props.site_id).toString(05),

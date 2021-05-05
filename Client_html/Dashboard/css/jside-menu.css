@@ -188,10 +188,6 @@
   display: block;
   padding: 15px;
 }
-.tabs-selected{
-  background:#569052 !important;
-}
-
 .menu-head{
    height: 120px;
    box-sizing: border-box; 

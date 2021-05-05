@@ -16,9 +16,10 @@ var se_icons = {
    free: 'icons_maps/orange.png',
 }
 var vandalism_icons = {
-   high: 'icons_maps/high.png',
+   high: 'icons_maps/broken-wire.png',
    medium: 'icons_maps/idle_se1.png',
    low: 'icons_maps/idle_se1.png',
+   cable: 'icons_maps/idle_se1.png',
 }
 var towers_icons = {
    normal: 'icons_maps/PlanClock.png',
