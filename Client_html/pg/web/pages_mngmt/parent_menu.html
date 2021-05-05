@@ -5,21 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
   </style>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <style>
-    .tabs li a.tabs-inner {
-      color: #fffefe !important;
-    }
-
-    .tabs li.tabs-selected a.tabs-inner {
-      background: red !important;
-      border-bottom: 1px solid #000000 !important;
-    }
-
     #_id {
       display: none
     }
@@ -34,45 +25,21 @@
       z-index: 11;
       color: white;
       padding: 10px;
+    } .material-icons.md-18 {
+      font-size: 18px;
     }
-    .material-icons.delete { color: #fb0000; }
-    .material-icons.md-18 { font-size: 18px; }
   </style>
   <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script> $(document).ready(function () {
-
-      axios.get('http://localhost:3000/api/user_role/user_role_getList', {
-      })
-        .then(response => {
-          for (i = 0; i < response.data.length; i++) {
-            var role_name = response.data[i].role_name
-            $('#roles').append(`<option value="${role_name}">${role_name}</option>`)
-          }
-        })
-        .catch(error => console.error(error));
-      axios.get('http://localhost:3000/api/parent_menu/parent_menu_getList', {
-      })
-        .then(response => {
-          console.log("Parent Menu" + JSON.stringify(response))
-          for (i = 0; i < response.data.results.length; i++) {
-            var parent_menu = response.data.results[i].parent_menu
-            $('#parent_menu').append(`<option value="${parent_menu}">${parent_menu}</option>`)
-          }
-        })
-        .catch(error => console.error(error));
       var html_ = `
         <div class="panel-body">
         <table id="table_id" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
         <thead>
             <tr>
-        <th>Page</th> 
-        <th>Parent_menu</th> 
-        <th>Protocol</th> 
-        <th>Url</th> 
-        <th>View</th>    
-        <th>Access Roles</th> 
+        <th>Parent Name</th>
+        <th>Description</th>
         <th>Operation</th>
             </tr>
           </thead>
@@ -116,43 +83,27 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/page_access/page_access_getList_table',
+          url: 'http://localhost:3000/api/parent_menu/parent_menu_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
         },
         "aoColumns": [
-          { "data": "page" },
           { "data": "parent_menu" },
-          { "data": "protocol" },
-          { "data": "url" },
-          { "data": "view" },
-          { "data": "roles" },
+          { "data": "description" },
           {
             'data': null, "render": function (item, type, full, meta) {
-              console.log(item._id)
-              var operation = `<div style="display: inline-block;"><i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></i></div>
-                               <div style="display: inline-block;"><i class="material-icons delete md-18"  onclick="delete_value('${item._id} ')">delete</i></div>`
+
+              var operation = `<div style="display: inline-block;">   <i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>`
               return operation
             }
           }
-        ],
-        "columnDefs": [
-         /*  {
-            orderable: false,
-            targets: [4, 2]
-          }, */
-          /* {
-            "targets" : [ 0, 1, 2],
-            "visible" : false,
-            "searchable" : false
-        }, // this hides specific columns*/
-          { "width": "10px", "targets": 6 },
-      ]
+        ]
       });
       $("#delete_user").click(function () {
-        var id = $(this).val();
-        axios.delete(`http://localhost:3000/api/page_access/${id}`)
+        var user_id = $(this).val();
+        axios.delete(`http://localhost:3000/api/parent_menu/${user_id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -166,15 +117,12 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/page_access/page_access_create`, {
+          axios.post(`http://localhost:3000/api/parent_menu/parent_menu_create`, {
+            //user_id: $('#user_id').val(),
             parent_menu: $('#parent_menu').val(),
-            page: $('#page').val(),
-            protocol: $("#protocol").val(),
-            url: $('#url').val(),
-            view: $('#view').val(),
-            roles: $('#roles').val(),
-
+            description: $('#description').val(),
           }).then(response => {
+
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
           })
@@ -184,23 +132,11 @@
             });
         }
         if ($(this).val() === 'update') {
-          var id = $('#id').val()/* 
-          $('#id').val(data._id) */
-          $('#id').hide()/* 
-          $('#parent_menu').val(data.parent_menu)
-          $('#page').val(data.page)
-          $('#view').val(data.view)
-          $('#protocol').val(data.protocol)
-          $('#roles').val(data.roles) */
-          axios.put(`http://localhost:3000/api/page_access/${id}`, {
-         
-            _id: $('#id').val(),
+          var id = $('#_id').val()
+          axios.put(`http://localhost:3000/api/parent_menu/${id}`, {
+            id: id,
             parent_menu: $('#parent_menu').val(),
-            page: $('#page').val(),
-            view: $('#view').val(),
-            protocol: $('#protocol').val(),
-            url: $('#url').val(),
-            roles: $('#roles').val(),
+            description: $('#description').val(),
           }).then(response => {
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -213,18 +149,15 @@
       })
     });
     function load_update(id) {
-      axios.get(`http://localhost:3000/api/page_access/${id}`)
+      axios.get(`http://localhost:3000/api/parent_menu/${id}`)
         .then(response => {
           var data = response.data.result[0]
           console.log(data)
-          $('#id').val(data._id)
-          $('#id').hide()
+          $('#_id').val(data._id)
+          $('#_id').hide()
+          $("#parent_menu").attr("disabled", "disabled");
           $('#parent_menu').val(data.parent_menu)
-          $('#page').val(data.page)
-          $('#url').val(data.url)
-          $('#view').val(data.view)
-          $('#protocol').val(data.protocol)
-          $('#roles').val(data.roles)
+          $('#description').val(data.description)
           $("#create_update").val('update')
           $('#AddUser').modal();
         })
@@ -236,14 +169,10 @@
     }
 
     function create_values() {
-
       $("#create_update").val('create')
-      $('#parent_menu').val('')
-      $('#page').val('')
-      $('#url').val('')
-      $('#view').val('')
-      $('#protocol').val('')
-      $('#roles').val('')
+      $("#parent_menu").prop("disabled", false)
+      $('#parent_menu').val(''),
+      $('#description').val(''),
       $('#AddUser').modal();
     }
     function delete_value(id) {
@@ -265,8 +194,8 @@
 </head>
 
 <body>
-  <button type="button"  onclick="create_values()">
-    <i class="material-icons">add</i> Add New Page
+  <button type="button" class="btn btn-primary" onclick="create_values()">
+    <i class="fa fa-plus">Add User</i>
   </button>
   <div class="row" id='table_query'>
 
@@ -277,7 +206,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create / Edit</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Creste / Edit</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -285,38 +214,14 @@
         <div class="modal-body">
           <form action="/add" method="POST">
             <div class="form-group">
-              <input type="text" class="form-control" id="id">
+              <input type="text" class="form-control" id="_id">
             </div>
             <div class="form-group">
-              <label for="sel1">Parent Menu:</label>
-              <select class="form-control" id="parent_menu">
-                <option value=''>None</option>
-              </select>
+              <input type="text" class="form-control" id="parent_menu" placeholder="Enter menu name">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="page" placeholder="Enter page name">
+              <input type="text" class="form-control" id="description" placeholder="Enter menu description">
             </div>
-            <div class="form-group">
-              <label for="sel1">Protocol:</label>
-              <select class="form-control" id="protocol">
-                <option value="https://">https (secured / recomanded)</option>
-                <option value='http://'>http (not secured)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="url" placeholder="Enter url E.g example.com/item.html">
-            </div>
-            <div class="form-group">
-              <label for="sel1">Target:</label>
-              <select class="form-control" id="view">
-                <option value="tab">tab</option>
-                <option value="new">new</option>
-              </select>
-            </div>
-            <label for="sel2"> select Roles (hold Ctrl to select more than one):</label>
-            <select multiple class="form-control" id="roles">
-
-            </select>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="create_update" class="btn btn-primary">Save</button>
           </form>
@@ -350,7 +255,8 @@
   <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js" type="text/javascript"></script>
   <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js" type="text/javascript"></script>
-  <script src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js" type="text/javascript"></script>
+  <script src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js"
+    type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js" type="text/javascript"></script>
   <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.flash.min.js" type="text/javascript"></script>

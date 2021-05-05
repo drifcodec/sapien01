@@ -5,8 +5,8 @@ const pages_access = mongoose.Schema({
       page:{type: String, required: true},
       url:{type: String, required: true},
       view:{type: String, required: true},
-      protocol:{type: String, required: true},
-      status:{type: String, required: true},
+      protocol:{type: String, required: true}, 
+      status:{type: String,default:"pending"},
       roles:[],
       
 });

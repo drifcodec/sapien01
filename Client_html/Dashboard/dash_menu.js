@@ -4,9 +4,17 @@ $(document).ready(function () {
     
     localStorage.setItem("sapian_reload_menu", "null")
   }) */
+  
   var was_loaded = false
   var menu_list = JSON.parse(localStorage.Sapian_menu)
-  var reload_page_list = (localStorage.sapian_reload_menu).split(",")
+  console.log("IN MENU bbbb ------------>")
+  
+  var reload_page_list =reload_tabs()
+  function reload_tabs(){
+    if (localStorage && localStorage.sapian_reload_menu){
+      return (localStorage.sapian_reload_menu).split(",")
+    }else {return ''}
+  }
   console.log("IN MENU ------------>" + reload_page_list[0])
 
   //localStorage.setItem("sapian_reload_menu","null")
