@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 module.exports = {
   /* 
-    signup_confirmation_email: (user_email, token) => {
+     :  (user_email, token) => {
       const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -80,7 +80,7 @@ module.exports = {
     <p>  
         Prove that you can click like a pro!
     </p> 
-    </a>${token}
+    </a>
         <p style='font-size:0.8em; color:#A9A9A9; text-decoration:none;'>
         <a style='text-decoration:none;' href='#'>example.com</a> is a question and answer site for students, academia and professionals to get recognized for sharing their valuable knowledge.
     </p>
@@ -101,11 +101,6 @@ module.exports = {
   </div>
 </div>
 
-          
-          
-          
-          
-          
           <a href='#'>
                   </a>
  `

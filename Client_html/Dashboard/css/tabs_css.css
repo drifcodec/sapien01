@@ -109,7 +109,7 @@
  }
  .panel-header,
  .panel-body {
-   border-color: #95B8E7;
+  border-top: 2px #088131 solid;
  }
  .panel-header {
    background-color: #E0ECFF;
@@ -121,7 +121,7 @@
    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#EFF5FF,endColorstr=#E0ECFF,GradientType=0);
  }
  .panel-body {
-   background-color: #ffffff;
+  border-top: 2px #088131 solid;
    color: #000000;
    font-size: 12px;
  }

@@ -166,61 +166,34 @@
   </style>
   <script>
     $(document).ready(function () {
-      $('#btn_login').click(function () {
+      $('#btn_confirm').click(function () {
         $('.login-form').append("<div class='loader'></div>")
-        var stringify_data = JSON.stringify({ "password": $('#password').val(), "password_confirm": $('#password_confirm').val() });
+        var stringify_data = { "password": $('#password').val(), "confirm_password": $('#confirm_password').val()};
         login_service_load(stringify_data)
       })
 
       function login_service_load(stringify_data) {
-        var api_url = 'http://localhost:3000/api/user/login'
-        $.ajax({
-          url: api_url,
-          type: "POST",
-          contentType: "application/json;charset=utf-8",
-          dataType: 'json',
-          data: stringify_data,
-          success: function (result) {
-
-            if (result) {
-              localStorage.setItem("SapionT", result.token);
-              localStorage.setItem("Sapion_id", result.data.id);
-              localStorage.setItem("Sapion_U_iD", result.data.user_id);
-              localStorage.setItem("Sapion_U_R", result.data.role)
-              load_menu(result)  
-            // self.location = "http://localhost:3000/Dashboard/index.html?"
+        console.log(stringify_data)
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const key = urlParams.get('key')
+        
+        console.log(key);
+         $.ajax({
+            url: `http://localhost:3000/api/user/signup_confirmation_email/${key}`,
+            type: "POST",
+            dataType: 'json',
+            data: stringify_data,
+            success: function (result) {
+              self.location = "http://localhost:3000"
+              
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              $('#error').remove()
+              $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
+              $('.loader').remove()
             }
-          },
-          error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $('#error').remove()
-            $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
-            $('.loader').remove()
-          }
-        });
-      }
-      function load_menu(result) {
-        console.log(localStorage.Sapian_menu)
-        var api_url = `http://localhost:3000/api/page_access/getMenuList/${localStorage.Sapion_id}`
-        $.ajax({
-          url: api_url,
-          type: "GET",
-          contentType: "application/json;charset=utf-8",
-          dataType: 'json',
-          success: function (result) {
-            if (result) {
-              console.log('the result :' + JSON.stringify(result.results))
-
-              localStorage.setItem("Sapian_menu", JSON.stringify(result.results));
-              self.location = "http://localhost:3000/Dashboard/index.html?"// + JSON.stringify(result);//http://localhost:3000/index.html
-              console.log('the token :' + localStorage.SapionT)
-            }
-          },
-          error: function (XMLHttpRequest, textStatus, errorThrown) {
-            $('#error').remove()
-            $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
-            $('.loader').remove()
-          }
-        });
+          });
       }
       $('.message a').click(function () {
         $('form').animate({ height: "toggle", opacity: "toggle" }, "slow");
@@ -232,22 +205,12 @@
   <div class="login-page">
     <div class="form">
       <div class="login-form">
-        <input type="text" placeholder="username" id='username' />
-        <input type="password" placeholder="password" id='password' />
-        <select name="cars" id="companies">
-          <option value=""> </option>
-          <option value="Global_trade">Global trade</option>
-          <option value="saab"> SABBS </option>
-          <option value="opel">Opel</option>
-        </select>
-        <button id='btn_login'> login</button>
-        <p class="message">forgot Password? <a href="#">reset password</a></p>
+        <input type="password" placeholder="Password" id='password' />
+        <input type="password" placeholder="Confirm Password" id='confirm_password' />
+
+        <button id='btn_confirm'> Confirm</button>
       </div>
 
-      <form class="register-form">
-        <input type="text" placeholder="username" id='username_' />
-        <button id='btn_reset'>Reset password</button>
-      </form>
 
     </div>
   </div>

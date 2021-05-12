@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
-const User = require("../models/user_db/user");
-const email_server = require("../emails/user_confirmation_email");
-const reset_email = require("../emails/user_forgotPass");
+const User = require("../../models/user_db/user");
+const email_server = require("../../emails/user_confirmation_email");
+const reset_email = require("../../emails/user_forgotPass");
 module.exports.user_getList = (req, res) => {
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.limit == undefined ? 1000 : req.body.limit
@@ -208,24 +208,24 @@ module.exports.signup = (req, res) => {
 module.exports.signup_confirmation_email = (req, res) => {
 
   var verification_token = req.params.token;
-  var password = 'dannynho'//req.body.password
-  var confirm_password = 'dannynho' //req.body.confirm_password
+  var password = req.body.password
+  var confirm_password = req.body.confirm_password
   if (verification_token && (password === confirm_password)) {
     var token_get = jwt.verify(verification_token, "secret");
     var _id = token_get._id
-     bcrypt.hash(password, 10, (err, hash) => {
-      User.update({ _id }, { $set: { user_status: "Active",password:hash }})
-      .exec()
-      .then(result => {
-        res.status(200).json({
-          message: "confirmation was succeessful / please LOGIN on System"
-        });
+    bcrypt.hash(password, 10, (err, hash) => {
+      User.update({ _id }, { $set: { user_status: "Active", password: hash } })
+        .exec()
+        .then(result => {
+          res.status(200).json({
+            message: "confirmation was succeessful / please LOGIN on System"
+          });
 
-      }).catch(err => {
-        res.status(401).json({
-          message: "Date expired"
+        }).catch(err => {
+          res.status(401).json({
+            message: "Date expired"
+          });
         });
-      });
     }
     )
   } else {
@@ -273,7 +273,7 @@ module.exports.login = (req, res, next) => {
           //onsole.log('test compapre')
           if (err) {
             return res.status(401).json({
-              message: "Auth failed level 2"
+              message: "password not same"
             });
           } else
             if (result) {
@@ -312,6 +312,10 @@ module.exports.login = (req, res, next) => {
                 });
               }
 
+            }else {
+              res.status(401).json({
+                message: "Wrong Password ."
+              });
             }
         });
       })
