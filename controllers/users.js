@@ -22,29 +22,29 @@ module.exports.user_getList = (req, res) => {
 }
 module.exports.user_getList_t = (req, res) => {
   var searchStr = req.body;
-  var order=''
-  var dir=searchStr.order[0].dir==='asc'?1:searchStr.order[0].dir==='desc'?-1:''
-  var drop_down_select={}
+  var order = ''
+  var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
+  var drop_down_select = {}
   for (i = 0; i < searchStr.columns.length; i++) {
-    var field=searchStr.columns[i].data
-    var seach_value=searchStr.columns[i].search.value
-    if (seach_value){
-      drop_down_select[field]=seach_value
+    var field = searchStr.columns[i].data
+    var seach_value = searchStr.columns[i].search.value
+    if (seach_value) {
+      drop_down_select[field] = seach_value
     }
-    if (i==searchStr.order[0].column){
-       order=searchStr.columns[i].data
-       
+    if (i == searchStr.order[0].column) {
+      order = searchStr.columns[i].data
+
     }
   }
   if (req.body.search.value) {
-     var regex = new RegExp(req.body.search.value, "i")
-     //searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
-   }
+    var regex = new RegExp(req.body.search.value, "i")
+    //searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
+  }
   else {
     searchStr = {};
   }
-  console.log("drop_down_select "+JSON.stringify(drop_down_select))
-  console.log("searchStr "+JSON.stringify())
+  console.log("drop_down_select " + JSON.stringify(drop_down_select))
+  console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.length == undefined ? 1000 : req.body.length
@@ -59,7 +59,7 @@ module.exports.user_getList_t = (req, res) => {
       User.find(drop_down_select)
         .skip(Number(start))
         .limit(Number(limit))
-        .sort({[order]: dir})
+        .sort({ [order]: dir })
         .exec()
         .then(results => {
           if (results) {
@@ -82,10 +82,11 @@ module.exports.user_getList_t = (req, res) => {
 }
 
 module.exports.user_get = (req, res) => {
-  User.findOne({_id: req.params.id })
+  User.findOne({ _id: req.params.id })
     .exec()
     .then(result => {
-      if (result) { console.log("[-------------------------------------->"+result)
+      if (result) {
+        console.log("[-------------------------------------->" + result)
         res.status(200).json({
           result: result
         });
@@ -106,21 +107,21 @@ module.exports.user_get = (req, res) => {
 };
 module.exports.user_update = (req, res) => {
   const id = req.params.id;
-  var data={}
-  if (req.body.phone){
-    data.phone=req.body.phone
-  }if (req.body.email){
-    data.email=req.body.email
-  }if (req.body.valid_from){
-    data.valid_from=req.body.valid_from
-  }if (req.body.expire_from){
-    data.expire_from=req.body.expire_from
-  }if (req.body.name){
-    data.name=req.body.name
-  }if (req.body.surname){
-    data.surname=req.body.surname
-  }if(req.body.roles){
-    data.roles=req.body.roles
+  var data = {}
+  if (req.body.phone) {
+    data.phone = req.body.phone
+  } if (req.body.email) {
+    data.email = req.body.email
+  } if (req.body.valid_from) {
+    data.valid_from = req.body.valid_from
+  } if (req.body.expire_from) {
+    data.expire_from = req.body.expire_from
+  } if (req.body.name) {
+    data.name = req.body.name
+  } if (req.body.surname) {
+    data.surname = req.body.surname
+  } if (req.body.roles) {
+    data.roles = req.body.roles
   }
   console.log(id)
   User.update({ _id: id }, {
@@ -149,8 +150,8 @@ module.exports.user_update = (req, res) => {
       });
     });
 }
-module.exports.signup = (req, res, next) => {
-  var default_password="CGOS123"
+module.exports.signup = (req, res) => {
+  var default_password = "CGOS123"
   //{ $or: [{ user_id: req.body.user_id }, { email: req.body.email }] })
 
   User.find({ user_id: req.body.user_id })
@@ -174,7 +175,7 @@ module.exports.signup = (req, res, next) => {
               surname: req.body.surname,
               phone: req.body.phone,
               email: req.body.email,
-              roles: req.body.roles?req.body.roles:["guest"],
+              roles: req.body.roles ? req.body.roles : ["guest"],
               valid_from: req.body.valid_from,
               expire_from: req.body.expire_from,
               password: hash
@@ -183,7 +184,7 @@ module.exports.signup = (req, res, next) => {
             user.save()
               .then(result => {
                 const token = jwt.sign({ _id: result._id, user_id: result.user_id, email: result.email }, "secret", { expiresIn: "5d" });
-                email_server.signup_confirmation_email(result.email,result.user_id, token).catch(console.error);
+                email_server.signup_confirmation_email(result.email, result.user_id, token).catch(console.error);
 
                 res.status(201).json({
                   message: "User created please confirm email"
@@ -198,18 +199,22 @@ module.exports.signup = (req, res, next) => {
                 res.status(500).json({
                   error: err
                 });
-              }); 
+              });
           }
         });
       }
     });
 };
-module.exports.signup_confirmation_email = (req, res, next) => {
+module.exports.signup_confirmation_email = (req, res) => {
+
   var verification_token = req.params.token;
-  if (verification_token) {
+  var password = 'dannynho'//req.body.password
+  var confirm_password = 'dannynho' //req.body.confirm_password
+  if (verification_token && (password === confirm_password)) {
     var token_get = jwt.verify(verification_token, "secret");
     var _id = token_get._id
-    User.update({ _id }, { $set: { user_status: "Active" } })
+     bcrypt.hash(password, 10, (err, hash) => {
+      User.update({ _id }, { $set: { user_status: "Active",password:hash }})
       .exec()
       .then(result => {
         res.status(200).json({
@@ -221,7 +226,12 @@ module.exports.signup_confirmation_email = (req, res, next) => {
           message: "Date expired"
         });
       });
-
+    }
+    )
+  } else {
+    res.status(401).json({
+      message: " Error couldnt update !"
+    });
   }
 }
 module.exports.forgot_password = (req, res) => {
@@ -251,66 +261,66 @@ module.exports.forgot_password = (req, res) => {
     });
 };
 module.exports.login = (req, res, next) => {
-  if (req.body.user_id && req.body.password){
+  if (req.body.user_id && req.body.password) {
     User.find({ user_id: req.body.user_id })
-    .exec()
-    .then(user => {
-      if (user.length < 1) {
-        return res.status(401).json({
-              });
-      }
-      bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-        //onsole.log('test compapre')
-        if (err) {
+      .exec()
+      .then(user => {
+        if (user.length < 1) {
           return res.status(401).json({
-            message: "Auth failed level 2"
           });
-        } else
- if (result) {
-   
-  console.log("----------- result result----------------------comp"+user)
-            const token = jwt.sign(
-              {
-                id: user[0]._id,
-                email: user[0].email,
-                userId: user[0]._id,
-                user_role: user[0].role
-              },
-              "secret",
-              { expiresIn: "1d" }
-            );
-            var status = user[0].user_status;
-            if (status == 'Active') {
-              return res.status(200).json({
-                message: "Auth successful",
-                token: token,
-                data: {
+        }
+        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
+          //onsole.log('test compapre')
+          if (err) {
+            return res.status(401).json({
+              message: "Auth failed level 2"
+            });
+          } else
+            if (result) {
+
+              console.log("----------- result result----------------------comp" + user)
+              const token = jwt.sign(
+                {
                   id: user[0]._id,
-                  role: user[0].role,
-                  user_id: user[0].user_id
+                  email: user[0].email,
+                  userId: user[0]._id,
+                  user_role: user[0].role
+                },
+                "secret",
+                { expiresIn: "1d" }
+              );
+              var status = user[0].user_status;
+              if (status == 'Active') {
+                return res.status(200).json({
+                  message: "Auth successful",
+                  token: token,
+                  data: {
+                    id: user[0]._id,
+                    role: user[0].role,
+                    user_id: user[0].user_id
 
 
-                }
-              });
-            } else if (status == 'Pending') {
-              res.status(401).json({
-                message: "Login Pending for Approval by User"
-              });
-            } else {
-              res.status(401).json({
-                message: "unexpected error, login failed Contact Admin"
-              });
+                  }
+                });
+              } else if (status == 'Pending') {
+                res.status(401).json({
+                  message: "Login Pending for Approval by User"
+                });
+              } else {
+                res.status(401).json({
+                  message: "unexpected error, login failed Contact Admin"
+                });
+              }
+
             }
-
-          }
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: err
+        });
       });
-    })
-    .catch(err => {
-      res.status(500).json({
-        error: err
-      });
-    });
-  }else{
+  } else {
     res.status(401).json({
       message: "ensure both username and password is filled"
     });
@@ -349,14 +359,14 @@ module.exports.reset_password = (req, res) => {
   })
 }
 module.exports.delete = (req, res) => {
-  console.log("server side",req.params.id)
- 
+  console.log("server side", req.params.id)
 
 
-  User.deleteOne({ _id:req.params.id })
+
+  User.deleteOne({ _id: req.params.id })
     .exec()
     .then(result => {
-      console.log("-----------result--------"+result)
+      console.log("-----------result--------" + result)
       res.status(200).json({
         message: "User deleted"
       });

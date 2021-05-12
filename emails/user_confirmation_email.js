@@ -76,11 +76,11 @@ module.exports = {
         You are in. You can <a style='text-decoration: none;' href='#'> start asking your academic queries</a>. You can also get better and <a style='text-decoration: none;' href='#'>help the next generation of learners</a>. 
     </p>
     
-<a style='text-decoration: none; color: #337ab7;' href='href='http://localhost:3000/api/user/signup_confirmation_email/${token}'>         
-    <p>
+<a style='text-decoration: none; color: #337ab7;' href='http://localhost:3000/pg/web/user_mngmt/confirm_account.html?key=${token}'>         
+    <p>  
         Prove that you can click like a pro!
     </p> 
-    </a>
+    </a>${token}
         <p style='font-size:0.8em; color:#A9A9A9; text-decoration:none;'>
         <a style='text-decoration:none;' href='#'>example.com</a> is a question and answer site for students, academia and professionals to get recognized for sharing their valuable knowledge.
     </p>

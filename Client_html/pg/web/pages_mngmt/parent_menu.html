@@ -25,7 +25,9 @@
       z-index: 11;
       color: white;
       padding: 10px;
-    } .material-icons.md-18 {
+    }
+
+    .material-icons.md-18 {
       font-size: 18px;
     }
   </style>
@@ -109,9 +111,9 @@
             $("#table_id").DataTable().ajax.reload(null, false)
           })
           .catch(error => {
-            alert(error)
-            $("#delete_confirm").modal('hide');
-            console.log("Error Occured . Contact Admin" + error)
+            $("#delete_confirm").modal('hide'); 
+            alert(error.response.data.message)
+            console.log("Error Occured . Contact Admin" , error.response.data.message)
           });
       });
 
@@ -172,8 +174,8 @@
       $("#create_update").val('create')
       $("#parent_menu").prop("disabled", false)
       $('#parent_menu').val(''),
-      $('#description').val(''),
-      $('#AddUser').modal();
+        $('#description').val(''),
+        $('#AddUser').modal();
     }
     function delete_value(id) {
       $('#delete_confirm').modal()
