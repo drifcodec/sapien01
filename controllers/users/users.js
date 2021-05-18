@@ -89,6 +89,7 @@ module.exports.user_get = (req, res) => {
         console.log("[-------------------------------------->" + result)
         res.status(200).json({
           result: {
+            "id": result._id,
             "roles": result.roles,
             "user_id": result.user_id,
             "name": result.name,

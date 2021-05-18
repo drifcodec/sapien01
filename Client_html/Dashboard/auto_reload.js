@@ -1,6 +1,6 @@
 // Refresh Rate is how often you want to refresh the page 
 // bassed off the user inactivity. 
-var refresh_rate = 60*1; //<-- In seconds, change to your needs 60*1 =one mimute
+var refresh_rate = 60*10; //<-- In seconds, change to your needs 60*1 =one mimute
 var last_user_action = 0;
 var has_focus = false;
 var lost_focus_count = 0;
@@ -40,6 +40,7 @@ function refreshCheck() {
   if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete") || lost_focus_count > focus_margin) {
     
     localStorage.setItem("SapionT", "null")
+    self.location = "http://localhost:3000"
     /* 
     var menu_list_reloaded=[]
     $(".tabs-title").each(function(){
