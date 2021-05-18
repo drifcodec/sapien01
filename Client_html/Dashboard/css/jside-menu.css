@@ -285,6 +285,7 @@
 }
 
 .has-sub ul li a:hover{
+   color:green;
    background: rgb(201, 200, 200);
    transition: .1s;
  -webkit-transition: .1s;

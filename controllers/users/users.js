@@ -88,7 +88,14 @@ module.exports.user_get = (req, res) => {
       if (result) {
         console.log("[-------------------------------------->" + result)
         res.status(200).json({
-          result: result
+          result: {
+            "roles": result.roles,
+            "user_id": result.user_id,
+            "name": result.name,
+            "surname": result.surname,
+            "phone": result.phone,
+            "email": result.email,
+          }
         });
 
       }
@@ -312,7 +319,7 @@ module.exports.login = (req, res, next) => {
                 });
               }
 
-            }else {
+            } else {
               res.status(401).json({
                 message: "Wrong Password ."
               });
