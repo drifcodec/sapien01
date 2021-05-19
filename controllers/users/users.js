@@ -216,6 +216,7 @@ module.exports.signup = (req, res) => {
 module.exports.signup_confirmation_email = (req, res) => {
 
   var verification_token = req.params.token;
+  var old_password=req.body.password
   var password = req.body.password
   var confirm_password = req.body.confirm_password
   if (verification_token && (password === confirm_password)) {

@@ -18,64 +18,89 @@
       color: white;
       padding: 10px;
     }
-    .btn_update{
-    border: 3px solid orange;
-    background: white;
-    color: orange;
-    }  
-    .btn_change_password{
-    border: 3px solid green;
-    background: white;
-    color: green;
+
+    .btn_update {
+      border: 3px solid orange;
+      background: white;
+      color: orange;
     }
 
-  </style>
-  <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
+    .btn_change_password {
+      border: 3px solid green;
+      background: white;
+      color: green;
+    }
+  </style><script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script>
-		$(document).ready(function () {
-      $("#id").hide() 
-      $("#user_id"). attr('readonly','readonly');
-				console.log(localStorage)
-				var api_url = `http://localhost:3000/api/user/user_get/${localStorage.Sapion_id}`
-				$.ajax({
-					url: api_url,
-					dataType: 'json',
-					contentType: 'application/json',
-					type: "GET",
-					success: function (data) {
-					//	alert(JSON.stringify(data.result))
-              $("#id").val(data.result.id)
-              $("#user_id").val(data.result.user_id)
-              $("#name").val(data.result.name)
-              $("#surname").val(data.result.surname)
-              $("#phone").val(data.result.phone)
-              $("#email").val(data.result.email)
-            
-					},
-					error: function (XMLHttpRequest, textStatus, errorThrown) {
-					}
-				});
+    $(document).ready(function () {
+      $("#id").hide()
+      $("#user_id").attr('readonly', 'readonly');
+      console.log(localStorage)
+      var api_url = `http://localhost:3000/api/user/user_get/${localStorage.Sapion_id}`
+      $.ajax({
+        url: api_url,
+        dataType: 'json',
+        contentType: 'application/json',
+        type: "GET",
+        success: function (data) {
+          //	alert(JSON.stringify(data.result))
+          $("#id").val(data.result.id)
+          $("#user_id").val(data.result.user_id)
+          $("#name").val(data.result.name)
+          $("#surname").val(data.result.surname)
+          $("#phone").val(data.result.phone)
+          $("#email").val(data.result.email)
 
-        $('#update').click(function (){
-          var id = $('#id').val()
-          console.log("--> ID -->", id)
-         axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
-            name: $('#name').val(),
-            surname: $('#surname').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-          }).then(response => {
-            alert("Updated")
-            console.log("yes--->")
-          })
-            .catch(error => {
-              $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
-            }); 
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+      });
+
+      $('#change_password').click(function () {
+        console.log("_____")
+        $('#change_password_module').modal();
+      })
+      $('#update').click(function () {
+        var id = $('#id').val()
+        console.log("--> ID -->", id)
+        axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+          name: $('#name').val(),
+          surname: $('#surname').val(),
+          phone: $('#phone').val(),
+          email: $('#email').val(),
+        }).then(response => {
+          alert("Updated")
+          console.log("yes--->")
         })
-		})
-    </script>
-  
+          .catch(error => {
+            $("#delete_confirm").modal('hide');
+            console.log("Error Occured . Contact Admin" + error)
+          });
+      })
+      $('#save_new_password').click(function () {
+        var stringify_data = { "password": $('#new_password').val(), "confirm_password": $('#confirm_password').val()};
+        console.log(localStorage.SapionT)
+        
+        /* $.ajax({
+            url: `http://localhost:3000/api/user/signup_confirmation_email/${key}`,
+            type: "POST",
+            dataType: 'json',
+            data: stringify_data,
+            success: function (result) {
+              self.location = "http://localhost:3000"
+              
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              $('#error').remove()
+              $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
+              $('.loader').remove()
+            }
+          });
+       */
+      })
+    })
+  </script>
+
 
   </script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -83,20 +108,17 @@
 </head>
 
 <body>
-  <!-- create update -->
+  <!-- Notice -->
   <div class="alert alert-success" role="alert">
     <h4 class="alert-heading">Notice!</h4>
-    <p>once your old password is changed, you will be logged out from the app and asked to log back in</p>
-     </div>
-  <div  id="userProfile"
-    aria-hidden="true">
+    <p>nce your old password is changed, you will be logged out from the app and asked to log back in</p>
+  </div>
+  <!-- user profile -->
+  <div id="userProfile" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Info.</h5>
-         <!--  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button> -->
         </div>
         <div class="modal-body">
           <form action="/add" method="POST">
@@ -107,58 +129,58 @@
               <input type="text" class="form-control" id="user_id" placeholder="User ID">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="name" placeholder="Name">
+              <input type="text" class="form-control" id="name" placeholder="Name" required>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="surname" placeholder="surname">
+              <input type="text" class="form-control" id="surname" placeholder="surname" required>
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="phone" placeholder="phone">
+              <input type="text" class="form-control" id="phone" placeholder="phone" required>
             </div>
 
             <div class="form-group">
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                placeholder="Enter email">
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email"
+                required>
             </div>
             <button type="button" id="update" class="btn_update">Update <i class="material-icons">refresh</i></button>
-            <button type="button" id="change_password" class="btn_change_password">Change Password <i class="material-icons">edit</i></button>
+            <button type="button" id="change_password" class="btn_change_password">Change Password <i
+                class="material-icons">edit</i></button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  <!-- delete pop -->
-  <div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!--Change Password-->
+<div class="modal fade" id="change_password_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Please Confirm Deletion</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
-          <button type="button" id="cancel_delete_user" data-dismiss="modal">Cancel</button>
-          <button type="button" id="delete_user" class="btn btn-primary">Delete</button>
-
+          <form action="/add" method="POST">
+            <div class="form-group">
+              <input type="text" class="form-control" id="old_password" placeholder="Old Passowrd">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="new_password" placeholder="New Password">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="confirm_password" placeholder="Confrim Password">
+            </div>
+            <button type="button" class="" data-dismiss="modal">Close<i class="material-icons">close</i></button>
+            <button type="button" id="save_new_password" class="btn_change_password">Save <i class="material-icons">save</i></button>
+          </form>
         </div>
       </div>
     </div>
   </div>
-
-
-
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <!-- 
- // <script src="../data_tables/roll_out_logictic.js" type="text/javascript" language="javascript"></script> -->
- <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js" type="text/javascript"></script>
-  <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
-  <script src="https://cdn.datatables.net/buttons/1.0.3/js/buttons.html5.min.js" type="text/javascript"></script>
-  <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js" type="text/javascript"></script>
-  <script src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js" -->
-  <!--   type="text/javascript"></script> --><!-- 
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> -->
-
-
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 
 </html>
