@@ -7,6 +7,15 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
+    .td_table_label {
+      width: 120px;
+      height: 40px;
+      padding: 4px 6px 0px 4px;
+      padding-left: 15px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
     #example_processing {
       position: fixed;
       background: red;
@@ -30,7 +39,8 @@
       background: white;
       color: green;
     }
-  </style><script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  </style>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
   <script>
     $(document).ready(function () {
       $("#id").hide()
@@ -78,23 +88,23 @@
           });
       })
       $('#save_new_password').click(function () {
-        var stringify_data = { "old_password": $('#old_password').val(),"password": $('#new_password').val(), "confirm_password": $('#confirm_password').val()};
+        var stringify_data = { "old_password": $('#old_password').val(), "password": $('#new_password').val(), "confirm_password": $('#confirm_password').val() };
         console.log(localStorage.SapionT)
-        var key=localStorage.SapionT
-         $.ajax({
-            url: `http://localhost:3000/api/user/change_password_email/${key}`,
-            type: "POST",
-            dataType: 'json',
-            data: stringify_data,
-            success: function (result) {    
-              alert(" updated")
-             // self.location = "http://localhost:3000"
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-              alert("not updated")
-            }
-          });
-      
+        var key = localStorage.SapionT
+        $.ajax({
+          url: `http://localhost:3000/api/user/change_password_email/${key}`,
+          type: "POST",
+          dataType: 'json',
+          data: stringify_data,
+          success: function (result) {
+            alert(" updated")
+            // self.location = "http://localhost:3000"
+          },
+          error: function (XMLHttpRequest, textStatus, errorThrown) {
+            alert("not updated")
+          }
+        });
+
       })
     })
   </script>
@@ -148,8 +158,8 @@
       </div>
     </div>
   </div>
-<!--Change Password-->
-<div class="modal fade" id="change_password_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <!--Change Password-->
+  <div class="modal fade" id="change_password_module" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -170,8 +180,24 @@
             <div class="form-group">
               <input type="text" class="form-control" id="confirm_password" placeholder="Confrim Password">
             </div>
+            <tr>
+              <td class="td_table_label" align="left">
+              Password Policy<br>
+              </td>
+              <td class="td_table_strategy" colspan="4" id="curPasswordStrategy">
+                1.&nbsp;&nbsp;The password must contain lower-case letters.<br>
+                2.&nbsp;&nbsp;The password must contain upper-case letters.<br>
+                3.&nbsp;&nbsp;The password must contain digits.<br>
+                4.&nbsp;&nbsp;The password must contain at least one special character:(` ~ ! @ # $ % ^ &amp; * ( ) - _
+                = + \ | [ { } ] ; : ' '' , &lt; . &gt; / ? and spaces).<br>
+                5.&nbsp;&nbsp;The password cannot be any user name in normal or reverse order.<br>
+                6.&nbsp;&nbsp;The password must contain 8 to 32 characters. For privileged users, the minimum length of
+                a password is 8 characters.<br><br>
+              </td>
+            </tr>
             <button type="button" class="" data-dismiss="modal">Close<i class="material-icons">close</i></button>
-            <button type="button" id="save_new_password" class="btn_change_password">Save <i class="material-icons">save</i></button>
+            <button type="button" id="save_new_password" class="btn_change_password">Save <i
+                class="material-icons">save</i></button>
           </form>
         </div>
       </div>

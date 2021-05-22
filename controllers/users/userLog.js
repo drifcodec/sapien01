@@ -7,6 +7,9 @@ module.exports.user_log_create = (req, res) => {
     _id: new mongoose.Types.ObjectId(),
     user_id:req.body.user_id,
     log_type:req.body.log_type,
+    log_lat:req.body.log_lat,
+    log_long:req.body.log_long,
+    log_type:req.body.log_type,
     ip_address:ip
   }
   const OrderObj_input = new user_log(post_data)
@@ -54,7 +57,7 @@ module.exports.user_log_getList = (req, res) => {
 module.exports.user_log_getList_table = (req, res) => {
   var searchStr = req.body;
   var order = ''
-  var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
+  var dir = searchStr.order[0].dir === 'desc' ? 1 : searchStr.order[0].dir === 'asc' ? -1 : ''
   var drop_down_select = {}
   for (i = 0; i < searchStr.columns.length; i++) {
     var field = searchStr.columns[i].data

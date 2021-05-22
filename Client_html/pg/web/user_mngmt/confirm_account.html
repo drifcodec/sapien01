@@ -207,7 +207,21 @@
       <div class="login-form">
         <input type="password" placeholder="Password" id='password' />
         <input type="password" placeholder="Confirm Password" id='confirm_password' />
-
+        <tr>
+          <td class="td_table_label" align="left">
+          Password Policy<br>
+          </td>
+          <td class="td_table_strategy" colspan="4" id="curPasswordStrategy">
+            1.&nbsp;&nbsp;The password must contain lower-case letters.<br>
+            2.&nbsp;&nbsp;The password must contain upper-case letters.<br>
+            3.&nbsp;&nbsp;The password must contain digits.<br>
+            4.&nbsp;&nbsp;The password must contain at least one special character:(` ~ ! @ # $ % ^ &amp; * ( ) - _
+            = + \ | [ { } ] ; : ' '' , &lt; . &gt; / ? and spaces).<br>
+            5.&nbsp;&nbsp;The password cannot be any user name in normal or reverse order.<br>
+            6.&nbsp;&nbsp;The password must contain 8 to 32 characters. For privileged users, the minimum length of
+            a password is 8 characters.<br><br>
+          </td>
+        </tr>
         <button id='btn_confirm'> Confirm</button>
       </div>
 

@@ -1,7 +1,9 @@
    const express = require("express");
    const router = express.Router();
-   const User_ctrl = require("../controllers/users/userLog");
-   router.post("/userLog_create",User_ctrl.user_log_create)
+   const UserLog_ctrl = require("../controllers/users/userLog");
+   router.post("/userLog_create",UserLog_ctrl.user_log_create)
+   router.post("/userLog_getList_table/",UserLog_ctrl.user_log_getList_table);
+   router.get("/userLog_getList/",UserLog_ctrl.user_log_getList);
    /* 
    router.post('/change_password_email/:token',User_ctrl.change_password_email);
    router.get("/user_getList/",User_ctrl.user_getList);

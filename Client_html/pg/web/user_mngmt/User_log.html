@@ -20,6 +20,7 @@
       color: white;
       padding: 10px;
     }
+
     .material-icons.delete {
       color: #fb0000;
     }
@@ -32,7 +33,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script> $(document).ready(function () {
-    axios.get('http://localhost:3000/api/user_role/user_role_getList', {
+      axios.get('http://localhost:3000/api/user_role/user_role_getList', {
       })
         .then(response => {
           for (i = 0; i < response.data.length; i++) {
@@ -47,11 +48,11 @@
         <thead>
             <tr>
         <th>User ID</th>
-        <th>Log Type</th>
-        <th>Lattidude</th>
-        <th>Longiture</th>
+        <th>log_type</th>
+        <th>ip_address</th>
+        <th>log_lat</th>
+        <th>log_long</th>
         <th>log_time</th>
-        <th>IP</th>
             </tr>
           </thead>
       </table>
@@ -94,7 +95,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/user/user_getList_table',
+          url: 'http://localhost:3000/api/user_log/userLog_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -102,122 +103,20 @@
         "aoColumns": [
           { "data": "user_id" },
           { "data": "log_type" },
-          { "data": "log_lat" },
-          { "data": "log_long" },
-          { "data": "log_time" },
           { "data": "ip_address" },
-          {
-            'data': null, "render": function (item, type, full, meta) {
+          { "data": "log_lat" },
+          { "data": "log_long" },  
+          { "data": "log_time" },  
+         /*  {
+            "data": null, "render": function (item, type, full, meta) {
 
-              var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="reset_paassword('${item._id} ')" >autorenew</i></div>`
-              return operation
+              var _time = (new Date(`${item.log_time === undefined ? "" : item.log_time}`)).toLocaleString();
+               return _time
             }
-          }
+          } */
         ]
       });
-      $("#delete_user").click(function () {
-        var user_id = $(this).val();
-        axios.delete(`http://localhost:3000/api/user/user_delete/${user_id}`)
-          .then(response => {
-            $("#delete_confirm").modal('hide');
-            $("#table_id").DataTable().ajax.reload(null, false)
-          })
-          .catch(error => {
-            alert(error)
-            $("#delete_confirm").modal('hide');
-            console.log("Error Occured . Contact Admin" + error)
-          });
-      });
-
-      $("#create_update").click(function () {
-        if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/user/signup`, {
-            user_id: $('#user_id').val(),
-            name: $('#name').val(),
-            surname: $('#surname').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-            roles: $('#roles').val(),
-            user_status: $('#user_status').val(),
-          }).then(response => {
-            $("#AddUser").modal('hide');
-            $("#table_id").DataTable().ajax.reload(null, false)
-          })
-            .catch(error => {
-              $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
-            });
-        }
-        if ($(this).val() === 'update') {
-          var id = $('#id').val()
-          console.log("--> Roles" + $('#roles').val())
-          axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
-            user_id: $('#user_id').val(),
-            name: $('#name').val(),
-            surname: $('#surname').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-            roles: $('#roles').val(),
-          }).then(response => {
-            $("#AddUser").modal('hide');
-            $("#table_id").DataTable().ajax.reload(null, false)
-          })
-            .catch(error => {
-              $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
-            });
-        }
-      })
     });
-    function load_update(id) {
-      console.log("the ID is "+id)
-      axios.get(`http://localhost:3000/api/user/user_get/${id}`)
-        .then(response => {
-          var data = response.data.result
-          $("#user_id").attr("disabled", "disabled");
-          $("#id").attr("disabled", "disabled");
-          $("#id").hide();
-          $('#user_id').val(data.user_id)
-          $('#id').val(data._id)
-          $('#name').val(data.name)
-          $('#surname').val(data.surname)
-          $('#phone').val(data.phone)
-          $('#email').val(data.email)
-          $('#roles').val(data.roles)
-          $('#permission').val(data.permission)
-          $("#create_update").val('update')
-          $('#AddUser').modal();
-        })
-        .catch(error => {
-          alert(error)
-          $("#delete_confirm").modal('hide');
-          console.log("Error Occured . Contact Admin" + error)
-        });
-    }
-
-    function create_values() {
-      $('#id').hide()
-      //$('#user_id').hide()
-      $("#create_update").val('create')
-      $('#user_id').val('')
-      $('#name').val('')
-      $('#surname').val('')
-      $('#password').val('')
-      $('#phone').val('')
-      $('#email').val('')
-      $('#roles').val('')
-      $('#permission').val('')
-      $('#AddUser').modal();
-    }
-    function delete_value(id) {
-      $('#delete_confirm').modal()
-      $("#delete_user").val(id)
-    }
-
-
-
 
   </script>
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.9/css/dataTables.bootstrap.min.css">
@@ -232,107 +131,15 @@
 <body>
   <div class="col-md-4 no-padding">
     <div class="form-group col-md-4 no-padding">
-      Operator:&nbsp;
+      User:&nbsp;
       <select class="form-control" id="col1">
         <option value="All">All</option>
       </select>
     </div>
   </div>
-  <div class="col-md-4 no-padding">
-    <div class="form-group col-md-4 no-padding">
-      Current Status:&nbsp;
-      <select class="form-control" id="col3">
-        <option value="All">All</option>
-      </select>
-    </div>
-  </div>
-  <div class="col-md-4 no-padding">
-    <div class="form-group col-md-4 no-padding">
-      Priority:&nbsp;
-      <select class="form-control" id="col5">
-        <option value="All">All</option>
-      </select>
-    </div>
-  </div>
-  <button type="button" class="btn btn-primary" onclick="create_values()">
-    <i class="fa fa-plus">Add User</i>
-  </button>
   <div class="row" id='table_query'>
-
   </div>
-  <!-- create update -->
-  <div class="modal fade" id="AddUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Creste / Edit</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form action="/add" method="POST">
-            <div class="form-group">
-              <input type="text" class="form-control" id="id">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="user_id" placeholder="User ID">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="name" placeholder="Name">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="surname" placeholder="surname">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="phone" placeholder="phone">
-            </div>
-
-            <div class="form-group">
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                placeholder="Enter email">
-            </div>
-            <label for="sel2"> select Roles (hold Ctrl to select more than one):</label>
-            <select multiple class="form-control" id="roles">
-
-            </select>
-           
-            <!-- 
-            <div class="form-group">
-              <input type="text" class="form-control" id="permission" placeholder="permission">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="user_status" placeholder="user_status">
-            </div>
-            <div class="form-group">
-              <input type="text" class="form-control" id="role" placeholder="role">
-            </div> -->
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" id="create_update" class="btn btn-primary">Save</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- delete pop -->
-  <div class="modal fade" id="delete_confirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Please Confirm Deletion</h5>
-        </div>
-        <div class="modal-body">
-          <button type="button" id="cancel_delete_user" data-dismiss="modal">Cancel</button>
-          <button type="button" id="delete_user" class="btn btn-primary">Delete</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-
+  
 
   <!-- 
  // <script src="../data_tables/roll_out_logictic.js" type="text/javascript" language="javascript"></script> -->

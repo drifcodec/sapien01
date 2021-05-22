@@ -214,7 +214,8 @@ exports.signup_confirmation_email = (req, res) => {
   var verification_token = req.params.token;
   var password = req.body.password
   var confirm_password = req.body.confirm_password
-  if (verification_token && (password === confirm_password)) {
+  var valid_pass=password.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
+  if (verification_token && valid_pass && (password === confirm_password)) {
     var token_get = jwt.verify(verification_token, "secret");
     var _id = token_get._id
     bcrypt.hash(password, 10, (err, hash) => {
@@ -245,10 +246,11 @@ exports.change_password_email = async (req, res) => {
   var confirm_password = req.body.confirm_password
   var token_get = jwt.verify(verification_token, "secret");
   var id = token_get.id
+  var valid_pass=password.match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})")
   const isPassWord = await User.findById({ _id: id }).exec()
     .then(user => {
       bcrypt.compare(old_password, user.password, async (err, result) => {
-        if (result && verification_token && (password === confirm_password)) {
+        if (result && valid_pass && verification_token && (password === confirm_password)) {
           var hashed_pass = await new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, (err, hash) => {
               if (err) {

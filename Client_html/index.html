@@ -200,7 +200,7 @@
       $('#btn_login').click(function () {
         $('.login-form').append("<div class='loader'></div>")
 
-        localStorage.setItem("SapionT",null);
+        localStorage.setItem("SapionT", null);
         localStorage.setItem("Sapion_id", null);
         localStorage.setItem("Sapion_U_iD", null);
         localStorage.setItem("Sapion_U_R", null)
@@ -223,9 +223,9 @@
               localStorage.setItem("Sapion_id", result.data.id);
               localStorage.setItem("Sapion_U_iD", result.data.user_id);
               localStorage.setItem("Sapion_U_R", result.data.role)
-              login_log()
-              load_menu(result)  
-            // self.location = "http://localhost:3000/Dashboard/index.html?"
+              getLocation()
+              load_menu(result)
+              // self.location = "http://localhost:3000/Dashboard/index.html?"
             }
           },
           error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -259,16 +259,32 @@
           }
         });
       }
-      function login_log() {
+
+
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          login_log('', '')
+        }
+      }
+
+      function showPosition(position) {
+        login_log(position.coords.latitude, position.coords.longitude)
+      }
+      function login_log(lat, long) {
+        console.log("lat ------------>" + lat)
         var api_url = `http://localhost:3000/api/user_log/userLog_create`
         $.ajax({
           url: api_url,
           type: "POST",
           contentType: "application/json;charset=utf-8",
           dataType: 'json',
-          data:JSON.stringify({
-            "user_id":localStorage.Sapion_U_iD,
-            "log_type":"Log in",
+          data: JSON.stringify({
+            "user_id": localStorage.Sapion_U_iD,
+            "log_type": "Log in",
+            "log_lat": lat,
+            "log_long": long
           }),
           success: function (result) {
           },
@@ -286,7 +302,7 @@
       <div class="login-form">
         <input type="text" placeholder="username" id='username' />
         <input type="password" placeholder="password" id='password' />
-      <!--   <select name="cars" id="companies">
+        <!--   <select name="cars" id="companies">
           <option value=""> </option>
           <option value="Global_trade">Global trade</option>
           <option value="saab"> SABBS </option>
@@ -295,8 +311,8 @@
         <button id='btn_login'> login</button>
         <p class="message">forgot Password? <a href="#">reset password</a></p>
         <p id="download_app"><a href="#">Download CGOS App</a></p>
-      </div> 
-   
+      </div>
+
 
       <form class="register-form">
         <input type="text" placeholder="username" id='username_' />
