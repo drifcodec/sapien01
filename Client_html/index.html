@@ -223,6 +223,7 @@
               localStorage.setItem("Sapion_id", result.data.id);
               localStorage.setItem("Sapion_U_iD", result.data.user_id);
               localStorage.setItem("Sapion_U_R", result.data.role)
+              login_log()
               load_menu(result)  
             // self.location = "http://localhost:3000/Dashboard/index.html?"
             }
@@ -256,6 +257,21 @@
             $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
             $('.loader').remove()
           }
+        });
+      }
+      function login_log() {
+        var api_url = `http://localhost:3000/api/user_log/userLog_create`
+        $.ajax({
+          url: api_url,
+          type: "POST",
+          contentType: "application/json;charset=utf-8",
+          dataType: 'json',
+          data:JSON.stringify({
+            "user_id":localStorage.Sapion_U_iD,
+            "log_type":"Log in",
+          }),
+          success: function (result) {
+          },
         });
       }
       $('.message a').click(function () {

@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../../models/user_db/user");
 const email_server = require("../../emails/user_confirmation_email");
 const reset_email = require("../../emails/user_forgotPass");
-module.exports.user_getList = (req, res) => {
+const { resolve } = require("path");
+
+exports.user_getList = (req, res) => {
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.limit == undefined ? 1000 : req.body.limit
   User.find(req.body)
@@ -20,7 +22,7 @@ module.exports.user_getList = (req, res) => {
       res.status(500).json({ error: err });
     })
 }
-module.exports.user_getList_t = (req, res) => {
+exports.user_getList_t = (req, res) => {
   var searchStr = req.body;
   var order = ''
   var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
@@ -43,8 +45,6 @@ module.exports.user_getList_t = (req, res) => {
   else {
     searchStr = {};
   }
-  console.log("drop_down_select " + JSON.stringify(drop_down_select))
-  console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.length == undefined ? 1000 : req.body.length
@@ -74,19 +74,17 @@ module.exports.user_getList_t = (req, res) => {
 
         }
         ).catch(err => {
-          console.log(err);
           res.status(500).json({ error: err });
         });
     })
   })
 }
 
-module.exports.user_get = (req, res) => {
+exports.user_get = (req, res) => {
   User.findOne({ _id: req.params.id })
     .exec()
     .then(result => {
       if (result) {
-        console.log("[-------------------------------------->" + result)
         res.status(200).json({
           result: {
             "id": result._id,
@@ -113,7 +111,7 @@ module.exports.user_get = (req, res) => {
       });
     });
 };
-module.exports.user_update = (req, res) => {
+exports.user_update = (req, res) => {
   const id = req.params.id;
   var data = {}
   if (req.body.phone) {
@@ -131,7 +129,6 @@ module.exports.user_update = (req, res) => {
   } if (req.body.roles) {
     data.roles = req.body.roles
   }
-  console.log(id)
   User.update({ _id: id }, {
     "$set": data,
     //"$addToSet": {"roles": req.body.roles}
@@ -158,7 +155,7 @@ module.exports.user_update = (req, res) => {
       });
     });
 }
-module.exports.signup = (req, res) => {
+exports.signup = (req, res) => {
   var default_password = "CGOS123"
   //{ $or: [{ user_id: req.body.user_id }, { email: req.body.email }] })
 
@@ -213,17 +210,15 @@ module.exports.signup = (req, res) => {
       }
     });
 };
-module.exports.signup_confirmation_email = (req, res) => {
-
+exports.signup_confirmation_email = (req, res) => {
   var verification_token = req.params.token;
-  var old_password=req.body.password
   var password = req.body.password
   var confirm_password = req.body.confirm_password
   if (verification_token && (password === confirm_password)) {
     var token_get = jwt.verify(verification_token, "secret");
     var _id = token_get._id
     bcrypt.hash(password, 10, (err, hash) => {
-      User.update({ _id }, { $set: { user_status: "Active", password: hash } })
+      User.updateOne({ _id }, { $set: { user_status: "Active", password: hash } })
         .exec()
         .then(result => {
           res.status(200).json({
@@ -243,7 +238,53 @@ module.exports.signup_confirmation_email = (req, res) => {
     });
   }
 }
-module.exports.forgot_password = (req, res) => {
+exports.change_password_email = async (req, res) => {
+  var verification_token = req.params.token;
+  var old_password = req.body.old_password
+  var password = req.body.password
+  var confirm_password = req.body.confirm_password
+  var token_get = jwt.verify(verification_token, "secret");
+  var id = token_get.id
+  const isPassWord = await User.findById({ _id: id }).exec()
+    .then(user => {
+      bcrypt.compare(old_password, user.password, async (err, result) => {
+        if (result && verification_token && (password === confirm_password)) {
+          var hashed_pass = await new Promise((resolve, reject) => {
+            bcrypt.hash(password, 10, (err, hash) => {
+              if (err) {
+                reject(err)
+              }
+              resolve(hash)
+            })
+          })
+          User.updateOne({ _id: id }, { "$set": { password: hashed_pass } }, { "new": true, "upsert": true })
+            .exec()
+            .then(result => {
+              res.status(200).json({
+                message: "Password was successful updated"
+              });
+            })
+            .catch(err => {
+              res.status(500).json({
+                error: err
+              });
+            });
+        } else {
+          res.status(401).json({
+            message: " Error couldnt update !"
+          });
+        }
+      })
+    })
+    .catch(err => {
+      reject(true)
+      res.status(500).json({
+        error: err
+      });
+    });
+
+}
+exports.forgot_password = (req, res) => {
   User.findOne({ user_id: req.params.user_id })
     .exec()
     .then(result => {
@@ -269,7 +310,7 @@ module.exports.forgot_password = (req, res) => {
       });
     });
 };
-module.exports.login = (req, res, next) => {
+exports.login = (req, res, next) => {
   if (req.body.user_id && req.body.password) {
     User.find({ user_id: req.body.user_id })
       .exec()
@@ -286,8 +327,6 @@ module.exports.login = (req, res, next) => {
             });
           } else
             if (result) {
-
-              console.log("----------- result result----------------------comp" + user)
               const token = jwt.sign(
                 {
                   id: user[0]._id,
@@ -340,7 +379,7 @@ module.exports.login = (req, res, next) => {
   }
 
 };
-module.exports.reset_password = (req, res) => {
+exports.reset_password = (req, res) => {
   var token = req.params.Token;
   bcrypt.hash(req.body.password, 10, (err, hash) => {
 
@@ -371,15 +410,10 @@ module.exports.reset_password = (req, res) => {
     }
   })
 }
-module.exports.delete = (req, res) => {
-  console.log("server side", req.params.id)
-
-
-
+exports.delete = (req, res) => {
   User.deleteOne({ _id: req.params.id })
     .exec()
     .then(result => {
-      console.log("-----------result--------" + result)
       res.status(200).json({
         message: "User deleted"
       });
@@ -390,6 +424,7 @@ module.exports.delete = (req, res) => {
       });
     });
 }
+
 
 
 

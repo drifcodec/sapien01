@@ -76,16 +76,14 @@
       var table = $('#example').DataTable({
         dom: 'lBfrtip',
         buttons: [
-          'copy',
           {
             extend: 'excel',
             text: 'Export Page',
             exportOptions: {
               modifier: {
-                // DataTables core
-                order: 'index',  // 'current', 'applied', 'index',  'original'
+                order: 'applied',//'index',  // 'current', 'applied', 'index',  'original'
                 page: 'all',      // 'all',     'current'
-                search: 'none'     // 'none',    'applied', 'removed'
+                search: 'applied'//'none',     // 'none',    'applied', 'removed' 
               }
             }
           }
@@ -93,12 +91,12 @@
         /* buttons: [
             'copy', 'csv', 'excel', 'pdf', 'print'
         ], *//* 
-        "pageLength": 5, */
+        "pageLength": 5,  */
 
         "search": {
           "search": ""
         }, rowReorder: true,
-        //"select": true,
+        "select": true,
         "paging": true,
         "processing": true,
         "serverSide": true,
@@ -106,7 +104,8 @@
         "scrollY": "70%", 
         "scrollCollapse": true,  */
         "ordering": true,
-        "info": true,
+        "info": true,"lengthMenu" : [[25, 100, -1], [25, 100, "All"]],
+        "pageLength" : 10,
         'ajax': {
           type: "POST",
           url: 'http://localhost:3000/api/roll_out/roll_out_getList',
@@ -240,24 +239,24 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="https://nightly.datatables.net/responsive/css/responsive.dataTables.min.css">
-	<!--google chart scripts-->
-	<script type="text/javascript" src="https://cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.2/echarts.min.js"></script>
-	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <!--google chart scripts-->
+  <script type="text/javascript" src="https://cdn.bootcss.com/echarts/3.2.2/echarts.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/echarts/3.7.2/echarts.min.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script src="../../../Dashboard/charts/chart.js" type="text/javascript" language="javascript"></script>
-	<!----> 
+  <!---->
   <title>Sapien IO</title>
 
 </head>
 
 <body>
-	<div id='main_grapth'>
-					<div id="chart_div" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
-				
-					<div id="chart_div2" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
-			</div>
-	</div>
+  <div id='main_grapth'>
+    <div id="chart_div" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
+
+    <div id="chart_div2" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
+  </div>
+  </div>
   <div class="col no-padding">
     <div class="form-group col-md-4 no-padding">
       Operator:&nbsp;

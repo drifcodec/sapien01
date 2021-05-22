@@ -78,25 +78,23 @@
           });
       })
       $('#save_new_password').click(function () {
-        var stringify_data = { "password": $('#new_password').val(), "confirm_password": $('#confirm_password').val()};
+        var stringify_data = { "old_password": $('#old_password').val(),"password": $('#new_password').val(), "confirm_password": $('#confirm_password').val()};
         console.log(localStorage.SapionT)
-        
-        /* $.ajax({
-            url: `http://localhost:3000/api/user/signup_confirmation_email/${key}`,
+        var key=localStorage.SapionT
+         $.ajax({
+            url: `http://localhost:3000/api/user/change_password_email/${key}`,
             type: "POST",
             dataType: 'json',
             data: stringify_data,
-            success: function (result) {
-              self.location = "http://localhost:3000"
-              
+            success: function (result) {    
+              alert(" updated")
+             // self.location = "http://localhost:3000"
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
-              $('#error').remove()
-              $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
-              $('.loader').remove()
+              alert("not updated")
             }
           });
-       */
+      
       })
     })
   </script>
@@ -111,7 +109,7 @@
   <!-- Notice -->
   <div class="alert alert-success" role="alert">
     <h4 class="alert-heading">Notice!</h4>
-    <p>nce your old password is changed, you will be logged out from the app and asked to log back in</p>
+    <p>Once your old password is changed, you will be logged out from the App and asked to log back in</p>
   </div>
   <!-- user profile -->
   <div id="userProfile" aria-hidden="true">

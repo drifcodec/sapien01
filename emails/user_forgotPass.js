@@ -26,7 +26,7 @@ module.exports = {
                  Dear User you have been Assign to our System
                  </h2>
                 <p style='color:#A9A9A9;'>
-                 Please Click on the link to activate  you account<a style='text-decoration: none;' href='http://localhost:3000/api/user/confirmation/${token}'> Click here</a>. 
+                 Please Click on the link to activate  you account<a style='text-decoration: none;' href='http://localhost:3000/pg/web/user_mngmt/confirm_account.html?key=${token}'> Click here</a>. 
                 </p>
                
                 </a>
