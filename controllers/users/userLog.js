@@ -1,5 +1,6 @@
 const user_log = require('../../models/user_db/user_log')
 const mongoose = require("mongoose");
+const { start } = require('repl');
 
 module.exports.user_log_create = (req, res) => {
   var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
@@ -30,9 +31,10 @@ module.exports.user_log_create = (req, res) => {
 }
 
 module.exports.user_log_getList = (req, res) => {
-  start = req.body.start == undefined ? 0 : req.body.start
-  limit = req.body.length == undefined ? 1000 : req.body.length
-
+  let start = req.body.start == undefined ? 0 : req.body.start
+  let limit = req.body.limit == undefined ? 1000 : req.body.limit
+  console.log("---------Start "+start)
+  console.log("---------Start "+limit)
       //user_log.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //user_log.find(searchStr) for globale search 
       user_log.find()
@@ -80,8 +82,8 @@ module.exports.user_log_getList_table = (req, res) => {
   console.log("drop_down_select " + JSON.stringify(drop_down_select))
   console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
-  start = req.body.start == undefined ? 0 : req.body.start
-  limit = req.body.length == undefined ? 1000 : req.body.length
+  var start = req.body.start == undefined ? 0 : req.body.start
+  var limit = req.body.limit == undefined ? 1000 : req.body.limit
   var recordsTotal = 0
   user_log.countDocuments({}, function (err, total) {
     recordsTotal = total

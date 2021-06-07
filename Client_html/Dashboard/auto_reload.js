@@ -1,6 +1,6 @@
 // Refresh Rate is how often you want to refresh the page 
 // bassed off the user inactivity. 
-var refresh_rate = 60*10; //<-- In seconds, change to your needs 60*1 =one mimute
+var refresh_rate = 60*30; //<-- In seconds, change to your needs 60*1 =one mimute
 var last_user_action = 0;
 var has_focus = false;
 var lost_focus_count = 0;
@@ -13,7 +13,7 @@ var focus_margin = 10;
 // Reset the Timer on users last action
 function reset() {
   last_user_action = 0;
-  //updateVisualTimer('Reset Timer');
+  // ('Reset Timer');
 }
 
 

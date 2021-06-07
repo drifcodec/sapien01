@@ -4,6 +4,7 @@ const devices_ctrl=require('../controllers/devices')
 //const zip_ctrl=require('../controllers/zip_ctl')
 const checkAuth = require('../middleware/user-auth');
 const RoleAuth = require('../middleware/roles-auth'); 
+const PageAuth = require('../middleware/page_auth'); 
 
 //
  //router.get('/',checkAuth,RoleAuth.admin_role,(req,res)=>{
@@ -13,6 +14,5 @@ const RoleAuth = require('../middleware/roles-auth');
   router.post('/', devices_ctrl.create_device)
   router.patch("/:id",devices_ctrl.patch_device);
   router.delete('/:id',devices_ctrl.delete_device)
-  //router.post('/create_zip',zip_ctrl.create_zip)
   
 module.exports=router;
