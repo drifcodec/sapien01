@@ -42,6 +42,26 @@ module.exports = {
         }
       });
     }, */
+
+    
+  notification: async (from, to,subject ,description) => {
+    let transporter = nodemailer.createTransport({
+      service: 'gmail',
+      host: 'smtp.gmail.com',
+      auth: {
+        user: "mwarabudanny@gmail.com",
+        pass: "lubumbashi"
+      },
+    });
+
+    let info = await transporter.sendMail({
+      from: from, // sender address
+      to: to, //user_email, // list of receivers
+      subject: subject, // Subject line
+      text: description, // plain text body
+      html: ``
+    });
+  },
   signup_confirmation_email: async (user_email, user_id, token) => {
     let transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -106,4 +126,5 @@ module.exports = {
  `
     });
   }
+  
 }

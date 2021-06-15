@@ -335,6 +335,7 @@ exports.login = (req, res, next) => {
                   id: user[0]._id,
                   email: user[0].email,
                   userId: user[0]._id,
+                  user_id: user[0].user_id,
                   user_role: user[0].role
                 },
                 "secret",

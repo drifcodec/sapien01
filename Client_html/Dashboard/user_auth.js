@@ -2,8 +2,8 @@ $(document).ready(function () {
   $('body').hide()
   window.onload = check_user()
   function check_user() {
-    var api_url = 'http://localhost:3000/api/page_auth/get_user_auth'
-   // console.log(localStorage.SapionT)
+    var api_url = '/api/page_auth/get_user_auth'
+    // console.log(localStorage.SapionT)
     $.ajax({
       url: api_url,
       headers: { 'Authorization': 'Bearer ' + localStorage.SapionT },
@@ -20,7 +20,7 @@ $(document).ready(function () {
         //alert(errorThrown)
 
         var currentURL = window.location.href;
-       // window.location.href = `http://localhost:3000/index.html?${currentURL}`
+        window.location.href = `http://localhost:3000/index.html?${currentURL}`
       }
 
     });

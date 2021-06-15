@@ -12,6 +12,7 @@ const user_log=require('./routes/user_log')
 const page_auth=require('./routes/page-auth') 
 const device=require('./routes/device')
 const site=require('./routes/site_route/site')
+const notification=require('./routes/notification_route/notification')
 const vandalism=require('./routes/vandalism')
 const roll_out=require('./routes/rollout')
 const parent_menu=require('./routes/parent_menu')
@@ -49,6 +50,7 @@ app.use('/api/page_auth',page_auth);
 app.use('/api/parent_menu',parent_menu); 
 app.use('/api/page_access',page_access);
 app.use('/api/mobile_access',mobile_access); 
+app.use('/api/notification',notification); 
 //cron.schedule("*/10 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)

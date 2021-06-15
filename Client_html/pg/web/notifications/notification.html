@@ -95,19 +95,20 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/user/user_getList_table',
+          url: '/api/notification/notification_getList_tableByUser',
+          headers: {'Authorization': `Bearer ${localStorage.SapionT}`}},
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
         },
         "aoColumns": [
-          { "data": "user_id" },
-          { "data": "name" },
-          { "data": "surname" },
-          { "data": "phone" },
-          { "data": "email" },
-          { "data": "roles" },
-          { "data": "permission" },
+          { "data": "from" },
+          { "data": "to" },
+          { "data": "cc" },
+          { "data": "sent_date" },
+          { "data": "category" },
+          { "data": "subject" },
+          { "data": "status" },
           {
             'data': null, "render": function (item, type, full, meta) {
 
@@ -121,15 +122,14 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/user/signup`, {
-            user_id: $('#user_id').val(),
-            name: $('#name').val(),
-            surname: $('#surname').val(),
-            phone: $('#phone').val(),
-            email: $('#email').val(),
-            roles: $('#roles').val(),
-            user_status: $('#user_status').val(),
-          }).then(response => {
+          axios.post(`http://localhost:3000/api/notification/notification_create`, {
+            from: $('#from').val(),
+            to: $('#to').val(),
+            cc: $('#cc').val(),
+            subject: $('#subject').val(),
+            description: $('#description').val(),
+            category: $('#category_').val(),
+          },{headers: {'Authorization': `Bearer ${localStorage.SapionT}`}}).then(response => {
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
           })
@@ -161,20 +161,21 @@
     });
     function load_update(id) {
       console.log("the ID is " + id)
-      axios.get(`http://localhost:3000/api/user/user_get/${id}`)
+      axios.get(`http://localhost:3000/api/notification/notification_get/${id}`)
         .then(response => {
           var data = response.data.result
-          $("#user_id").attr("disabled", "disabled");
-          $("#id").attr("disabled", "disabled");
+          $("#from").attr("disabled", "disabled");
+          $("#to").attr("disabled", "disabled");
+          $("#subject").attr("disabled", "disabled");
+          $("#description").attr("disabled", "disabled");
+          $("#category_").attr("disabled", "disabled");
           $("#id").hide();
-          $('#user_id').val(data.user_id)
           $('#id').val(data._id)
-          $('#name').val(data.name)
-          $('#surname').val(data.surname)
-          $('#phone').val(data.phone)
-          $('#email').val(data.email)
-          $('#roles').val(data.roles)
-          $('#permission').val(data.permission)
+          $('#from').val(data.from)
+          $('#to').val(data.to)
+          $('#subject').val(data.subject)
+          $('#description').val(data.description)
+          $('#category_').val(data.category)
           $("#create_update").val('update')
           $('#AddUser').modal();
         })
@@ -189,14 +190,12 @@
       $('#id').hide()
       //$('#user_id').hide()
       $("#create_update").val('create')
-      $('#user_id').val('')
-      $('#name').val('')
-      $('#surname').val('')
-      $('#password').val('')
-      $('#phone').val('')
-      $('#email').val('')
-      $('#roles').val('')
-      $('#permission').val('')
+      $('#to').val('')
+      $('#from').val('')
+      $('#subject').val('')
+      $('#description').val('')
+      $('#category_').val('')
+      $('#cc').val('')
       $('#AddUser').modal();
     }
     function delete_value(id) {
@@ -270,7 +269,7 @@
               <input type="text" class="form-control" id="id">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="user_id" placeholder="To">
+              <input type="text" class="form-control" id="to" placeholder="To">
             </div>
             <div class="form-group">
               <input type="text" class="form-control" id="cc" placeholder="CC">
@@ -283,10 +282,10 @@
                 id="description" rows="5"></textarea>
             </div>
             <label for="sel2"> select one or more Category (hold Ctrl to select more than one):</label>
-            <select multiple class="form-control" id="roles">
-              <option value="All">SMS</option>
-              <option value="All">Email</option>
-              <option value="All">Internal</option>
+            <select multiple class="form-control" id="category_">
+              <option value="SMS">SMS</option>
+              <option value="Email">Email</option>
+              <option value="Internal">Internal</option>
             </select>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="create_update" class="btn btn-primary">Send</button>
