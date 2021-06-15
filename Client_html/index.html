@@ -156,7 +156,7 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      background-image: url(http://localhost:3000/GIS/icons_maps/globe.png);
+      background-image: url(/GIS/icons_maps/globe.png);
       /* background-color: #cccccc; */
       /* background: -webkit-linear-gradient(right, #4cae4c, #8DC26F); */
       background: -moz-linear-gradient(right, #569052, #8DC26F);
@@ -179,7 +179,7 @@
         reset_function(user_id)
       });
       function reset_function(user_id) {
-        var api_url = 'http://localhost:3000/api/user/forgotPass/' + user_id
+        var api_url = '/api/user/forgotPass/' + user_id
         $.ajax({
           url: api_url,
           type: "GET",
@@ -209,7 +209,7 @@
       })
 
       function login_service_load(stringify_data) {
-        var api_url = 'http://localhost:3000/api/user/login'
+        var api_url = '/api/user/login'
         $.ajax({
           url: api_url,
           type: "POST",
@@ -237,7 +237,7 @@
       }
       function load_menu(result) {
         console.log(localStorage.Sapian_menu)
-        var api_url = `http://localhost:3000/api/page_access/getMenuList/${localStorage.Sapion_id}`
+        var api_url = `/api/page_access/getMenuList/${localStorage.Sapion_id}`
         $.ajax({
           url: api_url,
           type: "GET",
@@ -248,7 +248,7 @@
               console.log('the result :' + JSON.stringify(result.results))
 
               localStorage.setItem("Sapian_menu", JSON.stringify(result.results));
-              self.location = "http://localhost:3000/Dashboard/index.html?"// + JSON.stringify(result);//http://localhost:3000/index.html
+              self.location = "/Dashboard/index.html?"// + JSON.stringify(result);//http://localhost:3000/index.html
               console.log('the token :' + localStorage.SapionT)
             }
           },
@@ -274,7 +274,7 @@
       }
       function login_log(lat, long) {
         console.log("lat ------------>" + lat)
-        var api_url = `http://localhost:3000/api/user_log/userLog_create`
+        var api_url = `/api/user_log/userLog_create`
         $.ajax({
           url: api_url,
           type: "POST",

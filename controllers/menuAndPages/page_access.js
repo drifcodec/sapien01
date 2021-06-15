@@ -47,7 +47,7 @@ module.exports.getMenuList = (req, res) => {
                   page: results[i].page,
                   url: results[i].protocol + results[i].url,
                   view: results[i].view,
-                  page_roles: results[i].roles
+                 // page_roles: results[i].roles
                 }
 
                 if (results[i].roles && doc.roles) {

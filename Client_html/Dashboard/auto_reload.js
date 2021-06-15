@@ -39,7 +39,7 @@ function refreshCheck() {
   var focus = window.onfocus;
   if ((last_user_action >= refresh_rate && !has_focus && document.readyState == "complete") || lost_focus_count > focus_margin) {
     
-    localStorage.setItem("SapionT", "null")
+    localStorage.setItem("SapionT", null)
     self.location = "http://localhost:3000"
     /* 
     var menu_list_reloaded=[]
