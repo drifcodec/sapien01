@@ -60,27 +60,6 @@
       $("#table_query").append(html_)
       $.fn.dataTable.ext.errMode = 'none';
       $('#table_id').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-          'copy',
-          {
-            extend: 'excel',
-            text: 'Export Page',
-            exportOptions: {
-              modifier: {
-                // DataTables core
-                order: 'index',  // 'current', 'applied', 'index',  'original'
-                page: 'all',      // 'all',     'current'
-                search: 'none'     // 'none',    'applied', 'removed'
-              }
-            }
-          }
-        ],
-        /* buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ], *//* 
-        "pageLength": 5, */
-
         "search": {
           "search": ""
         }, rowReorder: true,
@@ -88,9 +67,9 @@
         "paging": true,
         "processing": true,
         "serverSide": true,
-        "dataType": "json",  /* 
+        "dataType": "json", 
         "scrollY": "70%", 
-        "scrollCollapse": true,  */
+        "scrollCollapse": true, 
         "ordering": true,
         "info": true,
         'ajax': {

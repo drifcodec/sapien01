@@ -202,28 +202,16 @@
         }
       }); $('#col3').change(function () {
         if (this.value === "All") {
-          table
-            .columns(3)
-            .search('')
-            .draw();
+          table.columns(3).search('').draw();
         } else {
-          table
-            .columns(3)
-            .search(this.value)
-            .draw();
+          table.columns(3).search(this.value).draw();
         }
       });
       $('#col5').change(function () {
         if (this.value === "All") {
-          table
-            .columns(5)
-            .search('')
-            .draw();
+          table.columns(5).search('').draw();
         } else {
-          table
-            .columns(5)
-            .search(this.value)
-            .draw();
+          table.columns(5).search(this.value).draw();
         }
       });
       $("#example_filter").remove()

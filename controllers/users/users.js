@@ -9,11 +9,12 @@ const { resolve } = require("path");
 exports.user_getList = (req, res) => {
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.limit == undefined ? 1000 : req.body.limit
-  User.find(req.body)
+  User.find(req.body).select('-password')
     .skip(start)
     .limit(limit)
     .exec()
     .then(result => {
+      console.log(result)
       res.status(200).json({
         "total": result.length,
         "results": result
@@ -56,7 +57,7 @@ exports.user_getList_t = (req, res) => {
 
       //User.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //User.find(searchStr) for globale search 
-      User.find(drop_down_select)
+      User.find(drop_down_select).select('-password')
         .skip(Number(start))
         .limit(Number(limit))
         .sort({ [order]: dir })
@@ -81,7 +82,7 @@ exports.user_getList_t = (req, res) => {
 }
 
 exports.user_get = (req, res) => {
-  User.findOne({ _id: req.params.id })
+  User.findOne({ _id: req.params.id }).select('-password')
     .exec()
     .then(result => {
       if (result) {
