@@ -79,6 +79,7 @@
         <th>Url</th> 
         <th>View</th>    
         <th>Access Roles</th> 
+        <th>Status<th>
         <th>Operation</th>
             </tr>
           </thead>
@@ -134,6 +135,7 @@
           { "data": "url" },
           { "data": "view" },
           { "data": "roles" },
+          { "data": "status" },
           {
             'data': null, "render": function (item, type, full, meta) {
               console.log(item._id)
@@ -144,17 +146,23 @@
           }
         ],
         "columnDefs": [
-          /*  {
-             orderable: false,
-             targets: [4, 2]
-           }, */
-          /* {
-            "targets" : [ 0, 1, 2],
-            "visible" : false,
-            "searchable" : false
-        }, // this hides specific columns*/
-          { "width": "10px", "targets": 6 },
-        ]
+          {
+            orderable: false,
+            targets: [4, 2]
+          },
+          {
+            "targets": 6,
+            "createdCell": function (td, cellData, rowData, row, col) {
+              if (cellData === 'online') {
+                $(td).css('background', 'green').css('color', 'white');
+              } if (cellData === 'offline') {
+                $(td).css('background', 'red').css('color', 'white');
+              } if (cellData === 'pending') {
+                $(td).css('background', 'orange').css('color', 'white');
+              }
+            }
+          }]
+      
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
@@ -178,6 +186,7 @@
             url: $('#url').val(),
             view: $('#view').val(),
             roles: $('#roles').val(),
+            status: $('#status').val(),
 
           }).then(response => {
             $("#AddUser").modal('hide');
@@ -206,6 +215,7 @@
             protocol: $('#protocol').val(),
             url: $('#url').val(),
             roles: $('#roles').val(),
+            status: $('#status').val(),
           }).then(response => {
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -230,6 +240,7 @@
           $('#view').val(data.view)
           $('#protocol').val(data.protocol)
           $('#roles').val(data.roles)
+          $('#status').val(data.status)
           $("#create_update").val('update')
           $('#AddUser').modal();
         })
@@ -249,6 +260,7 @@
       $('#view').val('')
       $('#protocol').val('')
       $('#roles').val('')
+      $('#status').val('')
       $('#AddUser').modal();
     }
     function delete_value(id) {
@@ -322,6 +334,15 @@
             <select multiple class="form-control" id="roles">
 
             </select>
+
+            <div class="form-group">
+              <label for="">Status:</label>
+              <select class="form-control" id="status">
+                <option value="pending"></option>
+                <option value="online">online</option>
+                <option value="offline">offline</option>
+              </select>
+            </div>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" id="create_update" class="btn btn-primary">Save</button>
           </form>

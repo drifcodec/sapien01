@@ -14,7 +14,7 @@ exports.user_getList = (req, res) => {
     .limit(limit)
     .exec()
     .then(result => {
-      console.log(result)
+      //console.log(result)
       res.status(200).json({
         "total": result.length,
         "results": result

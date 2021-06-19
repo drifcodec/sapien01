@@ -37,7 +37,7 @@ module.exports.getMenuList = (req, res) => {
     .then(doc => {
       if (doc) {
        // console.log("############-----Roles------>###############" + JSON.stringify(doc.roles))
-        Page_access.find().exec()
+        Page_access.find({status:'online'}).exec()
           .then(results => {
             if (results) {
               var menu_list = []

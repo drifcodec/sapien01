@@ -58,7 +58,7 @@ module.exports = {
       from: from, // sender address
       to: to, //user_email, // list of receivers
       subject: subject, // Subject line
-      text: description, // plain text body
+      text: 'Sender :'+from+ " Message: "+description, // plain text body
       html: ``
     });
   },

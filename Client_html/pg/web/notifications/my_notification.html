@@ -50,11 +50,7 @@
         <thead>
             <tr>
         <th>From</th>
-        <th>To</th>
-        <th>cc</th>
-        <th>Sent Date</th>
-        <th>Viewed Date</th>
-        <th>Categories</th>
+        <th>Date</th>
         <th>Subject</th>
         <th>Status</th>
         <th>Operation</th>
@@ -65,24 +61,7 @@
       $("#table_query").append(html_)
       $.fn.dataTable.ext.errMode = 'none';
       $('#table_id').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-          'copy',
-          {
-            extend: 'excel',
-            text: 'Export Page',
-            exportOptions: {
-              modifier: {
-                // DataTables core
-                order: 'index',  // 'current', 'applied', 'index',  'original'
-                page: 'all',      // 'all',     'current'
-                search: 'none'     // 'none',    'applied', 'removed'
-              }
-            }
-          }
-        ],
-
-        "search": {
+       "search": {
           "search": ""
         }, rowReorder: true,
         //"select": true,
@@ -96,21 +75,17 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: '/api/notification/notification_getList_tableByUser',
-          beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", `Bearer ${localStorage.SapionT}`);
-          },
+          url: '/api/notification/my_notification_getList_table',
+          beforeSend: function(xhr){
+            xhr.setRequestHeader("Authorization",`Bearer ${localStorage.SapionT}`);
+         },
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
         },
         "aoColumns": [
           { "data": "from" },
-          { "data": "to" },
-          { "data": "cc" },
           { "data": "sent_date" },
-          { "data": "viewed_date" },
-          { "data": "category" },
           { "data": "subject" },
           { "data": "status" },
           {
@@ -120,17 +95,19 @@
               return operation
             }
           }
-        ], "columnDefs": [
-          {
-            "targets": 7,
-            "createdCell": function (td, cellData, rowData, row, col) {
-              if (cellData === 'created') {
-                $(td).css('background', 'orange').css('color', 'white');
-              } if (cellData === 'viewed') {
-                $(td).css('background', 'green').css('color', 'white');
-              }
-            }
-          }]
+        ],
+     
+     "columnDefs": [
+     {
+         "targets": 3,
+         "createdCell": function (td, cellData, rowData, row, col) {
+           if (cellData === 'created') {
+             $(td).css('background', 'orange').css('color', 'white');
+           } if (cellData === 'viewed') {
+             $(td).css('background', 'green').css('color', 'white');
+           }  
+         }
+       }]
 
       });
 
@@ -183,8 +160,8 @@
           $("#subject").attr("disabled", "disabled");
           $("#description").attr("disabled", "disabled");
           $("#category_").attr("disabled", "disabled");
+          $("#cc").attr("disabled", "disabled");
           $("#id").hide();
-          $("#create_update").hide();
           $('#id').val(data._id)
           $('#from').val(data.from)
           $('#to').val(data.to)
@@ -192,15 +169,29 @@
           $('#description').val(data.description)
           $('#category_').val(data.category)
           $("#create_update").val('update')
-          $('#AddUser').modal();
+          $('#AddUser').modal()
+          updateStatus(id)
         })
         .catch(error => {
           alert(error)
           $("#delete_confirm").modal('hide');
           console.log("Error Occured . Contact Admin" + error)
         });
-    }
+    } 
+    
+    
+    
+    function updateStatus(id) {
+      console.log("the ID is " + id)
+      axios.put(`/api/notification/notification_update/${id}`,{status:'viewed'})
+        .then(response => {
+          $("#table_id").DataTable().ajax.reload(null, false)
+        })
+        .catch(error => {
+          alert(error)
+        });
 
+}
     function create_values() {
       $('#id').hide()
       //$('#user_id').hide()
@@ -261,9 +252,6 @@
       </select>
     </div>
   </div>
-  <button type="button" class="btn btn-primary" onclick="create_values()">
-    <i class="fa fa-plus">Create</i>
-  </button>
   <div class="row" id='table_query'>
 
   </div>
@@ -303,8 +291,8 @@
               <option value="Email">Email</option>
               <option value="Internal">Internal</option>
             </select>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" id="create_update" class="btn btn-primary">Send</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><!-- 
+            <button type="button" id="create_update" class="btn btn-primary">Send</button> -->
           </form>
         </div>
       </div>

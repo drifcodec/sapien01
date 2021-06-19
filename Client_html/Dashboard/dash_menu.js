@@ -1,20 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var menu_list = JSON.parse(localStorage.Sapian_menu)
-  console.log("IN MENU------------>", menu_list)
 
-  var reload_page_list = reload_tabs()
-  function reload_tabs() {
-    if (localStorage && localStorage.sapian_reload_menu) {
-      return (localStorage.sapian_reload_menu).split(",")
-    } else { return '' }
-  }
-
-  //localStorage.setItem("sapian_reload_menu","null")
-  //addTab(title,url)
-  if (menu_list) {
+  var menu_list=localStorage.Sapian_menu?localStorage.Sapian_menu:''
+  if (menu_list){
+    menu_list = JSON.parse(localStorage.Sapian_menu)
+    console.log("menu have data")
+    console.log("menu have "+menu_list.length)
     create_menu(menu_list)
-  } else {
-    console.log(localStorage.Sapian_menu)
+    window.localStorage.removeItem('Sapian_menu')
+  }else {
+    console.log("menu is set to null")
+    console.log("menu set to null "+menu_list.length)
     var api_url = `/api/page_access/getMenuList/${localStorage.Sapion_id}`
     $.ajax({
       url: api_url,
@@ -23,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
       dataType: 'json',
       success: function (result) {
         if (result) {
-          console.log('the result :' + JSON.stringify(result.results))
+          console.log('create new menu')
           localStorage.setItem("Sapian_menu", JSON.stringify(result.results));
           create_menu(result.results)
         }
@@ -31,8 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
       error: function (XMLHttpRequest, textStatus, errorThrown) {
       }
     });
-    //alert("....")
   }
+  console.log("IN MENU------------>", menu_list)
 
   function create_menu(menu_list) {
     for (e = 0; e < menu_list.length; e++) {
@@ -43,10 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var href = '#'
       var target = ''
       var j_function = ''
-      if (reload_page_list.includes(page_name)) {
-
-        // get_Tab(page_name, page_url)
-      }
+     
       if (view == 'new') {
         href = page_url
         target = 'target="_blank"'
@@ -62,8 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
         $('#' + menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
       }
-      // <span class="dropdown-heading"> Configuration <i class="material-icons d-arrow">keyboard_arrow_down</i></span>
-    }
+     }
   }
   let history = `
   <div>
@@ -86,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
       </table>
   </div><br><br>`
   $('.wrapper').prepend(history)
-  localStorage.setItem("Sapian_menu", null)
 })
 
 function get_Tab(page_name, page_url) {
