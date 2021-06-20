@@ -34,7 +34,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script>
     $(document).ready(function () {
-      axios.get('http://localhost:3000/api/user/user_getList', {
+      axios.get('/api/user/user_getList', {
       })
         .then(response => {
           for (i = 0; i < response.data.results.length; i++) {
@@ -113,7 +113,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/notification/notification_create`, {
+          axios.post(`/api/notification/notification_create`, {
             from: $('#from').val(),
             to: $('#to').val(),
             cc: $('#cc').val(),
@@ -132,7 +132,7 @@
         if ($(this).val() === 'update') {
           var id = $('#id').val()
           console.log("--> Roles" + $('#roles').val())
-          axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+          axios.put(`/api/user/user_update/${id}`, {
             user_id: $('#user_id').val(),
             name: $('#name').val(),
             surname: $('#surname').val(),

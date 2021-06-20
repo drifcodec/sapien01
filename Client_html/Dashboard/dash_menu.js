@@ -1,31 +1,33 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
 
-  var menu_list=localStorage.Sapian_menu?localStorage.Sapian_menu:''
-  if (menu_list){
+  var menu_list = localStorage.Sapian_menu ? localStorage.Sapian_menu : ''
+  if (menu_list) {
     menu_list = JSON.parse(localStorage.Sapian_menu)
-    console.log("menu have data")
-    console.log("menu have "+menu_list.length)
+    console.log("menu have " + menu_list.length)
     create_menu(menu_list)
-    window.localStorage.removeItem('Sapian_menu')
-  }else {
-    console.log("menu is set to null")
-    console.log("menu set to null "+menu_list.length)
-    var api_url = `/api/page_access/getMenuList/${localStorage.Sapion_id}`
-    $.ajax({
-      url: api_url,
-      type: "GET",
-      contentType: "application/json;charset=utf-8",
-      dataType: 'json',
-      success: function (result) {
-        if (result) {
-          console.log('create new menu')
-          localStorage.setItem("Sapian_menu", JSON.stringify(result.results));
-          create_menu(result.results)
-        }
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-      }
-    });
+    var newMenu=await getNewMenu()
+    if (JSON.stringify(newMenu) !=JSON.stringify(menu_list)){
+      console.log('not the same')
+      window.location.reload();
+    }
+    console.log("The Response is ", newMenu)
+    localStorage.setItem("Sapian_menu", JSON.stringify(newMenu));
+  } else {
+    alert("error Please conatct Admin")
+
+  }
+  async function getNewMenu() {
+    return new Promise((resolve, reject) => {
+      axios.get(`/api/page_access/getMenuList/${localStorage.Sapion_id}`, {})
+        .then(response => {
+           resolve(response.data.results)
+          /* console.log("The Response is ", response.data.results)
+          localStorage.setItem("Sapian_menu", JSON.stringify(response.data.results));*/
+        })
+        .catch(error => {
+          console.log("Error Occured . Contact Admin" + error)
+        });
+    })
   }
   console.log("IN MENU------------>", menu_list)
 
@@ -38,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
       var href = '#'
       var target = ''
       var j_function = ''
-     
       if (view == 'new') {
         href = page_url
         target = 'target="_blank"'
@@ -54,16 +55,17 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
         $('#' + menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
       }
-     }
+       }
+    
   }
   let history = `
   <div>
       <table style="width:100%;margin-top:10px;font-size: 15px;text-align:left" border="1" borderColor="#cccccc">
           <thead>
               <tr style="background:#f0f0f0;">
-                  <td  style="height:28px; padding:5px;text-align:center;width:33%">Notifictions <br>公告栏</td>
-                  <td style="height:28px; padding:5px;text-align:center;width:33%">Point Ranking<br>积分排行</td>
-                  <td style="height:28px; padding:5px;text-align:center;width:33%">Discussion<br>在线讨论</td>
+                  <td  style="height:28px; padding:5px;text-align:center;width:33%">Notifictions <br></td>
+                  <td style="height:28px; padding:5px;text-align:center;width:33%">Point Ranking<br></td>
+                  <td style="height:28px; padding:5px;text-align:center;width:33%">Discussion<br></td>
               </tr>
           </thead>
           <tbody style=" font-size: 12px;">`
@@ -78,9 +80,3 @@ document.addEventListener("DOMContentLoaded", function () {
   </div><br><br>`
   $('.wrapper').prepend(history)
 })
-
-function get_Tab(page_name, page_url) {
-  setTimeout(function () {
-    addTab(page_name, page_url)
-  }, 2000)
-}

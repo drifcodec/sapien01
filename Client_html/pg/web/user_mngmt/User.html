@@ -113,14 +113,31 @@
           { "data": "user_status" },
           {
             'data': null, "render": function (item, type, full, meta) {
-
-              var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="reset_paassword('${item._id} ')" >autorenew</i></div>`
+              var status=item.user_status
+              var icon=item.user_status==='Active'?'lock_open':item.user_status==='Pending'?'block':'lock'
+              var title_status= item.user_status==='Active'?'Freeze':item.user_status==='Frozen'?'Activate':''
+              var status_change= item.user_status==='Active'?'Frozen':item.user_status==='Frozen'?'Active':'Pending'
+              var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" title="edit" >edit</i></div>
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" title="delete">delete</i></div>
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="reset_paassword('${item._id} ')" title="reset">change_circle</i></div>
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="freeze('${item._id}','${status_change}')" title="${title_status}" >${icon}</i></div>`
               return operation
             }
           }
-        ]
+        ],
+     "columnDefs": [
+     {
+         "targets": 7,
+         "createdCell": function (td, cellData, rowData, row, col) {
+           if (cellData === 'Frozen') {
+             $(td).css('background', 'red').css('color', 'white');
+           } if (cellData === 'Active') {
+             $(td).css('background', 'green').css('color', 'white');
+           }   if (cellData === 'Pending') {
+             $(td).css('background', 'orange').css('color', 'white');
+           }  
+         }
+       }]
       });
       $("#delete_user").click(function () {
         var user_id = $(this).val();
@@ -138,7 +155,8 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/user/signup`, {
+          console.log('we here ')
+          axios.post(`/api/user/signup`, {
             user_id: $('#user_id').val(),
             name: $('#name').val(),
             surname: $('#surname').val(),
@@ -157,7 +175,7 @@
         }
         if ($(this).val() === 'update') {
           var id = $('#id').val()
-          console.log("--> Roles" + $('#roles').val())
+          console.log("--> ID ---ID" + $('#id').val())
           axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
             user_id: $('#user_id').val(),
             name: $('#name').val(),
@@ -178,14 +196,15 @@
     });
     function load_update(id) {
       console.log("the ID is "+id)
-      axios.get(`http://localhost:3000/api/user/user_get/${id}`)
+      axios.get(`/api/user/user_get/${id}`)
         .then(response => {
           var data = response.data.result
+          console.log("load ID ",data)
           $("#user_id").attr("disabled", "disabled");
           $("#id").attr("disabled", "disabled");
           $("#id").hide();
           $('#user_id').val(data.user_id)
-          $('#id').val(data._id)
+          $('#id').val(data.id)
           $('#name').val(data.name)
           $('#surname').val(data.surname)
           $('#phone').val(data.phone)
@@ -201,7 +220,19 @@
           console.log("Error Occured . Contact Admin" + error)
         });
     }
-
+  function freeze (id,status) {
+          console.log("--> ID -freese" + id)
+          axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+            user_status:status,
+          }).then(response => {
+            $("#AddUser").modal('hide');
+            $("#table_id").DataTable().ajax.reload(null, false)
+          })
+            .catch(error => {
+              $("#delete_confirm").modal('hide');
+              console.log("Error Occured . Contact Admin" + error)
+            });
+      }
     function create_values() {
       $('#id').hide()
       //$('#user_id').hide()

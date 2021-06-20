@@ -119,7 +119,9 @@ exports.user_update = (req, res) => {
     data.phone = req.body.phone
   } if (req.body.email) {
     data.email = req.body.email
-  } if (req.body.valid_from) {
+  } if (req.body.user_status) {
+    data.user_status = req.body.user_status
+  }  if (req.body.valid_from) {
     data.valid_from = req.body.valid_from
   } if (req.body.expire_from) {
     data.expire_from = req.body.expire_from
@@ -318,6 +320,7 @@ exports.login = (req, res, next) => {
     User.find({ user_id: req.body.user_id })
       .exec()
       .then(user => {
+        console.log("uSER ---------->",user)
         if (user.length < 1) {
           return res.status(401).json({
           });
@@ -357,6 +360,10 @@ exports.login = (req, res, next) => {
               } else if (status == 'Pending') {
                 res.status(401).json({
                   message: "Login Pending for Approval by User"
+                });
+              } else if (status == 'Frozen') {
+                res.status(401).json({
+                  message: "Your Accunt have been frozen please contact Admin"
                 });
               } else {
                 res.status(401).json({

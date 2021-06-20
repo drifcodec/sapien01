@@ -41,7 +41,7 @@ module.exports.notification_create = async (req, res) => {
   } */
 }
 function getSender(token) {
-  if (token) {
+  if (token && token !=null && token !='null') {
     const verified_token = jwt.verify(token, "secret");
     return verified_token.user_id
     console.log("token---------->", verified_token.user_id)
