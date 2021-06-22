@@ -1,6 +1,6 @@
 const express=require('express');
 const router=express.Router(); // this creates the router needed to handle http function(get,post,path,delete)
-const site_ctrl=require('../../controllers/all_sites/sites')
+const site_ctrl=require('../../controllers/sites/all_sites')
 const checkAuth = require('../../middleware/user-auth');
 const RoleAuth = require('../../middleware/roles-auth'); 
 

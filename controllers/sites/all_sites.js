@@ -1,4 +1,4 @@
-const site = require('../../models/site_db/site')
+const site = require('../../models/site_db/all_sites')
 const mongoose = require("mongoose");
 const time_converter = require('../../global_js_libs/time_format')
 var today = time_converter.current_local_time()

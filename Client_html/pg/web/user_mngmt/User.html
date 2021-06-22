@@ -120,7 +120,7 @@
               var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" title="edit" >edit</i></div>
                                  <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" title="delete">delete</i></div>
                                  <div style="display: inline-block;"> <i class="material-icons md-18" onclick="reset_paassword('${item._id} ')" title="reset">change_circle</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="freeze('${item._id}','${status_change}')" title="${title_status}" >${icon}</i></div>`
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="status_update('${item._id}','${status_change}')" title="${title_status}" >${icon}</i></div>`
               return operation
             }
           }
@@ -220,9 +220,10 @@
           console.log("Error Occured . Contact Admin" + error)
         });
     }
-  function freeze (id,status) {
+  function status_update (id,status) {
           console.log("--> ID -freese" + id)
-          axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+          if(status !=='Pending'){
+            axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
             user_status:status,
           }).then(response => {
             $("#AddUser").modal('hide');
@@ -232,6 +233,9 @@
               $("#delete_confirm").modal('hide');
               console.log("Error Occured . Contact Admin" + error)
             });
+          }else{
+            alert("waiting for user to Accept")
+          }
       }
     function create_values() {
       $('#id').hide()
