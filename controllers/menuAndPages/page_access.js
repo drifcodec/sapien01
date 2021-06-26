@@ -145,7 +145,7 @@ module.exports.Page_access_getList_table = (req, res) => {
   console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
   start = req.body.start == undefined ? 0 : req.body.start
-  limit = req.body.length == undefined ? 1000 : req.body.length
+  limit = 10//req.body.length == undefined ? 1000 : req.body.length
   var recordsTotal = 0
   Page_access.countDocuments({}, function (err, total) {
     recordsTotal = total

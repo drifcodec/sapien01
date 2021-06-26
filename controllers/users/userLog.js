@@ -59,7 +59,7 @@ module.exports.user_log_getList = (req, res) => {
 module.exports.user_log_getList_table = (req, res) => {
   var searchStr = req.body;
   var order = ''
-  var dir = searchStr.order[0].dir === 'desc' ? 1 : searchStr.order[0].dir === 'asc' ? -1 : ''
+  var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
   var drop_down_select = {}
   for (i = 0; i < searchStr.columns.length; i++) {
     var field = searchStr.columns[i].data
@@ -83,7 +83,7 @@ module.exports.user_log_getList_table = (req, res) => {
   console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
   var start = req.body.start == undefined ? 0 : req.body.start
-  var limit = req.body.limit == undefined ? 1000 : req.body.limit
+  var limit = req.body.length == undefined ? 1000 : req.body.length
   var recordsTotal = 0
   user_log.countDocuments({}, function (err, total) {
     recordsTotal = total
