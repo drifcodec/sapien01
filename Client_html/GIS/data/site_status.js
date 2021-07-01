@@ -1,4 +1,4 @@
-
+/* 
 var device_list = [];
 var device_list_storage = [];
 var counter_site = 0.12* 60 * 1000 // 0 .60* 60 * 1000
@@ -23,7 +23,7 @@ function load_site() {
     "sort": "",
     "record_date": "",
     "limit": ""
-  }  */)
+  }  )
     .then(response => {
       console.log(response.data)
       pop_site(response.data.data)
@@ -190,4 +190,4 @@ setInterval(function () {
 )
 
 side_bar()
-load_site()
+load_site() */

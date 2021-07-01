@@ -13,6 +13,7 @@ module.exports.site_create = (req, res) => {
     town: req.body.town,
     lattiude: req.body.lattiude,
     longitude: req.body.longitude,
+    site_type: req.body.site_type,
     record_date: today,
   }
   const OrderObj_input = new site(post_data)
