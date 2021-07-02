@@ -162,10 +162,10 @@ async function initialize() {
   const infowindow = new google.maps.InfoWindow();
   document.getElementById("submit").addEventListener("click", () => {
     geocodeLatLng(geocoder, map, infowindow);
-  });/* 
+  });
   setTimeout(function () {
     load_all_markers()
-  }, 300)  */
+  }, 300)  
   load_all_markers()
   setInterval( () => {
     load_all_markers()
@@ -178,16 +178,14 @@ async function initialize() {
     /* 
     clear_cluster("site")
     clear_cluster("all_site") */
-    //load_all_site()
     console.log(" ARE SITES INSIDE 1 ------------->", site_all_list)
     console.log(" ARE SITES INSIDE 2 ------------->", site_all_list)
     console.log(" ARE SITES INSIDE length ------------->", site_all_list.length)
     
     for (i = 0; i < site_all_list.length; i++) {
-      console.log(" appending  ------------->",  site_all_list[i])
-    
       addMarker(site_all_list[i])
     }
+    site_all_list.length = 0
 
     /* for (i = 0; i < device_list.length; i++) {
       addMarker(device_list[i])
@@ -199,14 +197,13 @@ async function initialize() {
       addMarker(vandalism_list[i])
     } */
     //device_list.length = 0
-    if (site_all_list.length){
 
       //site_all_list.length = 0
-    }
+    
     //weather_list.length = 0
     // vandalism_list.length = 0
+    
   }
-  site_all_list.length = 0
 
   function addMarker(props) {
     var icon_size = 18
