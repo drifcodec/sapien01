@@ -1,7 +1,7 @@
 
 // "bcrypt": "^5.0.0",
-const express =require("express");
-const cron = require("node-cron");
+const express =require("express");/* 
+const cron = require("node-cron"); */
 const app=express()
 const morgan=require('morgan')
 const bodyParser=require('body-parser')
@@ -55,8 +55,6 @@ app.use('/api/notification',notification);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)
 //})
- 
-
 app.listen(port,() =>{
     console.log('example listening on port '+port)
 })

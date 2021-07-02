@@ -1,4 +1,4 @@
-const device= require('../models/device_db/device')
+/* const device= require('../models/device_db/device')
 const device_checker_email = require("../emails/device_checker");
 const axios=require('axios')
 module.exports=(req,res)=>{
@@ -12,8 +12,7 @@ axios.post('http://localhost:3000/api/device/getList').then(resp => {
           _id=resp.data.data[0]._id
           var interval=20
           var time=new Date(resp.data.data[0].record_date)
-              time.toLocaleString()/* 
-          console.log(time+"") */
+              time.toLocaleString()
           notified_email=resp.data.data[0].notified_email
           device_id=resp.data.data[0].device_id
           var get_email='mwarabudanny@gmail.com'
@@ -28,11 +27,11 @@ axios.post('http://localhost:3000/api/device/getList').then(resp => {
            res.status(500).json({
              error: err
            });
-         });/* 
+         }); 
             console.log("#########################################################################")
             console.log("power off")
             console.log("seconds :" +seconds)
-            console.log("did more then 10 second off , by the Team Leader was already Nofitied") */
+            console.log("did more then 10 second off , by the Team Leader was already Nofitied")
           }
           else if (seconds<interval && notified_email=='yes'){
            device.updateOne({ _id: _id },{notified_email:'no',device_status:'1'})
@@ -45,22 +44,22 @@ axios.post('http://localhost:3000/api/device/getList').then(resp => {
            res.status(500).json({
              error: err
            });
-         });/* 
+         });
             console.log("#########################################################################")
             console.log("power on")
             console.log("seconds :" +seconds)
-            console.log("Electricity is Back on") */
+            console.log("Electricity is Back on") 
              // here we need to update the device data model to notified_email no
            }else if (seconds>interval && notified_email=='yes'){
-        /*     console.log("#########################################################################")
+           console.log("#########################################################################")
             console.log("device off but notification already sent to main office")
-            console.log("seconds :" +seconds) */
+            console.log("seconds :" +seconds) 
            }else if (seconds<interval && notified_email=='no') {
-     /*        console.log("#########################################################################")
+          console.log("#########################################################################")
             console.log("power on , notification off")
             console.log("device id :"+resp.data.data[0].device_id)
             console.log("notified_email :"+notified_email)
-            console.log("seconds :" +seconds) */
+            console.log("seconds :" +seconds) 
           }
         }).catch((error) => {
           console.warn('cant conect to server please check internt or url'+error);
@@ -70,3 +69,4 @@ axios.post('http://localhost:3000/api/device/getList').then(resp => {
 
 
 
+ */
