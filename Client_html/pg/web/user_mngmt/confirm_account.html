@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="http://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <title>Sapien IO</title>
   <style>
@@ -180,12 +180,12 @@
         
         console.log(key);
          $.ajax({
-            url: `http://localhost:3000/api/user/signup_confirmation_email/${key}`,
+            url: `/api/user/signup_confirmation_email/${key}`,
             type: "POST",
             dataType: 'json',
             data: stringify_data,
             success: function (result) {
-              self.location = "http://localhost:3000"
+              self.location = "/"
               
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
