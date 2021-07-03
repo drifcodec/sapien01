@@ -180,11 +180,12 @@
 
 .menu-container,
 .menu-head {
-    top: 40px;
+    top: 49px;
     background: var(--skin);
     position: fixed;
     z-index: 1000;
     width: 270px;
+    height: 100%
 }
 
 .menu-head .layer {
