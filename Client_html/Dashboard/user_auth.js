@@ -20,7 +20,7 @@ $(document).ready(function () {
         //alert(errorThrown)
 
         var currentURL = window.location.href;
-        window.location.href = `http://localhost:3000/index.html?${currentURL}`
+        window.location.href = `/index.html?${currentURL}`
       }
 
     });

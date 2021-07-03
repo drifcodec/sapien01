@@ -1,12 +1,12 @@
 $(document).ready(function () {
     $(".account_circle").click(function () {
         console.log(localStorage)
-        addTab('Personal Configuration', `/pg/web/user_mngmt/profile.html`)
+        addTab('Personal Configuration',`/pg/web/user_mngmt/profile.html`)
 
     })
     $(".notification-trigger").click(function () {
         console.log(localStorage)
-        addTab('My Notifications', `/pg/web/notifications/my_notification.html`)
+        addTab('My Notifications',`/pg/web/notifications/my_notification.html`)
 
     })
     check_user()

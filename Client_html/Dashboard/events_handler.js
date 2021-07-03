@@ -16,7 +16,7 @@ $(document).ready(function () {
     logout_log(position.coords.latitude, position.coords.longitude)
   }
   function logout_log(lat, long) {
-    var api_url = `http://localhost:3000/api/user_log/userLog_create`
+    var api_url = `/api/user_log/userLog_create`
     $.ajax({
       url: api_url,
       type: "POST",
@@ -30,7 +30,7 @@ $(document).ready(function () {
       }),
       success: function (result) {
         localStorage.clear()
-        window.location.href = `http://localhost:3000/index.html`
+        window.location.href = `/index.html`
       },
       error:function(err){
         alert(JSON.stringify(err))
