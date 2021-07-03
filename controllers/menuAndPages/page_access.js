@@ -17,6 +17,7 @@ module.exports.Page_access_create = (req, res) => {
     protocol: req.body.protocol,
     view: req.body.view,
     roles: req.body.roles,
+    status: req.body.status
   }
   const OrderObj_input = new Page_access(post_data)
   OrderObj_input.save().then(data => {
