@@ -156,7 +156,7 @@
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
           console.log('we here ')
-          axios.post(`/api/user/signup`, {
+          axios.post('/api/user/signup', {
             user_id: $('#user_id').val(),
             name: $('#name').val(),
             surname: $('#surname').val(),
@@ -295,7 +295,7 @@
     </div>
   </div>
   <button type="button" class="btn btn-primary" onclick="create_values()">
-    <i class="fa fa-plus">Add ..User</i>
+    <i class="fa fa-plus">Add User</i>
   </button>
   <div class="row" id='table_query'>
 
