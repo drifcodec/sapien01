@@ -9,6 +9,7 @@
   </style>
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
     #example_processing {
       position: fixed;
@@ -74,12 +75,12 @@
       $("#table_query").append(html_)
       setInterval(function () {
         $("#example").DataTable().ajax.reload(null, false)
-      }, 0.20 * 60 * 1000)
+      }, 5 * 60 * 1000) // 5 minute refresh
       $.fn.dataTable.ext.errMode = 'none';
       var table = $('#example').DataTable({
         dom: 'l<"toolbar">frtip',
         initComplete: function () {
-          $("div.toolbar").html('<button type="button" id="refresh">Refresh</button>');
+          $("div.toolbar").html('<button type="button" id="refresh">Refresh<i class="material-icons">refresh</i></button>');
         },
         buttons: [
           {
