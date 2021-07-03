@@ -20,6 +20,7 @@
       color: white;
       padding: 10px;
     }
+
     .material-icons.delete {
       color: #fb0000;
     }
@@ -32,7 +33,10 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script> $(document).ready(function () {
-    axios.get('/api/user_role/user_role_getList', {
+      $("#refresh").click(function () {
+        $("#example").DataTable().ajax.reload(null, false)
+      })
+      axios.get('/api/user_role/user_role_getList', {
       })
         .then(response => {
           for (i = 0; i < response.data.length; i++) {
@@ -113,10 +117,10 @@
           { "data": "user_status" },
           {
             'data': null, "render": function (item, type, full, meta) {
-              var status=item.user_status
-              var icon=item.user_status==='Active'?'lock_open':item.user_status==='Pending'?'block':'lock'
-              var title_status= item.user_status==='Active'?'Freeze':item.user_status==='Frozen'?'Activate':''
-              var status_change= item.user_status==='Active'?'Frozen':item.user_status==='Frozen'?'Active':'Pending'
+              var status = item.user_status
+              var icon = item.user_status === 'Active' ? 'lock_open' : item.user_status === 'Pending' ? 'block' : 'lock'
+              var title_status = item.user_status === 'Active' ? 'Freeze' : item.user_status === 'Frozen' ? 'Activate' : ''
+              var status_change = item.user_status === 'Active' ? 'Frozen' : item.user_status === 'Frozen' ? 'Active' : 'Pending'
               var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" title="edit" >edit</i></div>
                                  <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" title="delete">delete</i></div>
                                  <div style="display: inline-block;"> <i class="material-icons md-18" onclick="reset_paassword('${item._id} ')" title="reset">change_circle</i></div>
@@ -125,19 +129,19 @@
             }
           }
         ],
-     "columnDefs": [
-     {
-         "targets": 7,
-         "createdCell": function (td, cellData, rowData, row, col) {
-           if (cellData === 'Frozen') {
-             $(td).css('background', 'red').css('color', 'white');
-           } if (cellData === 'Active') {
-             $(td).css('background', 'green').css('color', 'white');
-           }   if (cellData === 'Pending') {
-             $(td).css('background', 'orange').css('color', 'white');
-           }  
-         }
-       }]
+        "columnDefs": [
+          {
+            "targets": 7,
+            "createdCell": function (td, cellData, rowData, row, col) {
+              if (cellData === 'Frozen') {
+                $(td).css('background', 'red').css('color', 'white');
+              } if (cellData === 'Active') {
+                $(td).css('background', 'green').css('color', 'white');
+              } if (cellData === 'Pending') {
+                $(td).css('background', 'orange').css('color', 'white');
+              }
+            }
+          }]
       });
       $("#delete_user").click(function () {
         var user_id = $(this).val();
@@ -195,11 +199,11 @@
       })
     });
     function load_update(id) {
-      console.log("the ID is "+id)
+      console.log("the ID is " + id)
       axios.get(`/api/user/user_get/${id}`)
         .then(response => {
           var data = response.data.result
-          console.log("load ID ",data)
+          console.log("load ID ", data)
           $("#user_id").attr("disabled", "disabled");
           $("#id").attr("disabled", "disabled");
           $("#id").hide();
@@ -220,23 +224,23 @@
           console.log("Error Occured . Contact Admin" + error)
         });
     }
-  function status_update (id,status) {
-          console.log("--> ID -freese" + id)
-          if(status !=='Pending'){
-            axios.put(`/api/user/user_update/${id}`, {
-            user_status:status,
-          }).then(response => {
-            $("#AddUser").modal('hide');
-            $("#table_id").DataTable().ajax.reload(null, false)
-          })
-            .catch(error => {
-              $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
-            });
-          }else{
-            alert("waiting for user to Accept")
-          }
+    function status_update(id, status) {
+      console.log("--> ID -freese" + id)
+      if (status !== 'Pending') {
+        axios.put(`/api/user/user_update/${id}`, {
+          user_status: status,
+        }).then(response => {
+          $("#AddUser").modal('hide');
+          $("#table_id").DataTable().ajax.reload(null, false)
+        })
+          .catch(error => {
+            $("#delete_confirm").modal('hide');
+            console.log("Error Occured . Contact Admin" + error)
+          });
+      } else {
+        alert("waiting for user to Accept")
       }
+    }
     function create_values() {
       $('#id').hide()
       //$('#user_id').hide()
@@ -337,7 +341,7 @@
             <select multiple class="form-control" id="roles">
 
             </select>
-           
+
             <!-- 
             <div class="form-group">
               <input type="text" class="form-control" id="permission" placeholder="permission">
