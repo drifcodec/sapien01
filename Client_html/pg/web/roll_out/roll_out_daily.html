@@ -79,8 +79,7 @@
       var table = $('#example').DataTable({
         dom: 'l<"toolbar">frtip',
         initComplete: function () {
-          $("div.toolbar")
-            .html('<button type="button" id="any_button">Click Me!</button>');
+          $("div.toolbar").html('<button type="button" id="refresh">Refresh</button>');
         },
         buttons: [
           {
@@ -225,7 +224,6 @@
 
       $('#example tbody').on('dblclick', 'tr', function () {
         var data = table.row(this).data();
-
         alert('You clicked on ' + JSON.stringify(data));
       });
     })
@@ -248,7 +246,6 @@
 <body>
   <div id='main_grapth'>
     <div id="chart_div" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
-
     <div id="chart_div2" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
   </div>
   </div>
@@ -277,7 +274,6 @@
     </div>
   </div>
   <br>
-  <button id='refresh'>Refresh</button>
   <div class="row" id='table_query'>
 
   </div>
