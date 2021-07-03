@@ -32,7 +32,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script> $(document).ready(function () {
-    axios.get('http://localhost:3000/api/user_role/user_role_getList', {
+    axios.get('/api/user_role/user_role_getList', {
       })
         .then(response => {
           for (i = 0; i < response.data.length; i++) {
@@ -97,7 +97,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/user/user_getList_table',
+          url: '/api/user/user_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -141,7 +141,7 @@
       });
       $("#delete_user").click(function () {
         var user_id = $(this).val();
-        axios.delete(`http://localhost:3000/api/user/user_delete/${user_id}`)
+        axios.delete(`/api/user/user_delete/${user_id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -176,7 +176,7 @@
         if ($(this).val() === 'update') {
           var id = $('#id').val()
           console.log("--> ID ---ID" + $('#id').val())
-          axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+          axios.put(`/api/user/user_update/${id}`, {
             user_id: $('#user_id').val(),
             name: $('#name').val(),
             surname: $('#surname').val(),
@@ -223,7 +223,7 @@
   function status_update (id,status) {
           console.log("--> ID -freese" + id)
           if(status !=='Pending'){
-            axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+            axios.put(`/api/user/user_update/${id}`, {
             user_status:status,
           }).then(response => {
             $("#AddUser").modal('hide');

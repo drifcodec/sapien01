@@ -122,7 +122,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/page_access/page_access_getList_table',
+          url: '/api/page_access/page_access_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -165,7 +165,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`http://localhost:3000/api/page_access/${id}`)
+        axios.delete(`/api/page_access/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -178,7 +178,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/page_access/page_access_create`, {
+          axios.post(`/api/page_access/page_access_create`, {
             parent_menu: $('#parent_menu').val(),
             page: $('#page').val(),
             protocol: $("#protocol").val(),
@@ -240,7 +240,7 @@
     }
   
     function load_update(id) {
-      axios.get(`http://localhost:3000/api/page_access/${id}`)
+      axios.get(`/api/page_access/${id}`)
         .then(response => {
           var data = response.data.result[0]
           console.log(data)

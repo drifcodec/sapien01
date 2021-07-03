@@ -85,7 +85,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/parent_menu/parent_menu_getList_table',
+          url: '/api/parent_menu/parent_menu_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -105,7 +105,7 @@
       });
       $("#delete_user").click(function () {
         var user_id = $(this).val();
-        axios.delete(`http://localhost:3000/api/parent_menu/${user_id}`)
+        axios.delete(`/api/parent_menu/${user_id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -119,7 +119,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/parent_menu/parent_menu_create`, {
+          axios.post(`/api/parent_menu/parent_menu_create`, {
             //user_id: $('#user_id').val(),
             parent_menu: $('#parent_menu').val(),
             description: $('#description').val(),
@@ -135,7 +135,7 @@
         }
         if ($(this).val() === 'update') {
           var id = $('#_id').val()
-          axios.put(`http://localhost:3000/api/parent_menu/${id}`, {
+          axios.put(`/api/parent_menu/${id}`, {
             id: id,
             parent_menu: $('#parent_menu').val(),
             description: $('#description').val(),
@@ -151,7 +151,7 @@
       })
     });
     function load_update(id) {
-      axios.get(`http://localhost:3000/api/parent_menu/${id}`)
+      axios.get(`/api/parent_menu/${id}`)
         .then(response => {
           var data = response.data.result[0]
           console.log(data)

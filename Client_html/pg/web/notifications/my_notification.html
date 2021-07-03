@@ -152,7 +152,7 @@
     });
     function load_update(id) {
       console.log("the ID is " + id)
-      axios.get(`http://localhost:3000/api/notification/notification_get/${id}`)
+      axios.get(`/api/notification/notification_get/${id}`)
         .then(response => {
           var data = response.data.result
           $("#from").attr("disabled", "disabled");

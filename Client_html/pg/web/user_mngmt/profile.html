@@ -46,7 +46,7 @@
       $("#id").hide()
       $("#user_id").attr('readonly', 'readonly');
       console.log(localStorage)
-      var api_url = `http://localhost:3000/api/user/user_get/${localStorage.Sapion_id}`
+      var api_url = `/api/user/user_get/${localStorage.Sapion_id}`
       $.ajax({
         url: api_url,
         dataType: 'json',
@@ -73,7 +73,7 @@
       $('#update').click(function () {
         var id = $('#id').val()
         console.log("--> ID -->", id)
-        axios.put(`http://localhost:3000/api/user/user_update/${id}`, {
+        axios.put(`/api/user/user_update/${id}`, {
           name: $('#name').val(),
           surname: $('#surname').val(),
           phone: $('#phone').val(),
@@ -92,7 +92,7 @@
         console.log(localStorage.SapionT)
         var key = localStorage.SapionT
         $.ajax({
-          url: `http://localhost:3000/api/user/change_password_email/${key}`,
+          url: `/api/user/change_password_email/${key}`,
           type: "POST",
           dataType: 'json',
           data: stringify_data,

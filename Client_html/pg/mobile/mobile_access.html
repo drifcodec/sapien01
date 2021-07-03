@@ -43,7 +43,7 @@
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script> $(document).ready(function () {
 
-      axios.get('http://localhost:3000/api/user_role/user_role_getList', {
+      axios.get('/api/user_role/user_role_getList', {
       })
         .then(response => {
           for (i = 0; i < response.data.length; i++) {
@@ -52,7 +52,7 @@
           }
         })
         .catch(error => console.error(error));
-      axios.get('http://localhost:3000/api/parent_menu/parent_menu_getList', {
+      axios.get('/api/parent_menu/parent_menu_getList', {
       })
         .then(response => {
           console.log("Parent Menu" + JSON.stringify(response))
@@ -118,7 +118,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: 'http://localhost:3000/api/mobile_access/mobile_access_getList_table',
+          url: '/api/mobile_access/mobile_access_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -174,7 +174,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`http://localhost:3000/api/mobile_access/${id}`)
+        axios.delete(`/api/mobile_access/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -188,7 +188,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`http://localhost:3000/api/mobile_access/mobile_access_create`, {
+          axios.post(`/api/mobile_access/mobile_access_create`, {
             parent_menu: $('#parent_menu').val(),
             page: $('#page').val(),
             protocol: $("#protocol").val(),
@@ -215,7 +215,7 @@
           $('#view').val(data.view)
           $('#protocol').val(data.protocol)
           $('#roles').val(data.roles) */
-          axios.put(`http://localhost:3000/api/mobile_access/${id}`, {
+          axios.put(`/api/mobile_access/${id}`, {
          
             _id: $('#id').val(),
             parent_menu: $('#parent_menu').val(),
@@ -237,7 +237,7 @@
       })
     });
     function load_update(id) {
-      axios.get(`http://localhost:3000/api/mobile_access/${id}`)
+      axios.get(`/api/mobile_access/${id}`)
         .then(response => {
           var data = response.data.result[0]
           console.log(data)

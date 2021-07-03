@@ -125,7 +125,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`http://localhost:3000/api/user_role/user_role_delete/${id}`)
+        axios.delete(`/api/user_role/user_role_delete/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
