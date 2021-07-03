@@ -99,10 +99,10 @@
             'copy', 'csv', 'excel', 'pdf', 'print'
         ], *//* 
         "pageLength": 5,  */
-
         "search": {
           "search": ""
-        }, rowReorder: true,
+        }, 
+        "rowReorder": true,
         "select": true,
         "paging": true,
         "processing": true,
@@ -164,7 +164,7 @@
             "createdCell": function (td, cellData, rowData, row, col) {
               // console.log("cellData---------------->" + JSON.stringify(cellData))
               // console.log("td---------------->" + JSON.stringify(td))
-              //  console.log("rowData---------------->" + JSON.stringify(rowData))
+              console.log("rowData---------------->" + JSON.stringify(rowData))
               if (cellData === 'created') {
                 $(td).css('background', '#429476').css('color', 'white');
               } if (cellData === 'accepted') {
