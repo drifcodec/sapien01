@@ -63,6 +63,7 @@ module.exports = {
     });
   },
   signup_confirmation_email: async (user_email, user_id, token) => {
+    console.log("----------- email 2")
     let transporter = nodemailer.createTransport({
       service: 'gmail',
       host: 'smtp.gmail.com',

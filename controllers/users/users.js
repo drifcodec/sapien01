@@ -161,7 +161,7 @@ exports.user_update = (req, res) => {
 exports.signup = (req, res) => {
   var default_password = "CGOS123"
   //{ $or: [{ user_id: req.body.user_id }, { email: req.body.email }] })
-
+  console.log("----------- email 1-----+")
   User.find({ user_id: req.body.user_id })
     .exec()
     .then(result => {
@@ -169,13 +169,16 @@ exports.signup = (req, res) => {
         return res.status(409).json({
           message: "User exists"
         });
-      } else {
+      } else { 
+        console.log("----------- email 2-----+")
         bcrypt.hash(default_password, 10, (err, hash) => {
+          console.log("----------- email 2-----+")
           if (err) {
             return res.status(500).json({
               error: err
             });
           } else {
+            console.log("----------- email 3-----+")
             const user = new User({
               _id: new mongoose.Types.ObjectId(),
               user_id: req.body.user_id, //+"_"+(new Date()).getTime().toString(36),
@@ -191,7 +194,8 @@ exports.signup = (req, res) => {
             });
             user.save()
               .then(result => {
-                const token = jwt.sign({ _id: result._id, user_id: result.user_id, email: result.email }, "secret", { expiresIn: "5d" });
+                const token = jwt.sign({ _id: result._id, user_id: result.user_id, email: result.email }, "secret", { expiresIn: "7d" });
+               
                 email_server.signup_confirmation_email(result.email, result.user_id, token).catch(console.error);
 
                 res.status(201).json({
