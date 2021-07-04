@@ -60,6 +60,7 @@ module.exports.roll_out_getList = (req, res) => {
     var order = ''
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
     var drop_down_select = {}
+
     for (i = 0; i < searchStr.columns.length; i++) {
         var field = searchStr.columns[i].data
         var seach_value = searchStr.columns[i].search.value
