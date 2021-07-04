@@ -85,12 +85,12 @@ module.exports.roll_out_getList = (req, res) => {
     var recordsTotal = 0
     roll_out.countDocuments({}, function(err, total) {
         recordsTotal = total
-        roll_out.countDocuments(searchStr, function(err, searchStr) {
+        roll_out.countDocuments(drop_down_select, function(err, total_searched) {
             recordsFiltered = total_searched;
 
             //roll_out.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
             //roll_out.find(searchStr) for globale search 
-            roll_out.find(searchStr)
+            roll_out.find(drop_down_select)
                 .skip(Number(start))
                 .limit(Number(limit))
                 .sort({
