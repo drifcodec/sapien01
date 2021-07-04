@@ -64,7 +64,7 @@ module.exports.roll_out_getList = (req, res) => {
         var field = searchStr.columns[i].data
         var seach_value = searchStr.columns[i].search.value
         if (seach_value) {
-            drop_down_select[field] = "/" + seach_value + "/i" //similar to sql %like%
+            drop_down_select[field] = seach_value
         }
         if (i == searchStr.order[0].column) {
             order = searchStr.columns[i].data
