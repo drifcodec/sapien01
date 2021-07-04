@@ -61,24 +61,28 @@ module.exports.roll_out_getList = (req, res) => {
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
     var drop_down_select = {}
     for (i = 0; i < searchStr.columns.length; i++) {
-        var field = searchStr.columns[i].data
-        var seach_value = searchStr.columns[i].search.value
+        var field = searchStr.columns[i].data // name of the field
+        var seach_value = searchStr.columns[i].search.value //value of the feild
+        var regex = new RegExp(seach_value, "i")
+        console.log("field VALUE------------------->", field)
+        console.log("SEARCH VALUE------------------->", seach_value)
         if (seach_value) {
-            drop_down_select[field] = seach_value
+            drop_down_select[field] = regex
         }
         if (i == searchStr.order[0].column) {
             order = searchStr.columns[i].data
 
         }
     }
-    if (req.body.search.value) {
-        var regex = new RegExp(req.body.search.value, "i")
-        searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
-    } else {
-        searchStr = {};
-    }
+    /* 
+        if (req.body.search.value) {
+            var regex = new RegExp(req.body.search.value, "i")
+            searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
+            //searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
+        } else {
+            searchStr = {};
+        } */
     console.log("drop_down_select " + JSON.stringify(drop_down_select))
-    console.log("searchStr " + JSON.stringify())
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
