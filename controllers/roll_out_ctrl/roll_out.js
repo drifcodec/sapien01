@@ -74,6 +74,7 @@ module.exports.roll_out_getList = (req, res) => {
     if (req.body.search.value) {
         var regex = new RegExp(req.body.search.value, "i")
         searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
+        // searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
     } else {
         searchStr = {};
     }
