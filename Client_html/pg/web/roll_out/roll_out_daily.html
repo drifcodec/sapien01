@@ -27,10 +27,6 @@
         div.container {
             width: 80%;
         }
-        
-        progress {
-            width: 100px;
-        }
     </style>
     <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -224,8 +220,8 @@
             "searchable" : false
         }, // this hides specific columns*/
                     {
-                        "width": "100px",
-                        "targets": [5, 6]
+                        "width": "20%",
+                        "targets": 3
                     }, {
                         "targets": 3,
                         "createdCell": function(td, cellData, rowData, row, col) {
@@ -332,10 +328,7 @@
         <div class="form-group col-md-4 no-padding">
             Operator:&nbsp;
             <select class="form-control" id="col1">
-              <option value="All">All</option>
-              <option value="a">a</option>
-              <option value="b">b</option>
-              <option value="c">c</option>
+        <option value="All">All</option>
       </select>
         </div>
     </div>
