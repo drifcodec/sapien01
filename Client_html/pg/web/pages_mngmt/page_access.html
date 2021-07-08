@@ -182,8 +182,9 @@
                         $("#table_id").DataTable().ajax.reload(null, false)
                     })
                     .catch(error => {
-                        alert(error)
-                        console.log("Error Occured . Contact Admin" + error)
+                        $("#delete_confirm").modal('hide');
+                        alert(error.response.data.message)
+                        console.log("Error Occured . Contact Admin", error.response.data.message)
                     });
             });
 
