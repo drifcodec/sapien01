@@ -189,14 +189,10 @@ module.exports.parent_menu_delete = (req, res) => {
 
 }
 
+
 function isDeletedStatus(data) {
-    if (data === 'Test') {
-        return false
-    }
-    if (data === 'Admin') {
-        return false
-    }
-    if (data === 'Configuration') {
+    var notDeletable = ["Test", "Admin", "Configuration"]
+    if (notDeletable.includes(data)) {
         return false
     }
     return true
