@@ -40,8 +40,8 @@ document.addEventListener("DOMContentLoaded", async function() {
             var href = '#'
             var target = ''
             var j_function = ''
-            var concat = parent_menu.split(' ').join('_')
-            console.log("Pleave log the Parent Menu " + concat)
+            var concat_parent_menu = parent_menu.split(' ').join('_')
+            console.log("Pleave log the Parent Menu " + concat_parent_menu)
             if (view == 'new') {
                 href = page_url
                 target = 'target="_blank"'
@@ -51,12 +51,12 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             if (parent_menu.length <= 0) {
                 $('#list_menu').append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
-            } else if ($('#list_menu').find("#" + menu_list[e].parent_menu + "_ul").length > 0) {
+            } else if ($('#list_menu').find("#" + concat_parent_menu + "_ul").length > 0) {
 
-                $('#' + concat + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
+                $('#' + concat_parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else {
-                $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
-                $('#' + concat + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
+                $('#list_menu').append(`<li id="${concat_parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${concat_parent_menu} </span><ul id='${concat_parent_menu}_ul'></ul></li>`)
+                $('#' + concat_parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             }
         }
 
