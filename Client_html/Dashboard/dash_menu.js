@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             var target = ''
             var j_function = ''
             var concat = parent_menu.split(' ').join('_')
-            consolelog("Pleave log the Parent Menu " + concat)
+            console.log("Pleave log the Parent Menu " + concat)
             if (view == 'new') {
                 href = page_url
                 target = 'target="_blank"'
