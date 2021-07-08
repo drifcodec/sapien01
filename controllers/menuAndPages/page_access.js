@@ -223,20 +223,45 @@ module.exports.Page_access_update = (req, res) => {
             });
         });
 }
-module.exports.Page_access_delete = (req, res, next) => {
+
+module.exports.Page_access_delete = (req, res) => {
     var id = req.params.id
-    Page_access.remove({ _id: id })
+    Page_access.find({ _id: id })
         .exec()
         .then(doc => {
-            console.log("From database", doc);
-            if (doc) {
-                res.status(200).json(doc);
+            var deteteStattus = isDeletedStatus(doc[0].page)
+            console.log("From database", deteteStattus);
+            if (deteteStattus) {
+                Page_access.remove({ _id: id })
+                    .exec()
+                    .then(doc => {
+                        console.log("From database", doc);
+                        if (doc) {
+                            res.status(200).json(doc);
+                        } else {
+                            res.status(404).json({ message: "No valid entry found for provided ID" });
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({ error: err });
+                    });
             } else {
-                res.status(404).json({ message: "No valid entry found for provided ID" });
+                res.status(403).json({ message: "Cant Delete System Page." + doc[0].page });
+
             }
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({ error: err });
+            res.status(500).json({ error: "No valid entry found for provided ID" });
         });
+
+}
+
+function isDeletedStatus(data) {
+    var notDeletable = ["PayRoll", "Admin", "Configuration"]
+    if (notDeletable.includes(data)) {
+        return false
+    }
+    return true
 }
