@@ -37,7 +37,6 @@ module.exports.getMenuList = (req, res) => {
         .exec()
         .then(doc => {
             if (doc) {
-                // console.log("############-----Roles------>###############" + JSON.stringify(doc.roles))
                 Page_access.find({ status: 'online' })
                     .sort({
                         ['position']: 'asc'
@@ -46,6 +45,8 @@ module.exports.getMenuList = (req, res) => {
                     .then(results => {
                         if (results) {
                             var menu_list = []
+
+                            console.log("############-----Roles------>###############", results)
                             for (i = 0; i < results.length; i++) {
                                 var menu_obj = {
                                     parent_menu: results[i].parent_menu,
