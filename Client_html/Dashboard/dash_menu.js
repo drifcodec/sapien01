@@ -3,11 +3,11 @@ document.addEventListener("DOMContentLoaded", async function() {
     var menu_list = localStorage.Sapian_menu ? localStorage.Sapian_menu : ''
     if (menu_list) {
         menu_list = JSON.parse(localStorage.Sapian_menu)
-
+        console.log("menu have " + menu_list.length)
         create_menu(menu_list)
         var newMenu = await getNewMenu()
         if (JSON.stringify(newMenu) != JSON.stringify(menu_list)) {
-            console.log('not the same 1')
+            console.log('not the same')
             window.location.reload();
         }
         console.log("The Response is ", newMenu)
@@ -33,14 +33,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 
     function create_menu(menu_list) {
         for (e = 0; e < menu_list.length; e++) {
-            var sort_menu_list = menu_list
-                /* sort_menu_list.sort(function(a, b) {
-                    return a.position - b.position
-                }) */
-            var parent_menu = sort_menu_list[e].parent_menu
-            var view = sort_menu_list[e].view
-            var page_name = sort_menu_list[e].page
-            var page_url = sort_menu_list[e].url
+            var parent_menu = menu_list[e].parent_menu
+            var view = menu_list[e].view
+            var page_name = menu_list[e].page
+            var page_url = menu_list[e].url
             var href = '#'
             var target = ''
             var j_function = ''
@@ -52,11 +48,11 @@ document.addEventListener("DOMContentLoaded", async function() {
             }
             if (parent_menu.length <= 0) {
                 $('#list_menu').append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
-            } else if ($('#list_menu').find("#" + sort_menu_list[e].parent_menu + "_ul").length > 0) {
+            } else if ($('#list_menu').find("#" + menu_list[e].parent_menu + "_ul").length > 0) {
                 $('#' + parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else {
-                $('#list_menu').append(`<li id="${sort_menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${sort_menu_list[e].parent_menu} </span><ul id='${sort_menu_list[e].parent_menu}_ul'></ul></li>`)
-                $('#' + sort_menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
+                $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
+                $('#' + menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             }
         }
 
