@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     if (menu_list) {
         menu_list = JSON.parse(localStorage.Sapian_menu)
         console.log("menu have " + menu_list.length)
+        menu_list.sort(function(a, b) {
+            return a.position - b.position
+        })
         create_menu(menu_list)
         var newMenu = await getNewMenu()
         if (JSON.stringify(newMenu) != JSON.stringify(menu_list)) {
