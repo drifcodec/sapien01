@@ -178,7 +178,7 @@ module.exports.parent_menu_delete = (req, res) => {
                         res.status(500).json({ error: err });
                     });
             } else {
-                res.status(403).json({ message: "Cant Delete System Page" });
+                res.status(403).json({ message: "Cant Delete System Page." });
 
             }
         })
