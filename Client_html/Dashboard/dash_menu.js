@@ -32,9 +32,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     console.log("IN MENU------------>", menu_list)
 
     function create_menu(menu_list) {
-        menu_list.sort(function(a, b) {
-            return a.position - b.position
-        })
         for (e = 0; e < menu_list.length; e++) {
             var parent_menu = menu_list[e].parent_menu
             var view = menu_list[e].view
