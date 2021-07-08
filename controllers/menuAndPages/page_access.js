@@ -35,8 +35,8 @@ module.exports.getMenuList = (req, res) => {
     _id = req.params.id
     User.findById({ _id })
         .exec()
-        .then(doc => {
-            if (doc) {
+        .then(user_data => {
+            if (user_data) {
                 Page_access.find({ status: 'online' })
                     .sort({
                         ['position']: 'asc'
@@ -56,9 +56,9 @@ module.exports.getMenuList = (req, res) => {
                                     position: results[i].position
                                 }
 
-                                if (results[i].roles && doc.roles) {
-                                    var permitionallowed = permitionChecker(doc.roles, results[i].roles)
-                                    if (doc.roles.includes('admin')) {
+                                if (results[i].roles && user_data.roles) {
+                                    var permitionallowed = permitionChecker(user_data.roles, results[i].roles)
+                                    if (user_data.roles.includes('admin')) {
                                         menu_list.push(menu_obj)
                                     } else if (permitionallowed) {
                                         menu_list.push(menu_obj)
@@ -259,7 +259,7 @@ module.exports.Page_access_delete = (req, res) => {
 }
 
 function isDeletedStatus(data) {
-    var notDeletable = ["PayRoll", "Users", "Roles management", "Parent menu", "Mobile & Permissions", "Pages & Permissions"]
+    var notDeletable = ["Users", "Roles management", "Parent menu", "Mobile & Permissions", "Pages & Permissions"]
     if (notDeletable.includes(data)) {
         return false
     }

@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             if (parent_menu.length <= 0) {
                 $('#list_menu').append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else if ($('#list_menu').find("#" + menu_list[e].parent_menu + "_ul").length > 0) {
-                $('#' + parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
+                $('#' + parent_menu.replace(/ /g, "_") + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else {
                 $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
                 $('#' + menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
