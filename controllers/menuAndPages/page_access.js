@@ -247,7 +247,7 @@ module.exports.Page_access_delete = (req, res) => {
                         res.status(500).json({ error: err });
                     });
             } else {
-                res.status(403).json({ message: "Cant Delete System Page." + doc[0].page });
+                res.status(403).json({ message: "Cant Delete System Page(" + doc[0].page + ") from system" });
 
             }
         })
@@ -259,7 +259,7 @@ module.exports.Page_access_delete = (req, res) => {
 }
 
 function isDeletedStatus(data) {
-    var notDeletable = ["PayRoll", "Admin", "Configuration"]
+    var notDeletable = ["PayRoll", "Users", "Roles management", "Parent menu", "Pages & Permissions"]
     if (notDeletable.includes(data)) {
         return false
     }
