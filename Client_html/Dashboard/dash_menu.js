@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
                 $('#' + concat_parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else {
-                $('#list_menu').append(`<li id="${concat_parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${concat_parent_menu} </span><ul id='${concat_parent_menu}_ul'></ul></li>`)
+                $('#list_menu').append(`<li id="${concat_parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${parent_menu} </span><ul id='${concat_parent_menu}_ul'></ul></li>`)
                 $('#' + concat_parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             }
         }
