@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         create_menu(menu_list)
         var newMenu = await getNewMenu()
         if (JSON.stringify(newMenu) != JSON.stringify(menu_list)) {
-            console.log('not the same')
+            console.log('not the same 1')
             window.location.reload();
         }
         console.log("The Response is ", newMenu)
@@ -34,9 +34,9 @@ document.addEventListener("DOMContentLoaded", async function() {
     function create_menu(menu_list) {
         for (e = 0; e < menu_list.length; e++) {
             var sort_menu_list = menu_list
-            sort_menu_list.sort(function(a, b) {
-                return a.position - b.position
-            })
+                /* sort_menu_list.sort(function(a, b) {
+                    return a.position - b.position
+                }) */
             var parent_menu = sort_menu_list[e].parent_menu
             var view = sort_menu_list[e].view
             var page_name = sort_menu_list[e].page
