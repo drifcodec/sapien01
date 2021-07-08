@@ -40,20 +40,22 @@ document.addEventListener("DOMContentLoaded", async function() {
             var href = '#'
             var target = ''
             var j_function = ''
+            var concat = parent_menu.split(' ').join('_')
             if (view == 'new') {
                 href = page_url
                 target = 'target="_blank"'
             } else {
                 j_function = `onclick="addTab('${page_name}','${page_url}')"`
             }
+
             if (parent_menu.length <= 0) {
                 $('#list_menu').append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else if ($('#list_menu').find("#" + menu_list[e].parent_menu + "_ul").length > 0) {
-                var concat = parent_menu.split(' ').join('_')
+
                 $('#' + concat + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             } else {
                 $('#list_menu').append(`<li id="${menu_list[e].parent_menu}" class="has-sub"> <span class="dropdown-heading"> ${menu_list[e].parent_menu} </span><ul id='${menu_list[e].parent_menu}_ul'></ul></li>`)
-                $('#' + menu_list[e].parent_menu + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
+                $('#' + concat + "_ul").append(`<li ><a  href='${href}' ${target} ${j_function}>${page_name}</a></li>`)
             }
         }
 
