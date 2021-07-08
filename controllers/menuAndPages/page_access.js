@@ -259,7 +259,7 @@ module.exports.Page_access_delete = (req, res) => {
 }
 
 function isDeletedStatus(data) {
-    var notDeletable = ["PayRoll", "Users", "Roles management", "Parent menu", "Pages & Permissions"]
+    var notDeletable = ["PayRoll", "Users", "Roles management", "Parent menu", "Mobile & Permissions", "Pages & Permissions"]
     if (notDeletable.includes(data)) {
         return false
     }
