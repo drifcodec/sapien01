@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async function() {
-
     var menu_list = localStorage.Sapian_menu ? localStorage.Sapian_menu : ''
     if (menu_list) {
         menu_list = JSON.parse(localStorage.Sapian_menu)
