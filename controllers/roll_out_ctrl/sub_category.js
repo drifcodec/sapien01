@@ -26,7 +26,7 @@ module.exports.sub_category_getList = (req, res) => {
     limit = req.body.length == undefined ? 1000 : req.body.length
         //site.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
         //site.find(searchStr) for globale search 
-    sub_category.find()
+    sub_category.find(req.body)
         .skip(Number(start))
         .limit(Number(limit))
         .exec()

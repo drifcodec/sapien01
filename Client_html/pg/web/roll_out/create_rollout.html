@@ -43,6 +43,60 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script>
         $(document).ready(function() {
+            $('#sites').change(function() {
+                var types = ["siteName", "siteType", "siteAddress", "siteLat",
+                    "siteLong", "SiteCat", "siteSubCat", "operator", "Priority"
+                ]
+                types.forEach(type => {
+                    $(type).val('')
+                });
+                var id = $('option:selected', this).attr('data-id')
+                axios.get('/api/site/site_get/' + id, {})
+                    .then(response => {
+                        console.log("the site is ", response.data.result)
+                        var res = response.data.result
+                        $("#siteType").val(res.site_type)
+                        $("#siteName").val(res.name)
+                        $("#siteAddress").val(res.site_address)
+                        $("#siteLat").val(res.lattiude)
+                        $("#siteLong").val(res.longitude)
+                    })
+                    .catch(error => console.error(error));
+            })
+
+            $('#siteCat').change(function() {
+                $("#siteSubCat").html("<option selected=\"selected\"></option>")
+                axios.post('/api/roll_out/sub_category_getList', {
+                        "category": $(this).val()
+                    })
+                    .then(response => {
+                        for (i = 0; i < response.data.length; i++) {
+                            $('#siteSubCat').append(`<option value="${response.data[i].sub_category}">${response.data[i].sub_category} </option>`)
+                        }
+                    })
+                    .catch(error => console.error(error));
+            })
+
+
+
+            axios.get('/api/site/site_getList', {})
+                .then(response => {
+                    for (i = 0; i < response.data.length; i++) {
+                        var _id = response.data[i]._id
+                        var site_id = response.data[i].site_id
+                        var name = response.data[i].name
+                        $('#sites').append(`<option value="${site_id}" data-id='${_id}'>${name} </option>`)
+                    }
+                })
+                .catch(error => console.error(error));
+            axios.post('/api/roll_out/category_getList', {})
+                .then(response => {
+                    for (i = 0; i < response.data.length; i++) {
+                        var category = response.data[i].category
+                        $('#siteCat').append(`<option value="${category}">${category} </option>`)
+                    }
+                })
+                .catch(error => console.error(error));
             $("#id").hide()
             $("#user_id").attr('readonly', 'readonly');
             console.log(localStorage)
@@ -137,9 +191,8 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputState">Site</label>
-                                <select id="inputState" class="form-control">
-                              <option selected>Choose...</option>
-                              <option>...</option>
+                                <select id="sites" class="form-control">
+                              <option selected></option>
                             </select>
                             </div>
                             <div class="form-group col-md-4">
@@ -147,54 +200,47 @@
                                 <input type="text" class="form-control" id="siteName" readonly>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="inputZip">Site Type</label>
+                                <label for="inputZip"> Type</label>
                                 <input type="text" class="form-control" id="siteType" readonly>
                             </div>
                         </div>
                         <!-- row 2 -->
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="inputState">site Address</label>
+                                <label for="inputState"> Address</label>
                                 <input type="text" class="form-control" id="siteAddress" readonly>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="inputState">site Lattitude</label>
-                                <input type="text" class="form-control" id="siteName" readonly>
+                                <label for="inputState"> Lattitude</label>
+                                <input type="text" class="form-control" id="siteLat" readonly>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="inputZip">Site Longitude</label>
-                                <input type="text" class="form-control" id="siteType" readonly>
+                                <label for="inputZip"> Longitude</label>
+                                <input type="text" class="form-control" id="siteLong" readonly>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">Category</label>
-                                <select id="inputState" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
+                                <label for="SiteCat">Category</label>
+                                <select id="siteCat" class="form-control">
+                                    <option></option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Sub Category</label>
-                                <select id="inputState" class="form-control">
-                                    <option selected>Choose...</option>
-                                    <option>...</option>
+                                <select id="siteSubCat" class="form-control">
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputState">Operator</label>
-                                <select id="inputState" class="form-control">
-                              <option selected>Choose...</option>
-                              <option>...</option>
+                                <select id="operator" class="form-control">
                             </select>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputState">Priority</label>
-                                <select id="inputState" class="form-control">
-                              <option selected>Choose...</option>
-                              <option>...</option>
+                                <select id="Priority" class="form-control">
                             </select>
                             </div>
                         </div>
