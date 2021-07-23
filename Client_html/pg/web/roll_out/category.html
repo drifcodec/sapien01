@@ -6,25 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-
-    </style>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <style>
-        .tabs li a.tabs-inner {
-            color: #fffefe !important;
-        }
-        
-        .tabs li.tabs-selected a.tabs-inner {
-            background: red !important;
-            border-bottom: 1px solid #000000 !important;
-        }
-        
-        #_id {
-            display: none
-        }
-        
         #example_processing {
             position: fixed;
             background: red;
@@ -35,10 +19,6 @@
             z-index: 11;
             color: white;
             padding: 10px;
-        }
-        
-        .material-icons.delete {
-            color: #fb0000;
         }
         
         .material-icons.md-18 {
@@ -54,10 +34,11 @@
         <div class="panel-body">
         <table id="table_id" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
         <thead>
-            <tr>
-        <th>Category</th> 
-        <th>Description</th> 
-        <th>Operation</th> 
+          <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Operation</th>
             </tr>
           </thead>
       </table>
@@ -90,86 +71,65 @@
                     "search": ""
                 },
                 rowReorder: true,
-                //"select": true,
+                "select": true,
                 "paging": true,
                 "processing": true,
                 "serverSide": true,
                 "dataType": "json",
-                /* 
-                      "scrollY": "70%", 
-                      "scrollCollapse": true,  */
                 "ordering": true,
                 "info": true,
                 'ajax': {
                     type: "POST",
-                    url: '/api/roll_out/category_getList',
+                    url: '/api/roll_out/category_getList_table',
                     error: function(xhr, error, code) {
                         //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
                     }
                 },
                 "aoColumns": [{
-                    "data": "category"
+                    "data": "_id",
                 }, {
-                    "data": "description"
+                    "data": "category",
+                }, {
+                    "data": "description",
                 }, {
                     'data': null,
                     "render": function(item, type, full, meta) {
-                        //console.log(item._id)
-                        var operation = `<div style="display: inline-block;"><i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
-                               <div style="display: inline-block;"><i class="material-icons delete md-18"  onclick="delete_value('${item._id} ')">delete</i></div>`
+
+                        var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
+                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>`
                         return operation
                     }
                 }],
                 "columnDefs": [{
-                    orderable: false,
-                    targets: [4, 2]
-                }, {
-                    "targets": 6,
-                    "createdCell": function(td, cellData, rowData, row, col) {
-                        if (cellData === 'online') {
-                            $(td).css('background', 'green').css('color', 'white');
-                        }
-                        if (cellData === 'offline') {
-                            $(td).css('background', 'red').css('color', 'white');
-                        }
-                        if (cellData === 'pending') {
-                            $(td).css('background', 'orange').css('color', 'white');
-                        }
-                    }
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
                 }]
-
             });
             $("#delete_user").click(function() {
                 var id = $(this).val();
-                axios.delete(`/api/page_access/${id}`)
+                axios.delete(`/api/roll_out/category_delete/${id}`)
                     .then(response => {
                         $("#delete_confirm").modal('hide');
                         $("#table_id").DataTable().ajax.reload(null, false)
                     })
                     .catch(error => {
+                        alert(error)
                         $("#delete_confirm").modal('hide');
-                        alert(error.response.data.message)
-                        console.log("Error Occured . Contact Admin", error.response.data.message)
+                        console.log("Error Occured . Contact Admin" + error)
                     });
             });
 
             $("#create_update").click(function() {
-                if ($(this).val() === 'create') {
-                    axios.post(`/api/page_access/page_access_create`, {
-                            parent_menu: $('#parent_menu').val(),
-                            page: $('#page').val(),
-                            protocol: $("#protocol").val(),
-                            url: $('#url').val(),
-                            position: $('#position').val(),
-                            view: $('#view').val(),
-                            roles: $('#roles').val(),
-                            status: $('#status').val(),
 
+                $("#category").attr("disabled", false);
+                if ($(this).val() === 'create') {
+                    axios.post(`/api/roll_out/category_create`, {
+                            category: $('#category').val(),
+                            description: $('#description').val(),
                         }).then(response => {
                             $("#AddUser").modal('hide');
                             $("#table_id").DataTable().ajax.reload(null, false)
-                            console.log("menu updated from create page")
-                            setNewMenu()
                         })
                         .catch(error => {
                             $("#delete_confirm").modal('hide');
@@ -178,29 +138,12 @@
                 }
                 if ($(this).val() === 'update') {
                     var id = $('#id').val()
-                        /* 
-                                  $('#id').val(data._id) */
-                    $('#id').hide()
-                        /* 
-                                  $('#parent_menu').val(data.parent_menu)
-                                  $('#page').val(data.page)
-                                  $('#view').val(data.view)
-                                  $('#protocol').val(data.protocol)
-                                  $('#roles').val(data.roles) */
-                    axios.put(`/api/page_access/${id}`, {
-                            _id: $('#id').val(),
-                            parent_menu: $('#parent_menu').val(),
-                            page: $('#page').val(),
-                            view: $('#view').val(),
-                            protocol: $('#protocol').val(),
-                            url: $('#url').val(),
-                            position: $('#position').val(),
-                            roles: $('#roles').val(),
-                            status: $('#status').val(),
+                    axios.patch(`/api/roll_out/category_update/${id}`, {
+                            category: $('#category').val(),
+                            description: $('#description').val(),
                         }).then(response => {
                             $("#AddUser").modal('hide');
                             $("#table_id").DataTable().ajax.reload(null, false)
-                            setNewMenu()
                         })
                         .catch(error => {
                             $("#delete_confirm").modal('hide');
@@ -210,32 +153,16 @@
             })
         });
 
-        function setNewMenu() {
-            axios.get(`/api/page_access/getMenuList/${localStorage.Sapion_id}`, {})
-                .then(response => {
-                    console.log("menu updated from update page")
-                    localStorage.setItem("Sapian_menu", JSON.stringify(response.data.results));
-                })
-                .catch(error => {
-                    console.log("Error Occured . Contact Admin" + error)
-                });
-        }
-
         function load_update(id) {
-            axios.get(`/api/page_access/${id}`)
+            $("#category").attr("disabled", true);
+            axios.get(`/api/roll_out/category_get/${id}`)
                 .then(response => {
-                    var data = response.data.result[0]
-                    console.log(data)
-                    $('#id').val(data._id)
-                    $('#id').hide()
-                    $('#parent_menu').val(data.parent_menu)
-                    $('#page').val(data.page)
-                    $('#url').val(data.url)
-                    $('#position').val(data.position)
-                    $('#view').val(data.view)
-                    $('#protocol').val(data.protocol)
-                    $('#roles').val(data.roles)
-                    $('#status').val(data.status)
+                    var data = response.data.result
+                    console.log("----------------load_update----------->" + JSON.stringify(data._id))
+                    $("#id").val(data._id)
+                    $("#id").hide()
+                    $('#category').val(data.category)
+                    $('#description').val(data.description)
                     $("#create_update").val('update')
                     $('#AddUser').modal();
                 })
@@ -247,16 +174,10 @@
         }
 
         function create_values() {
-
             $("#create_update").val('create')
-            $('#parent_menu').val('')
-            $('#page').val('')
-            $('#url').val('')
-            $('#position').val('')
-            $('#view').val('')
-            $('#protocol').val('')
-            $('#roles').val('')
-            $('#status').val('')
+            $("#id").hide()
+            $('#category').val('')
+            $('#description').val('')
             $('#AddUser').modal();
         }
 
@@ -275,8 +196,8 @@
 </head>
 
 <body>
-    <button type="button" onclick="create_values()">
-    <i class="material-icons">add</i> Add New Page
+    <button type="button" class="btn btn-primary" onclick="create_values()">
+    <i class="fa fa-plus">Add Category</i>
   </button>
     <div class="row" id='table_query'>
 
@@ -286,58 +207,25 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create / Edit</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Creste / Edit</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
                 </div>
                 <div class="modal-body">
                     <form action="/add" method="POST">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="id">
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">Parent Menu:</label>
-                            <select class="form-control" id="parent_menu">
-                <option value=''>None</option>
-              </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="page" placeholder="Enter page name">
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">Protocol:</label>
-                            <select class="form-control" id="protocol">
-                <option value="https://">https (secured / recomanded)</option>
-                <option value='http://'>http (not secured)</option>
-              </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="url" placeholder="Enter url E.g example.com/item.html">
-                        </div>
-                        <div class="form-group">
-                            <label for="sel1">Target:</label>
-                            <select class="form-control" id="view">
-                <option value="tab">tab</option>
-                <option value="new">new</option>
-              </select>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="position" placeholder="Page Position">
-                        </div>
-                        <label for="sel2"> select Roles (hold Ctrl to select more than one):</label>
-                        <select multiple class="form-control" id="roles">
-
-            </select>
 
                         <div class="form-group">
-                            <label for="">Status:</label>
-                            <select class="form-control" id="status">
-                <option value="pending"></option>
-                <option value="online">online</option>
-                <option value="offline">offline</option>
-              </select>
+                            <input type="text" class="form-control" id="id" placeholder="id">
                         </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="category" placeholder="category">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="description" placeholder="Description">
+                        </div>
+                        <!-- 
+            // name,site_address,lattiude,longitude,region,town,type, -->
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="button" id="create_update" class="btn btn-primary">Save</button>
                     </form>
