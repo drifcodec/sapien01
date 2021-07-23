@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const ro_category = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    category: { type: String, required: false, unique: true },
+    category: { type: String, required: true, unique: true },
     description: { type: String, required: false }
 });
 const ro_category_Schema = mongoose.Schema(ro_category);
