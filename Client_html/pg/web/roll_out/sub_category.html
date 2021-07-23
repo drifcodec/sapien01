@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function() {
 
-            axios.get('/api/roll_out/category_getList', {})
+            axios.post('/api/roll_out/category_getList', {})
                 .then(response => {
                     for (i = 0; i < response.data.length; i++) {
                         var category = response.data[i].category
