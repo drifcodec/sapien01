@@ -14,13 +14,13 @@ router.get("/site_get/:id", site_ctrl.site_get);
 router.post('/site_create', site_ctrl.site_create)
 router.patch("/:id", site_ctrl.site_update);
 router.delete('/:id', site_ctrl.site_delete)
-    //Site Type
+    //Region Type
 router.post('/region_create', region_ctrl.region_create)
 router.get("/region_get/:id", region_ctrl.region_get);
 router.get('/region_getList', region_ctrl.region_getList)
 router.post('/region_getList_table', region_ctrl.region_getList_table)
 router.patch("/region_update/:id", region_ctrl.region_update);
-router.delete('region_delete/:id', region_ctrl.region_delete)
+router.delete('/region_delete/:id', region_ctrl.region_delete)
     //Site Type
 router.post('/site_type_create', site_type_ctrl.site_type_create)
 router.get("/site_type_get/:id", site_type_ctrl.site_type_get);
