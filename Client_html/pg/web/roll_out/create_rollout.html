@@ -76,9 +76,6 @@
                     })
                     .catch(error => console.error(error));
             })
-
-
-
             axios.get('/api/site/site_getList', {})
                 .then(response => {
                     for (i = 0; i < response.data.length; i++) {

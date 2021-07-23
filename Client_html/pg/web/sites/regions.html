@@ -36,8 +36,8 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Category</th>
-            <th>Description</th>
+            <th>Name</th>
+            <th>Full Name</th>
             <th>Operation</th>
             </tr>
           </thead>
@@ -80,7 +80,7 @@
                 "info": true,
                 'ajax': {
                     type: "POST",
-                    url: '/api/roll_out/category_getList_table',
+                    url: '/api/site/region_getList_table',
                     error: function(xhr, error, code) {
                         //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
                     }
@@ -88,9 +88,9 @@
                 "aoColumns": [{
                     "data": "_id",
                 }, {
-                    "data": "category",
+                    "data": "name",
                 }, {
-                    "data": "description",
+                    "data": "fullname",
                 }, {
                     'data': null,
                     "render": function(item, type, full, meta) {
@@ -108,7 +108,7 @@
             });
             $("#delete_user").click(function() {
                 var id = $(this).val();
-                axios.delete(`/api/roll_out/category_delete/${id}`)
+                axios.delete(`/api/site/region_delete/${id}`)
                     .then(response => {
                         $("#delete_confirm").modal('hide');
                         $("#table_id").DataTable().ajax.reload(null, false)
@@ -122,11 +122,11 @@
 
             $("#create_update").click(function() {
 
-                $("#category").attr("disabled", false);
+                $("#name").attr("disabled", false);
                 if ($(this).val() === 'create') {
-                    axios.post(`/api/roll_out/category_create`, {
-                            category: $('#category').val(),
-                            description: $('#description').val(),
+                    axios.post(`/api/site/region_create`, {
+                            name: $('#name').val(),
+                            fullname: $('#fullname').val(),
                         }).then(response => {
                             $("#AddUser").modal('hide');
                             $("#table_id").DataTable().ajax.reload(null, false)
@@ -138,9 +138,9 @@
                 }
                 if ($(this).val() === 'update') {
                     var id = $('#id').val()
-                    axios.patch(`/api/roll_out/category_update/${id}`, {
-                            category: $('#category').val(),
-                            description: $('#description').val(),
+                    axios.patch(`/api/site/region_update/${id}`, {
+                            name: $('#name').val(),
+                            fullname: $('#fullname').val(),
                         }).then(response => {
                             $("#AddUser").modal('hide');
                             $("#table_id").DataTable().ajax.reload(null, false)
@@ -154,15 +154,15 @@
         });
 
         function load_update(id) {
-            $("#category").attr("disabled", true);
-            axios.get(`/api/roll_out/category_get/${id}`)
+            $("#name").attr("disabled", true);
+            axios.get(`/api/site/region_get/${id}`)
                 .then(response => {
                     var data = response.data.result
                     console.log("----------------load_update----------->" + JSON.stringify(data._id))
                     $("#id").val(data._id)
                     $("#id").hide()
-                    $('#category').val(data.category)
-                    $('#description').val(data.description)
+                    $('#name').val(data.name)
+                    $('#fullname').val(data.fullname)
                     $("#create_update").val('update')
                     $('#AddUser').modal();
                 })
@@ -176,8 +176,8 @@
         function create_values() {
             $("#create_update").val('create')
             $("#id").hide()
-            $('#category').val('')
-            $('#description').val('')
+            $('#name').val('')
+            $('#fullname').val('')
             $('#AddUser').modal();
         }
 
@@ -197,7 +197,7 @@
 
 <body>
     <button type="button" class="btn btn-primary" onclick="create_values()">
-    <i class="fa fa-plus">Add Category</i>
+    <i class="fa fa-plus">Add Region</i>
   </button>
     <div class="row" id='table_query'>
 
@@ -219,10 +219,10 @@
                             <input type="text" class="form-control" id="id" placeholder="id">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="category" placeholder="category">
+                            <input type="text" class="form-control" id="name" placeholder="category">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="description" placeholder="Description">
+                            <input type="text" class="form-control" id="fullname" placeholder="fullname">
                         </div>
                         <!-- 
             // name,site_address,lattiude,longitude,region,town,type, -->
