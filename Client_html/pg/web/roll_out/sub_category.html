@@ -30,16 +30,15 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function() {
-            $("#category").keyup(function() {
-                axios.post('/api/roll_out/category_getList', {})
-                    .then(response => {
-                        for (i = 0; i < response.data.length; i++) {
-                            var category = response.data[i].category
-                            $('#category').append(`<option value="${category}">${category}</option>`)
-                        }
-                    })
-                    .catch(error => console.error(error));
-            });
+            axios.post('/api/roll_out/category_getList', {})
+                .then(response => {
+                    for (i = 0; i < response.data.length; i++) {
+                        var category = response.data[i].category
+                        $('#category').append(`<option value="${category}">${category}</option>`)
+                    }
+                })
+                .catch(error => console.error(error));
+
             var html_ = `
         <div class="panel-body">
         <table id="table_id" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
