@@ -126,6 +126,11 @@
                 'ajax': {
                     type: "POST",
                     url: '/api/roll_out/roll_out_getList',
+                    data: {
+                        data: [{
+                            depart_time: '1/21/2021, 10:48:07 PM'
+                        }]
+                    },
                     error: function(xhr, error, code) {
                         //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
                     }
@@ -277,13 +282,13 @@
                     table.columns(1).search(this.value).draw();
                 }
             });
-            $('#operator').change(function() {
-                if (this.value === "All") {
-                    table.columns(1).search('').draw();
-                } else {
-                    table.columns(1).search(this.value).draw();
-                }
-            });
+            /*  $('#operator').change(function() {
+                 if (this.value === "All") {
+                     table.columns(1).search('').draw();
+                 } else {
+                     table.columns(1).search(this.value).draw();
+                 }
+             }); */
             $('#task_status').change(function() {
                 if (this.value === "All") {
                     table.columns(3).search('').draw();

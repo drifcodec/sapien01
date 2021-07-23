@@ -64,8 +64,10 @@ module.exports.roll_out_getList = (req, res) => {
         var field = searchStr.columns[i].data // name of the field
         var seach_value = searchStr.columns[i].search.value //value of the feild
         var regex = new RegExp(seach_value, "i")
-        console.log("field VALUE------------------->", field)
-        console.log("SEARCH VALUE------------------->", seach_value)
+        if (seach_value) {
+            console.log("field VALUE------------------->", field)
+            console.log("SEARCH VALUE------------------->", seach_value)
+        }
         if (seach_value) {
             drop_down_select[field] = regex
         }
@@ -83,6 +85,7 @@ module.exports.roll_out_getList = (req, res) => {
             searchStr = {};
         } */
     console.log("drop_down_select " + JSON.stringify(drop_down_select))
+    console.log("searchStr " + JSON.stringify(searchStr.data))
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
