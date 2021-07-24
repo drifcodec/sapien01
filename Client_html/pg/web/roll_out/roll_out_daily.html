@@ -12,7 +12,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        #example_processing {
+        /*   #example_processing {
             position: fixed;
             background: red;
             text-align: center;
@@ -26,7 +26,7 @@
         
         div.container {
             width: 80%;
-        }
+        } */
     </style>
     <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -167,14 +167,14 @@
                     }, {
                         data: 'current_status',
                         render: function(data, type, row, meta) {
-                            var process = 0
-                            data === 'created' ? process = 0 :
-                                data === 'accepted' ? process = 1 :
-                                data === 'departed' ? process = 2 :
-                                data === 'arrived' ? process = 3 :
-                                data === 'completed' ? process = 4 :
-                                data === 'canceled' ? process = 0 : 0
-                            return '<progress value="' + process + '" max="4"></progress>'
+                            var process = "0%"
+                                //data === 'created' ? process = 0 :
+                            data === 'accepted' ? process = "20%" :
+                                data === 'departed' ? process = "40%" :
+                                data === 'arrived' ? process = "60%" :
+                                data === 'completed' ? process = "100%" :
+                                data === 'canceled' ? process = "0%" : "0%"
+                            return process /* '<progress value="' + process + '" max="4"></progress>' */
                         }
                     }, {
                         "data": "distance_estimate",
@@ -251,7 +251,7 @@
                     }, {
                         "targets": 5,
                         "createdCell": function(td, cellData, rowData, row, col) {
-                            if (cellData === 'Major') {
+                            if (cellData === 'High') {
                                 $(td).css('background', 'red').css('color', 'white');
                             }
                             if (cellData === 'Medium') {
