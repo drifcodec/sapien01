@@ -76,13 +76,37 @@
                     })
                     .catch(error => console.error(error));
             })
-            axios.get('/api/site/site_getList', {})
+
+            $('#region').change(function() {
+                var types = ["siteName", "siteType", "siteAddress", "siteLat",
+                    "siteLong", "SiteCat", "siteSubCat", "operator", "Priority"
+                ]
+                types.forEach(type => {
+                    console.log("here")
+                    $("#" + type).val('')
+                });
+                $("#sites").html("<option selected=\"selected\"></option>")
+                console.log("Region is ", $(this).val())
+                axios.get('/api/site/site_getList', {
+                        params: {
+                            region: $(this).val(),
+                        }
+                    })
+                    .then(response => {
+                        for (i = 0; i < response.data.length; i++) {
+                            var _id = response.data[i]._id
+                            var site_id = response.data[i].site_id
+                            var name = response.data[i].name
+                            $('#sites').append(`<option value="${site_id}" data-id='${_id}'>${name} </option>`)
+                        }
+                    })
+                    .catch(error => console.error(error));
+            })
+            axios.get('/api/site/region_getList', {})
                 .then(response => {
                     for (i = 0; i < response.data.length; i++) {
-                        var _id = response.data[i]._id
-                        var site_id = response.data[i].site_id
                         var name = response.data[i].name
-                        $('#sites').append(`<option value="${site_id}" data-id='${_id}'>${name} </option>`)
+                        $('#region').append(`<option value="${name}">${name} </option>`)
                     }
                 })
                 .catch(error => console.error(error));
@@ -186,6 +210,19 @@
                     <form>
 
                         <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputState">Region</label>
+                                <select id="region" class="form-control">
+                              <option selected></option>
+                            </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputState">Task ID</label>
+                                <input type="text" class="form-control" id="taskid" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="inputState">Site</label>
                                 <select id="sites" class="form-control">
@@ -238,6 +275,10 @@
                             <div class="form-group col-md-6">
                                 <label for="inputState">Priority</label>
                                 <select id="Priority" class="form-control">
+                                    <option selected></option>
+                                    <option style='background-color:red'  value="High">High</option>
+                                    <option style='background-color:orange' value="Meduim">Meduim</option>
+                                    <option style='background-color:green' value="Low">Low</option>
                             </select>
                             </div>
                         </div>

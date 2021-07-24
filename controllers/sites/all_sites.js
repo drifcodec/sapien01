@@ -28,11 +28,12 @@ module.exports.site_create = (req, res) => {
 }
 
 module.exports.site_getList = (req, res) => {
+    console.log("-----------------------------------", req.query.region)
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
         //site.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
         //site.find(searchStr) for globale search 
-    site.find()
+    site.find({ region: req.query.region ? req.query.region : '' })
         .skip(Number(start))
         .limit(Number(limit))
         .exec()
