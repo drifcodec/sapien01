@@ -5,7 +5,7 @@ const time_converter = require('../../global_js_libs/time_format')
 const axios = require('axios')
 var today = time_converter.current_local_time()
 module.exports.roll_out_create = (req, res) => {
-
+    console.log("UUUUUUUUUUUUUUUUU", req)
     var post_data = {
         _id: new mongoose.Types.ObjectId(),
         creator: req.body.creator,
@@ -32,7 +32,7 @@ module.exports.roll_out_create = (req, res) => {
         order_description: req.body.order_description,
         category: req.body.category,
         sub_category: req.body.sub_category,
-        ticket_id: "RO_" + req.body.category.replace(/ /g, '_').toUpperCase() + "_" + today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + "_" + today.getMilliseconds(),
+        // ticket_id: "RO_" + req.body.category.replace(/ /g, '_').toUpperCase() + "_" + today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + "_" + today.getMilliseconds(),
         ticket_status: "created",
     }
     const OrderObj_input = new roll_out(post_data)

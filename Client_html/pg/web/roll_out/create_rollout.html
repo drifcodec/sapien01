@@ -207,7 +207,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Create a Roll out</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="/api/roll_out/roll_out_create" method="post">
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
@@ -267,18 +267,21 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="inputState">Operator</label>
+                            <div class="form-group col-md-6"><label>
+                                <div class='label'>Default behavior</div>
+                                <select name='default' data-chosen-options='{dany}'></select>
+                              </label>
+                                <!-- <label for="inputState">Operator</label>
                                 <select id="operator" class="form-control">
-                            </select>
+                            </select> -->
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputState">Priority</label>
                                 <select id="Priority" class="form-control">
                                     <option selected></option>
-                                    <option style='background-color:red'  value="High">High</option>
-                                    <option style='background-color:orange' value="Meduim">Meduim</option>
-                                    <option style='background-color:green' value="Low">Low</option>
+                                    <option style='color:red'  value="High">High</option>
+                                    <option style='color:orange' value="Meduim">Meduim</option>
+                                    <option style='color:green' value="Low">Low</option>
                             </select>
                             </div>
                         </div>
