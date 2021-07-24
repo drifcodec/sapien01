@@ -167,14 +167,14 @@
                     }, {
                         data: 'current_status',
                         render: function(data, type, row, meta) {
-                            var process = "0%"
+                            var process = 0 //"0%"
                                 //data === 'created' ? process = 0 :
-                            data === 'accepted' ? process = "20%" :
-                                data === 'departed' ? process = "40%" :
-                                data === 'arrived' ? process = "60%" :
-                                data === 'completed' ? process = "100%" :
-                                data === 'canceled' ? process = "0%" : "0%"
-                            return process /* '<progress value="' + process + '" max="4"></progress>' */
+                            data === 'accepted' ? process = 1 : //"20%" :
+                                data === 'departed' ? process = 2 : //"40%" :
+                                data === 'arrived' ? process = 3 : //"60%" :
+                                data === 'completed' ? process = 4 : //"100%" :
+                                data === 'canceled' ? process = 0 : 0 //"0%" : "0%"
+                            return '<progress value="' + process + '" max="4"></progress>'
                         }
                     }, {
                         "data": "distance_estimate",
