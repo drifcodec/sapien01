@@ -63,6 +63,8 @@
             <th>Ticket ID</th>
             <th>Current Status</th>
             <th>Time</th>
+            <th>Category</th>
+            <th>Sub Category</th>
             <th>priority</th>
             <th>Ticket Progress</th>
             <th>Distance</th>
@@ -162,8 +164,10 @@
                         }
                     }, {
                         "data": "priority",
-                        "defaultContent": "",
-                        'name': 'priority'
+                    }, {
+                        "data": "category",
+                    }, {
+                        "data": "sub_category",
                     }, {
                         data: 'current_status',
                         render: function(data, type, row, meta) {
