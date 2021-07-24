@@ -2,39 +2,46 @@ const roll_out = require('../../models/roll_out_db/roll_out')
 const google_distance_matrix = require('../../google_api/distance_matrix')
 const mongoose = require("mongoose");
 const time_converter = require('../../global_js_libs/time_format')
-const axios = require('axios')
+const jwt = require("jsonwebtoken");
 var today = time_converter.current_local_time()
 module.exports.roll_out_create = (req, res) => {
-    console.log("UUUUUUUUUUUUUUUUU", req)
+
+    var creatorobj = jwt.verify(req.body.creator, "secret");
+
+    console.log("UUUUUUUUUUUUUUUUU", creatorobj)
     var post_data = {
-        _id: new mongoose.Types.ObjectId(),
-        creator: req.body.creator,
-        create_time: today,
-        device_id: req.body.device_id,
-        device_name: req.body.device_name,
-        device_long: req.body.device_long,
-        device_lat: req.body.device_lat,
-        operator: req.body.operator,
-        acceptor: req.body.acceptor,
-        title: req.body.title,
-        current_status: 'created',
-        accept_time: req.body.accept_time,
-        depart_time: req.body.depart_time,
-        arrived_time: req.body.arrived_time,
-        completed_time: req.body.completed_time,
-        back_to_office_time: req.body.back_to_office_time,
-        priority: req.body.priority,
-        required_start_time: req.body.required_start_time,
-        required_complete_time: req.body.required_complete_time,
-        operate_source: req.body.operate_source,
-        company_car: req.body.company_car,
-        office: req.body.office,
-        order_description: req.body.order_description,
-        category: req.body.category,
-        sub_category: req.body.sub_category,
-        // ticket_id: "RO_" + req.body.category.replace(/ /g, '_').toUpperCase() + "_" + today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + "_" + today.getMilliseconds(),
-        ticket_status: "created",
-    }
+            _id: new mongoose.Types.ObjectId(),
+            creator: creatorobj.user_id,
+            create_time: today,
+            device_id: req.body.device_id,
+            device_name: req.body.device_name,
+            device_type: req.body.device_type,
+            device_region: req.body.device_region,
+            device_address: req.body.device_address,
+            device_long: req.body.device_long,
+            device_lat: req.body.device_lat,
+            operator: req.body.operator,
+            acceptor: req.body.acceptor,
+            title: req.body.title,
+            current_status: 'created',
+            accept_time: req.body.accept_time,
+            depart_time: req.body.depart_time,
+            arrived_time: req.body.arrived_time,
+            completed_time: req.body.completed_time,
+            back_to_office_time: req.body.back_to_office_time,
+            priority: req.body.priority,
+            required_start_time: req.body.required_start_time,
+            required_complete_time: req.body.required_complete_time,
+            operate_source: req.body.operate_source,
+            company_car: req.body.company_car,
+            office: req.body.office,
+            order_description: req.body.order_description,
+            category: req.body.category,
+            sub_category: req.body.sub_category,
+            // ticket_id: "RO_" + req.body.category.replace(/ /g, '_').toUpperCase() + "_" + today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate() + "_" + today.getHours() + "_" + today.getMinutes() + "_" + today.getSeconds() + "_" + today.getMilliseconds(),
+            ticket_status: "created",
+        }
+        //res.status(200).json(post_data)
     const OrderObj_input = new roll_out(post_data)
     OrderObj_input.save().then(data => {
         const message = {
@@ -44,7 +51,6 @@ module.exports.roll_out_create = (req, res) => {
         }
         res.status(200).json(message)
     }).catch(err => console.log(err));
-
 }
 module.exports.roll_out_distinct_List = (req, res) => {
     roll_out.aggregate([{ $group: { _id: null, current_status: { $addToSet: '$current_status' }, operator: { $addToSet: '$operator' }, priority: { $addToSet: '$priority' } } }],
