@@ -1,25 +1,21 @@
-
-
-var site_all_list = [];
-var counter_site = 0.20 * 60 * 1000 // 0 .60* 60 * 1000
-
-load_id()
-async function load_id() {
-  var getSites= await getSitesApi()
-  setSite(getSites)
-  //console.log("&&&&&&&&&&&&&---->",all_sites)
+async function siteAPIGetlist() {
+    var getSites = await getSitesApi()
+    var loadSites = setSite(getSites)
+    console.log("&&&&&loadSites&&&&&&&&---->", loadSites)
+    return loadSites
 }
 async function getSitesApi() {
-  return new Promise((resolve, reject) => {
-    axios.get('/api/site/site_getList')
-        .then(response => {
-            return resolve(response.data)
-        })
-        .catch(error => console.error(error));
-  });
+    return new Promise((resolve, reject) => {
+        axios.get('/api/site/site_getList')
+            .then(response => {
+                return resolve(response.data)
+            })
+            .catch(error => console.error(error));
+    });
 }
 
 function setSite(marker) {
+    var site_all_list = [];
     for (i = 0; i < marker.length; i++) {
         var data = marker[i]
         site_data = {};
@@ -33,23 +29,22 @@ function setSite(marker) {
         site_data.content = device_contents.content(data.site_id, data.site_name)
         site_data.tooltip = device_contents.tooltip(data.site_id, data.site_name)
         if (data.site_id) {
-          site_data.iconImage = towers_icons.medium
-        }  else if (data.medioum_priority == 'medium') {
-          vandalism_data.iconImage = vandalism_icons.medium
+            site_data.iconImage = towers_icons.medium
+        } else if (data.medioum_priority == 'medium') {
+            vandalism_data.iconImage = vandalism_icons.medium
         } else if (data.priority == 'low') {
-          vandalism_data.iconImage = vandalism_icons.low
+            vandalism_data.iconImage = vandalism_icons.low
         } else {
-          vandalism_data.iconImage = vandalism_icons.low
-        } 
+            vandalism_data.iconImage = vandalism_icons.low
+        }
         if (typeof site_lat == 'number' && typeof site_lng == 'number') {
             site_all_list.push(site_data)
         }
-
-
-      } 
-     }
-     var device_contents = {
-      content: function (device_id, status) {
+    }
+    return site_all_list
+}
+var device_contents = {
+    content: function(device_id, status) {
         var device_tooltip_content = ` 
       <div class="hoverTips">
      <div class="tipsTable">
@@ -74,8 +69,8 @@ function setSite(marker) {
      </div>
     </div>`
         return device_tooltip_content
-      },
-      tooltip: function (device_id, status) {
+    },
+    tooltip: function(device_id, status) {
         var device_tooltip_content = ` 
       <div class="hoverTips">
      <div class="tipsTable">
@@ -98,9 +93,5 @@ function setSite(marker) {
      </div>
     </div>`
         return device_tooltip_content
-      }
-    } 
-    
-  setInterval( () => {
-    load_id()
-  }, counter_site)
+    }
+}
