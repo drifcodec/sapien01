@@ -65,6 +65,7 @@
             <th>Time</th>
             <th>Category</th>
             <th>Sub Category</th>
+            <th>Region</th>
             <th>priority</th>
             <th>Ticket Progress</th>
             <th>Distance</th>
@@ -167,6 +168,8 @@
                     }, {
                         "data": "sub_category",
                     }, {
+                        "data": "region",
+                    }, {
                         "data": "priority",
                     }, {
                         data: 'current_status',
@@ -254,7 +257,7 @@
 
                         }
                     }, {
-                        "targets": 7,
+                        "targets": 8,
                         "createdCell": function(td, cellData, rowData, row, col) {
                             if (cellData === 'High') {
                                 $(td).css('background', 'red').css('color', 'white');
