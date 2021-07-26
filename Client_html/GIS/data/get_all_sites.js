@@ -1,7 +1,6 @@
 async function siteAPIGetlist() {
     var getSites = await getSitesApi()
     var loadSites = setSite(getSites)
-    console.log("&&&&&loadSites&&&&&&&&---->", loadSites)
     return loadSites
 }
 async function getSitesApi() {

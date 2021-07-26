@@ -3,7 +3,7 @@ var all_markers = []
 var siteCluster = []
 var vandalismCluster = []
 var hide_show = 1
-var timer_interval = 0.30 * 60 * 1000
+var timer_interval = 1 * 60 * 1000 //0.30 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
 async function initialize() {
@@ -132,16 +132,6 @@ async function initialize() {
             if (typeof to[prop] == "undefined") to[prop] = from[prop];
         }
     }
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    // Inherits from OverlayView from the Google Maps API
-    // xxx
 
     inherit(Tooltip, google.maps.OverlayView);
     var bounds = new google.maps.LatLngBounds();
@@ -174,18 +164,26 @@ async function initialize() {
         clear_cluster("all_site")
 
         var site_all_list = await siteAPIGetlist()
+            /* 
+                    var weather_list = await weatherAPIGetLlist()
+
+                    console.log("...........All Sites.............>>>>>", site_all_list.length)
+                    console.log("...........weather_list.............>>>>>", weather_list)
+                    console.log("...........weather_list. length ............>>>>>", weather_list.length) */
+
 
         for (i = 0; i < site_all_list.length; i++) {
             addMarker(site_all_list[i])
         }
+        for (i = 0; i < weather_list.length; i++) {
+            addMarker(weather_list[i])
+        }
         site_all_list.length = 0
+        weather_list.length = 0
+            /* for (i = 0; i < device_list.length; i++) {
+              addMarker(device_list[i])
+            }  */
 
-        /* for (i = 0; i < device_list.length; i++) {
-          addMarker(device_list[i])
-        }  */
-        /* for (i = 0; i < weather_list.length; i++) {
-          addMarker(weather_list[i])
-        } */
         /* for (i = 0; i < vandalism_list.length; i++) {
           addMarker(vandalism_list[i])
         } */
@@ -261,7 +259,7 @@ async function initialize() {
             }
             return resetIcon
         }
-
+        console.log("--------------->")
         props.type == "site" ? siteCluster.addMarker(marker) : ''
             // props.type == "vandalism"?vandalismCluster.addMarker(marker):''
 

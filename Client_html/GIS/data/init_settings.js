@@ -1,8 +1,8 @@
-$(document).ready(function(){
+$(document).ready(function() {
 
-    $("#sunmit_wo").click(function(){
-     //   console.log($('#wo_id').val())
-      })
+    $("#sunmit_wo").click(function() {
+        //   console.log($('#wo_id').val())
+    })
 })
 
 
