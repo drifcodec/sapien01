@@ -178,21 +178,16 @@ async function initialize() {
         for (i = 0; i < weather_list.length; i++) {
             addMarker(weather_list[i])
         }
+        for (i = 0; i < vandalism_list.length; i++) {
+            addMarker(vandalism_list[i])
+        }
         site_all_list.length = 0
+        vandalism_list.length = 0
         weather_list.length = 0
-            /* for (i = 0; i < device_list.length; i++) {
-              addMarker(device_list[i])
-            }  */
 
-        /* for (i = 0; i < vandalism_list.length; i++) {
-          addMarker(vandalism_list[i])
-        } */
-        //device_list.length = 0
 
-        //site_all_list.length = 0
 
-        //weather_list.length = 0
-        // vandalism_list.length = 0
+
 
     }
 
