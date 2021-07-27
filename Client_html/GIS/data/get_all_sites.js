@@ -1,11 +1,11 @@
-async function siteAPIGetlist() {
-    var getSites = await getSitesApi()
+async function siteAPIGetlist(region) {
+    var getSites = await getSitesApi(region)
     var loadSites = setSite(getSites)
     return loadSites
 }
-async function getSitesApi() {
+async function getSitesApi(region) {
     return new Promise((resolve, reject) => {
-        axios.get('/api/site/map_site_getList')
+        axios.get('/api/site/map_site_getList?region=' + region)
             .then(response => {
                 return resolve(response.data)
             })

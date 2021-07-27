@@ -4,7 +4,7 @@ var siteCluster = []
 var vandalismCluster = []
 var weatherCluster = []
 var hide_show = 1
-var timer_interval = 0.30 * 60 * 1000 //0.30 * 60 * 1000
+var timer_interval = 5 * 60 * 1000 //0.30 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
 async function initialize() {
@@ -153,22 +153,31 @@ async function initialize() {
     });
     const geocoder = new google.maps.Geocoder();
     const infowindow = new google.maps.InfoWindow();
-    document.getElementById("submit").addEventListener("click", () => {
-        geocodeLatLng(geocoder, map, infowindow);
-    });
+    /*  document.getElementById("submit").addEventListener("click", () => {
+         geocodeLatLng(geocoder, map, infowindow);
+     }); */
 
     load_all_markers()
 
     setInterval(() => {
         load_all_markers()
     }, timer_interval)
+    document.getElementById("submit").addEventListener("click", async() => {
 
+        clear_cluster("all_site")
+
+        var site_all_list = await siteAPIGetlist($("#get_region").val())
+        for (i = 0; i < site_all_list.length; i++) {
+            addMarker(site_all_list[i])
+        }
+
+    });
     async function load_all_markers() {
         clear_cluster("all_site")
         clear_cluster("vandalism")
         clear_cluster("weather")
 
-        var site_all_list = await siteAPIGetlist()
+        var site_all_list = await siteAPIGetlist($("#get_region").val())
         var vandalism_list = await vandalismAPIGetlist()
         load_wearther()
             /* 
