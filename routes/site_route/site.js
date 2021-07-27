@@ -33,7 +33,7 @@ router.delete('site_type_delete/:id', site_type_ctrl.site_type_delete)
 router.post('/map_site_create', map_site_ctrl.map_site_create)
 router.get("/map_site_get/:id", map_site_ctrl.map_site_get);
 router.post('/map_site_getList_table', map_site_ctrl.map_site_getList_table)
-router.patch("map_site_update/:id", map_site_ctrl.map_site_update);
+router.patch("/map_site_update/:id", map_site_ctrl.map_site_update);
 router.get('/map_site_getList', map_site_ctrl.map_site_getList)
 router.delete('/map_site_delete/:id', map_site_ctrl.map_site_delete)
 

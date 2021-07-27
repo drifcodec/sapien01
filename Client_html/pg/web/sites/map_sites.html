@@ -152,7 +152,8 @@
             });
 
 
-            $("#create_update").click(function() {
+            $("#create_update").click(function(id) {
+                $("#_id").hide()
                 if ($(this).val() === 'create') {
                     console.log(">>>>>>>>>>>>>>>>>>>...")
                     axios.post(`/api/site/map_site_create`, {
@@ -168,7 +169,8 @@
                         });
                 }
                 if ($(this).val() === 'update') {
-                    var id = $('#id').val()
+                    var id = $('#_id').val()
+
                     axios.patch(`/api/site/map_site_update/${id}`, {
                             site_id: $('#site_id').val(),
                             name: $('#name').val(),
@@ -177,7 +179,8 @@
                             longitude: $('#longitude').val(),
                             region: $('#region').val(),
                             town: $('#town').val(),
-                            site_type: $('#site_type').val()
+                            site_type: $('#site_type').val(),
+                            status: $('#status').val()
                         }).then(response => {
                             $("#AddSite").modal('hide');
                             $("#table_id").DataTable().ajax.reload(null, false)
@@ -191,22 +194,24 @@
         });
 
         function load_update(id) {
+            $("#status").attr("disabled", false);
             axios.get(`/api/site/map_site_get/${id}`)
                 .then(response => {
                     var data = response.data.result
                     console.log("----------------load_update----------->", data)
-                    $("#id").val(data._id)
-                    $("#id").hide()
+                    $("#_id").val(id)
+                    $("#_id").hide()
                     $("#site_id").attr("disabled", true);
                     $('#site_id').val(data.site_id)
-                    $('#siteName').val(data.name)
-                    $('#siteType').val(data.site_type)
-                    $('#siteAddress').val(data.site_address)
-                    $('#siteLat').val(data.latitude)
-                    $('#siteLong').val(data.longitude)
+                    $('#site_name').val(data.name)
+                    $('#site_type').val(data.site_type)
+                    $('#site_address').val(data.site_address)
+                    $('#latitude').val(data.latitude)
+                    $('#longitude').val(data.longitude)
                     $('#region').val(data.region)
                     $('#town').val(data.town)
                     $('#site_type').val(data.site_type)
+                    $('#status').val(data.status)
                     $("#create_update").val('update')
                     $('#AddSite').modal();
                 })
@@ -218,8 +223,9 @@
         }
 
         function create_values() {
-            /* 
-                  site_id,name,site_address,latitude,longitude,region,town,type */
+            console.log("--------????")
+            $("#_id").hide()
+            $("#status").attr("disabled", true);
             $("#site_id").attr("disabled", false);
             $("#create_update").val('create')
             $("#id").hide()
@@ -229,6 +235,8 @@
             $('#latitude').val('')
             $('#longitude').val('')
             $('#region').val('')
+            $('#active').val('')
+            $('#status').val('')
             $('#town').val('')
             $('#AddSite').modal();
         }
@@ -263,6 +271,11 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="text" class="form-control" id="_id" readonly>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -303,6 +316,23 @@
                     </div>
                 </div>
 
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputState">Active</label>
+                        <input type="text" class="form-control" id="active" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="status">Status</label>
+                        <select id="status" class="form-control">
+                                <option selected></option>
+                                <option value="0">offline</option>
+                                <option value="1">online</option>
+                                <option value="2">work in progress</option>
+                                <option value="3">standy</option>
+                                <option ></option>
+                                </select>
+                    </div>
+                </div>
                 <div style="margin-bottom: 40px;">
                     <button type="submit" id='create_update' class="btn btn-primary">Submit</button>
                     <button type="submit" class="btn btn-primary">Cancel</button>

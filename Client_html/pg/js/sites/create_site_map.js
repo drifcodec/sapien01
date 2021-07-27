@@ -1,23 +1,5 @@
 $(document).ready(function() {
 
-    $('#create_ro').click(function() {
-        /* 
-                console.log("1")
-                axios.post('/api/site/map_site_create', {
-                        "site_id": $("#site_id").val(),
-                    })
-                    .then(response => {
-                        var types = ["siteName", "site_id", "region", "siteType", "siteAddress", "siteLat",
-                            "siteLong", "SiteCat", "siteSubCat", "operator", "Priority"
-                        ]
-                        types.forEach(type => {
-                            $("#" + type).val('')
-                        });
-                        console.log("RES", response.data)
-                    })
-                    .catch(error => console.error(error)); */
-
-    })
     $('#site_id').click(function() {
         console.log("2")
         var types = ["site_name", "site_address", "latitude", "longitude", "region", "site_type"]
@@ -60,6 +42,7 @@ $(document).ready(function() {
                 $("#site_type").val(res.site_type)
                 $("#site_name").val(res.name)
                 $("#region").val(res.region)
+                $("#active").val(res.active)
                 $("#site_address").val(res.site_address)
                 $("#latitude").val(res.latitude)
                 $("#longitude").val(res.longitude)
