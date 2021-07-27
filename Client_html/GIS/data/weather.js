@@ -1,6 +1,5 @@
 var weather_list = [];
 var cities = ['lubumbashi', 'lusaka', 'nelspruit', 'polokwane', 'kinshasa', 'pretoria', 'johannesburg', 'cape town', 'durban', 'maputo', 'mossel bay'];
-var weather_count = 5 * 60 * 1000
 
 function load_wearther() {
     for (i = 0; i < cities.length; i++) {
@@ -29,6 +28,7 @@ function load_wearther() {
             .catch(error => console.error(error));
     }
 };
+
 load_wearther()
     /* 
     setInterval(function() {

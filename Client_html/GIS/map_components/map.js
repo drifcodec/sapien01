@@ -2,8 +2,9 @@ var map;
 var all_markers = []
 var siteCluster = []
 var vandalismCluster = []
+var weatherCluster = []
 var hide_show = 1
-var timer_interval = 0.40 * 60 * 1000 //0.30 * 60 * 1000
+var timer_interval = 0.30 * 60 * 1000 //0.30 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
 async function initialize() {
@@ -165,6 +166,7 @@ async function initialize() {
     async function load_all_markers() {
         clear_cluster("all_site")
         clear_cluster("vandalism")
+        clear_cluster("weather")
 
         var site_all_list = await siteAPIGetlist()
         var vandalism_list = await vandalismAPIGetlist()
@@ -206,7 +208,7 @@ async function initialize() {
         }
         var myLatlng = new google.maps.LatLng(props.coords.lat, props.coords.lng);
         bounds.extend(myLatlng);
-        var pulse = props.status == 0 ? 'blue_sos' : props.status == 1 ? 'red_sos' : ''
+        var pulse = props.status == 1 ? '' : props.status == 0 ? 'red_sos' : ''
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map,
@@ -252,6 +254,8 @@ async function initialize() {
         }
         props.type == "all_site" ? siteCluster.addMarker(marker) : ''
         props.type == "vandalism" ? vandalismCluster.addMarker(marker) : ''
+            /* 
+                    props.type == "weather" ? weatherCluster.addMarker(marker) : '' */
 
         google.maps.event.addListener(marker, 'mouseover', function() {
             tooltip.addTip();
@@ -259,9 +263,7 @@ async function initialize() {
             /* if (props.type === 'site' && props.status == "0") {
               marker.setIcon(resize_icon(25));
             } */
-            if (props.type === 'site') {
-                marker.setIcon(resize_icon(20))
-            } else if (props.type === 'weather') {
+            if (props.type === 'weather') {
                 marker.setIcon(resize_icon(55))
             } else if (props.type === 'all_site') {
                 marker.setIcon(resize_icon(43))
@@ -269,18 +271,12 @@ async function initialize() {
         });
 
         google.maps.event.addListener(marker, 'mouseout', function() {
-            /* if (props.type === 'site' && props.status == "0") {
-              marker.setIcon(resize_icon(20));
-            } */
-            if (props.type === 'site' && props.status != "0") {
-                marker.setIcon(resize_icon(icon_size))
-            } else if (props.type === 'weather') {
+            if (props.type === 'weather') {
                 marker.setIcon(resize_icon(icon_size))
             } else if (props.type === 'all_site') {
                 marker.setIcon(resize_icon(icon_size))
             }
             tooltip.removeTip();
-            // marker.setIcon(resetIcon)
         });
 
         google.maps.event.addListener(marker, 'click', function() {
@@ -291,7 +287,7 @@ async function initialize() {
         });
         all_markers.push(marker)
             //map.fitBounds(bounds);
-            // ;
+
     };
     mcOptions = {
         styles: [{
@@ -312,23 +308,23 @@ async function initialize() {
 }
 
 // Sets the map on all markers in the array.
-function setMapOnAll(map) {
+/* function setMapOnAll(map) {
     for (let i = 0; i < all_markers.length; i++) {
         all_markers[i].setMap(map);
     }
 }
-
+ */
 // Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
+/* function clearMarkers() {
     siteCluster.clearMarkers();
     vandalismCluster.clearMarkers();
     setMapOnAll(null);
-}
+} */
 
 // Shows any markers currently in the array.
-function showMarkers() {
+/* function showMarkers() {
     setMapOnAll(map);
-}
+} */
 
 // Deletes all markers in the array by removing references to them.
 
@@ -356,6 +352,9 @@ function clear_cluster(type) {
                 siteCluster.clearMarkers()
                 marker.setMap(null);
             }
+            if (type === 'weather') {
+                marker.setMap(null);
+            }
         }
     }
 }
@@ -365,14 +364,12 @@ function marker_toggles(type) {
         if (all_markers[i].marker_type.type === type) {
             var marker = all_markers[i];
             if (!marker.getVisible()) {
-                if (marker.status == "0") {
-                    // marker.setAnimation(google.maps.Animation.BOUNCE);
-                }
+                if (marker.status == "0") {}
                 if (type === 'weather') {
                     weather_visibility = true
                 }
-                if (type === 'site') {
-                    marker.setMap(null);
+                if (type === 'all_site') {
+                    all_markers[i].setVisible(false)
                     site_visibility = true
                 }
                 if (type === 'vandalism') {
@@ -380,13 +377,10 @@ function marker_toggles(type) {
                 }
                 marker.setVisible(true);
             } else {
-                /* 
-                        $('.gm-style-iw').hide()
-                        $('.gm-style-iw-t').hide() */
                 if (type === 'weather') {
                     weather_visibility = false
                 }
-                if (type === 'site') {
+                if (type === 'all_site') {
                     site_visibility = false
                 }
                 if (type === 'vandalism') {

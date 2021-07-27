@@ -6,7 +6,7 @@ var site_structure = {
     site_address: String,
     region: String,
     town: String,
-    lattiude: String,
+    latitude: String,
     longitude: String,
     site_type: String,
     active: { type: String, required: false, default: 1 }

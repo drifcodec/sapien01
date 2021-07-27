@@ -3,6 +3,7 @@ const router = express.Router(); // this creates the router needed to handle htt
 const site_ctrl = require('../../controllers/sites/all_sites')
 const region_ctrl = require('../../controllers/sites/region')
 const site_type_ctrl = require('../../controllers/sites/site_type')
+const map_site_ctrl = require('../../controllers/sites/map_sites')
 const checkAuth = require('../../middleware/user-auth');
 const RoleAuth = require('../../middleware/roles-auth');
 
@@ -28,5 +29,12 @@ router.get('/site_type_getList', site_type_ctrl.site_type_getList)
 router.post('/site_type_getList_table', site_type_ctrl.site_type_getList_table)
 router.patch("site_type_update/:id", site_type_ctrl.site_type_update);
 router.delete('site_type_delete/:id', site_type_ctrl.site_type_delete)
+    //map site
+router.post('/map_site_create', map_site_ctrl.map_site_create)
+router.get("/map_site_get/:id", map_site_ctrl.map_site_get);
+router.post('/map_site_getList_table', map_site_ctrl.map_site_getList_table)
+router.patch("map_site_update/:id", map_site_ctrl.map_site_update);
+router.get('/map_site_getList', map_site_ctrl.map_site_getList)
+router.delete('/map_site_delete/:id', map_site_ctrl.map_site_delete)
 
 module.exports = router;

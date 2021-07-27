@@ -1,33 +1,40 @@
+const map_site = require('../../models/site_db/map_site')
 const site = require('../../models/site_db/all_sites')
 const mongoose = require("mongoose");
 
-module.exports.site_create = (req, res) => {
-    var post_data = {
-        _id: new mongoose.Types.ObjectId(),
-        site_id: req.body.site_id,
-        name: req.body.name,
-        address: req.body.address,
-        region: req.body.region,
-        town: req.body.town,
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
-        site_type: req.body.site_type,
-        record_date: today,
-    }
-    const OrderObj_input = new site(post_data)
-
-    OrderObj_input.save().then(data => {
-        const message = {
-            message: 'Site created',
-            status: 201,
-            created_data: post_data
+module.exports.map_site_create = async(req, res) => {
+    var getSiteData = await isSiteExist(req.body.site_id)
+    if (getSiteData) {
+        var post_data = {
+            _id: new mongoose.Types.ObjectId(),
+            site_id: getSiteData.site_id,
+            name: getSiteData.name,
+            address: getSiteData.address,
+            region: getSiteData.region,
+            town: getSiteData.town,
+            latitude: getSiteData.latitude,
+            longitude: getSiteData.longitude,
+            site_type: getSiteData.site_type
         }
-        res.status(200).json(message)
-    }).catch(err => console.log(err));
+        console.log("--------------> #####", post_data)
+        const OrderObj_input = new map_site(post_data)
+        OrderObj_input.save().then(data => {
+            const message = {
+                message: 'Map site created',
+                status: 201
+            }
+            res.status(200).json(message)
+        }).catch(err => console.log(err));
 
+        res.status(200).json(post_data)
+    } else {
+
+        res.status(500).json({ Error: "couldnt create" })
+    }
 }
 
-module.exports.site_getList = (req, res) => {
+
+module.exports.map_site_getList = (req, res) => {
     console.log("-----------------------------------", req.query.region)
     var seach = {}
     req.query.region ? seach.region = req.query.region : ''
@@ -35,7 +42,7 @@ module.exports.site_getList = (req, res) => {
     limit = req.body.length == undefined ? 1000 : req.body.length
         //site.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
         //site.find(searchStr) for globale search 
-    site.find(seach)
+    map_site.find(seach)
         .skip(Number(start))
         .limit(Number(limit))
         .exec()
@@ -53,7 +60,7 @@ module.exports.site_getList = (req, res) => {
         });
 
 }
-module.exports.site_getList_table = (req, res) => {
+module.exports.map_site_getList_table = (req, res) => {
     var searchStr = req.body;
     var order = ''
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
@@ -81,14 +88,14 @@ module.exports.site_getList_table = (req, res) => {
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
     var recordsTotal = 0
-    site.countDocuments({}, function(err, total) {
+    map_site.countDocuments({}, function(err, total) {
         recordsTotal = total
-        site.countDocuments(drop_down_select, function(err, total_searched) {
+        map_site.countDocuments(drop_down_select, function(err, total_searched) {
             recordsFiltered = total_searched;
 
             //site.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
             //site.find(searchStr) for globale search 
-            site.find(drop_down_select)
+            map_site.find(drop_down_select)
                 .skip(Number(start))
                 .limit(Number(limit))
                 .sort({
@@ -115,9 +122,9 @@ module.exports.site_getList_table = (req, res) => {
 }
 
 
-module.exports.site_get = (req, res) => {
+module.exports.map_site_get = (req, res) => {
     const _id = req.params.id;
-    site.findById(_id)
+    map_site.findById(_id)
         .exec()
         .then(doc => {
             console.log("From database", doc);
@@ -133,9 +140,9 @@ module.exports.site_get = (req, res) => {
         });
 }
 
-module.exports.site_update = (req, res) => {
+module.exports.map_site_update = (req, res) => {
     const id = req.params.id;
-    site.update({ _id: id }, { $set: req.body })
+    map_site.update({ _id: id }, { $set: req.body })
         .exec()
         .then(result => {
             if (result.nModified) {
@@ -157,10 +164,10 @@ module.exports.site_update = (req, res) => {
         });
 }
 
-module.exports.site_delete = (req, res) => {
+module.exports.map_site_delete = (req, res) => {
     var id = req.params.id
     console.log("###########################_>>>>>>>>>" + id)
-    site.remove({ _id: id })
+    map_site.remove({ _id: id })
         .exec()
         .then(doc => {
             console.log("From database", doc);
@@ -174,4 +181,23 @@ module.exports.site_delete = (req, res) => {
             console.log(err);
             res.status(500).json({ error: err });
         });
+}
+async function isSiteExist(site_id) {
+    return new Promise((resolve, reject) => {
+        site.findOne({ site_id: site_id })
+            .exec()
+            .then(result => {
+                if (result) {
+                    return resolve(result)
+                } else {
+                    return resolve(null)
+                }
+
+            })
+            .catch(err => {
+                res.status(401).json({
+                    message: "Error proccesing"
+                });
+            });
+    })
 }

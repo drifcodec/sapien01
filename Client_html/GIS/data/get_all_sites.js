@@ -5,7 +5,7 @@ async function siteAPIGetlist() {
 }
 async function getSitesApi() {
     return new Promise((resolve, reject) => {
-        axios.get('/api/site/site_getList')
+        axios.get('/api/site/map_site_getList')
             .then(response => {
                 return resolve(response.data)
             })
@@ -18,7 +18,7 @@ function setSite(marker) {
     for (i = 0; i < marker.length; i++) {
         var data = marker[i]
         site_data = {};
-        site_lat = data.lattiude * 1
+        site_lat = data.latitude * 1
         site_lng = data.longitude * 1
         site_data.coords = { lat: site_lat, lng: site_lng }
         site_data.id = data.site_id

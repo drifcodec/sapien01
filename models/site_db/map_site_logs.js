@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 var site_structure = {
     _id: mongoose.Schema.Types.ObjectId,
-    id: { type: String, required: true, unique: true },
+    site_id: { type: String, required: true, unique: true },
     name: { type: String, required: true, unique: true },
     site_address: String,
     region: String,
     town: String,
-    lattiude: String,
+    latitude: String,
     longitude: String,
     type: String,
     status: String,
