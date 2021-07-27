@@ -3,7 +3,7 @@ var all_markers = []
 var siteCluster = []
 var vandalismCluster = []
 var hide_show = 1
-var timer_interval = 1 * 60 * 1000 //0.30 * 60 * 1000
+var timer_interval = 0.40 * 60 * 1000 //0.30 * 60 * 1000
 var site_visibility = true
 var weather_visibility = true
 async function initialize() {
@@ -135,6 +135,7 @@ async function initialize() {
 
     inherit(Tooltip, google.maps.OverlayView);
     var bounds = new google.maps.LatLngBounds();
+
     var mapOptions = {
         zoom: 7,
         center: { lat: -27.760670805627804, lng: 26.816038817267415 },
@@ -160,16 +161,13 @@ async function initialize() {
     }, timer_interval)
 
     async function load_all_markers() {
-        clear_cluster("site")
         clear_cluster("all_site")
+        clear_cluster("vandalism")
 
         var site_all_list = await siteAPIGetlist()
+        var vandalism_list = await vandalismAPIGetlist()
             /* 
-                    var weather_list = await weatherAPIGetLlist()
-
-                    console.log("...........All Sites.............>>>>>", site_all_list.length)
-                    console.log("...........weather_list.............>>>>>", weather_list)
-                    console.log("...........weather_list. length ............>>>>>", weather_list.length) */
+            console.log('vandalism_list', vandalism_list.length) */
 
 
         for (i = 0; i < site_all_list.length; i++) {
@@ -184,11 +182,6 @@ async function initialize() {
         site_all_list.length = 0
         vandalism_list.length = 0
         weather_list.length = 0
-
-
-
-
-
     }
 
     function addMarker(props) {
@@ -198,15 +191,15 @@ async function initialize() {
             icon_size = 50
         }
         if (props.type == "vandalism") {
-            icon_size = 35
+            icon_size = 30
         }
         if (props.type == "all_site") {
-            /* site_label= {
-              text: props.id===undefined?'':(props.site_id).toString(05),
-              color: "white",
-              style:"bold"
-            },  */
-            icon_size = 40
+            /*   site_label = {
+                      text: props.id === undefined ? '' : (props.site_id).toString(05),
+                      color: "white",
+                      style: "bold"
+                  }, */
+            icon_size = 33
         }
         var myLatlng = new google.maps.LatLng(props.coords.lat, props.coords.lng);
         bounds.extend(myLatlng);
@@ -226,13 +219,13 @@ async function initialize() {
             tooltip: props.tooltip === undefined ? 'Await' : props.tooltip
         })
 
-        if (!site_visibility && props.type == 'site') {
+        if (!site_visibility && props.type == 'all_site') {
             marker.setVisible(false);
         }
         if (!weather_visibility && props.type == 'weather') {
             marker.setVisible(false);
         }
-        if (!weather_visibility && props.type == 'vansdalism') {
+        if (!weather_visibility && props.type == 'vandalism') {
             marker.setVisible(false);
         }
         if (props.status == "0") {
@@ -254,9 +247,8 @@ async function initialize() {
             }
             return resetIcon
         }
-        console.log("--------------->")
-        props.type == "site" ? siteCluster.addMarker(marker) : ''
-            // props.type == "vandalism"?vandalismCluster.addMarker(marker):''
+        props.type == "all_site" ? siteCluster.addMarker(marker) : ''
+        props.type == "vandalism" ? vandalismCluster.addMarker(marker) : ''
 
         google.maps.event.addListener(marker, 'mouseover', function() {
             tooltip.addTip();
@@ -289,10 +281,10 @@ async function initialize() {
         });
 
         google.maps.event.addListener(marker, 'click', function() {
-
             marker.setIcon(resize_icon(icon_size))
             tooltip.removeTip();
             infowindow.open(map, marker);
+            console.log(map)
         });
         all_markers.push(marker)
             //map.fitBounds(bounds);
@@ -353,11 +345,12 @@ function clear_cluster(type) {
         if (all_markers[i].marker_type.type === type) {
             var marker = all_markers[i];
             $(".tooltip").remove()
-            if (type === 'site') {
-                siteCluster.clearMarkers()
+            if (type === 'vandalism') {
+                vandalismCluster.clearMarkers()
                 marker.setMap(null);
             }
             if (type === 'all_site') {
+                siteCluster.clearMarkers()
                 marker.setMap(null);
             }
         }

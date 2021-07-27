@@ -1,24 +1,27 @@
-var vandalism_list = [];
-var vandalism_list_storage = [];
-var counter = 0.60 * 60 * 1000
+async function vandalismAPIGetlist() {
+    var getVandalism = await getVandalismApi()
+    var loadVandalism = setVandalism(getVandalism)
+    return loadVandalism
+}
+async function getVandalismApi() {
+    return new Promise((resolve, reject) => {
+        axios.get('/api/vandalism')
+            .then(response => {
+                return resolve(response.data.results)
+            })
+            .catch(error => console.error(error));
+    });
+}
 
-function vandalism_load() {
-    axios.get('/api/vandalism', {})
-        .then(response => {
-            vandalism_func(response.data.results)
-        })
-        .catch(error => console.error(error));
-};
-vandalism_load()
-
-function vandalism_func(marker) {
+function setVandalism(marker) {
+    var vandalism_list = []
     var high_priority = 0
     var medium_priority = 0
     var low_priority = 0
 
     for (i = 0; i < marker.length; i++) {
-        var data = marker[i]
         var vandalism_data = {};
+        var data = marker[i]
         vandalism_data.coords = { lat: data.latitude * 1, lng: data.longitude * 1 }
         if (data.priority == 'high') {
             vandalism_data.iconImage = vandalism_icons.high
@@ -37,7 +40,6 @@ function vandalism_func(marker) {
         vandalism_data.tooltip = vandalism_func_contents.tooltip(data.priority, data.report_by, data.description)
 
         vandalism_list.push(vandalism_data)
-        vandalism_list_storage.push(vandalism_data)
 
         if (data.priority == 'high') {
             high_priority += 1
@@ -50,17 +52,17 @@ function vandalism_func(marker) {
                 // $("#busy_count").text(busy)
         }
     }
-    // $('.all_vandalism').text(high_priority + medium_priority+low_priority)
+    return vandalism_list
+        // $('.all_vandalism').text(high_priority + medium_priority+low_priority)
 
-    $('#from_count_arrived').click(function() {
-        var specificValuesFromArray = vandalism_list_storage.filter(obj => obj.priority === 'high');
-        console.log("available count ", specificValuesFromArray)
-    })
-    $('#from_count_busy').click(function() {
-        var specificValuesFromArray = vandalism_list_storage.filter(obj => obj.priority === 'medium');
-        console.log("busy count", specificValuesFromArray)
-    })
-
+    /*   $('#from_count_arrived').click(function() {
+          var specificValuesFromArray = vandalism_list_storage.filter(obj => obj.priority === 'high');
+          console.log("available count ", specificValuesFromArray)
+      }) */
+    /*   $('#from_count_busy').click(function() {
+          var specificValuesFromArray = vandalism_list_storage.filter(obj => obj.priority === 'medium');
+          console.log("busy count", specificValuesFromArray)
+      }) */
 }
 
 var vandalism_func_contents = {
@@ -114,7 +116,3 @@ var vandalism_func_contents = {
         return device_tooltip_content
     }
 }
-setInterval(function() {
-    vandalism_load()
-    console.log("vandalism call made")
-}, counter)
