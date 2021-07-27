@@ -30,7 +30,8 @@ function load_wearther() {
     }
 };
 load_wearther()
-setInterval(function() {
-    load_wearther()
-    console.log("weather call made")
-}, weather_count)
+    /* 
+    setInterval(function() {
+        load_wearther()
+        console.log("weather call made")
+    }, weather_count) */

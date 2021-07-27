@@ -98,8 +98,9 @@ async function initialize() {
 
             // Register listeners
             me.listeners = [
-                //   g.addListener(me.marker_, "dragend", function() {
-                //    me.markerDragging = false; }),
+                g.addListener(me.marker_, "dragend", function() {
+                    me.markerDragging = false;
+                }),
                 g.addListener(me.marker_, "position_changed", function() {
                     me.markerDragging = true;
                     me.set("visible", false);
@@ -140,6 +141,7 @@ async function initialize() {
         zoom: 7,
         center: { lat: -27.760670805627804, lng: 26.816038817267415 },
         styles: mapStyle_ //white_style//mapStyle_,
+
     };
     map = new google.maps.Map(document.getElementById('map'), mapOptions);
     // This event listener will call addMarker() when the map is clicked.
@@ -166,6 +168,7 @@ async function initialize() {
 
         var site_all_list = await siteAPIGetlist()
         var vandalism_list = await vandalismAPIGetlist()
+        load_wearther()
             /* 
             console.log('vandalism_list', vandalism_list.length) */
 
@@ -216,7 +219,7 @@ async function initialize() {
             marker_type: { type: props.type },
             label: site_label,
             title: pulse,
-            tooltip: props.tooltip === undefined ? 'Await' : props.tooltip
+            tooltip: props.tooltip === undefined ? '' : props.tooltip
         })
 
         if (!site_visibility && props.type == 'all_site') {
