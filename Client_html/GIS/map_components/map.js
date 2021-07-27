@@ -139,7 +139,7 @@ async function initialize() {
     var bounds = new google.maps.LatLngBounds();
 
     var mapOptions = {
-        zoom: 7,
+        zoom: 6,
         center: { lat: -27.760670805627804, lng: 26.816038817267415 },
         styles: mapStyle_ //white_style//mapStyle_,
 
