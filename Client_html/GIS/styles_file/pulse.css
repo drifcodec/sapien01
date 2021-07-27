@@ -8,9 +8,24 @@
     border-radius: 50%;
     opacity: 0;
     animation: pulsate 2400ms ease-out infinite;
-    margin:-23px 0 0 -30px; 
+    margin: -23px 0 0 -30px;
     z-index: -9999;
 }
+
+#map div[title="orange_sos"] {
+    width: 100px !important;
+    height: 100px !important;
+    position: relative;
+    top: 0;
+    display: block;
+    background: rgba(255, 208, 0, 0.4);
+    border-radius: 50%;
+    opacity: 0;
+    animation: pulsate 2400ms ease-out infinite;
+    margin: -23px 0 0 -30px;
+    z-index: -9999;
+}
+
 #map div[title="red_sos"] {
     width: 100px !important;
     height: 100px !important;
@@ -21,27 +36,23 @@
     border-radius: 50%;
     opacity: 0;
     animation: pulsate 2400ms ease-out infinite;
-    margin:-23px 0 0 -30px; 
+    margin: -23px 0 0 -30px;
     z-index: -9999;
-
 }
+
 @keyframes pulsate {
     0% {
-    transform: scale(0.1);
-    opacity: 0;
+        transform: scale(0.1);
+        opacity: 0;
     }
     50% {
-    opacity: 1;
+        opacity: 1;
     }
     100% {
-    transform: scale(1.2);
-    opacity: 0;
+        transform: scale(1.2);
+        opacity: 0;
     }
 }
-
-
-
-
 
 
 /* 
@@ -55,6 +66,7 @@
     opacity: 5;
     animation: pulsate 4000ms ease-out infinite;
 } */
+
 #maps div[title="red_pulse"] {
     width: 300vw;
     height: 300vw;
@@ -64,24 +76,27 @@
     background: rgba(255, 5, 130, 0.4);
     border-radius: 50%;
     opacity: 0;
-    margin:-36px 0 0 -36px; 
+    margin: -36px 0 0 -36px;
     animation: pulsate 2400ms ease-out infinite;
-
 }
+
 @keyframes pulsate {
     0% {
-    transform: scale(0.1);
-    opacity: 0;
+        transform: scale(0.1);
+        opacity: 0;
     }
     50% {
-    opacity: 1;
+        opacity: 1;
     }
     100% {
-    transform: scale(1.2);
-    opacity: 0;
+        transform: scale(1.2);
+        opacity: 0;
     }
 }
+
+
 /* your custom CSS \*/
+
 @-moz-keyframes pulsate {
     from {
         -moz-transform: scale(0.25);
@@ -96,6 +111,7 @@
         opacity: 0;
     }
 }
+
 @-webkit-keyframes pulsate {
     from {
         -webkit-transform: scale(0.25);
@@ -110,47 +126,75 @@
         opacity: 0;
     }
 }
+
+
 /* get the container that's just outside the marker image, 
     which just happens to have our Marker title in it */
-    #maps div[title="blue_sos"] {
-        -moz-animation: pulsate 1.5s ease-in-out infinite;
-        -webkit-animation: pulsate 1.5s ease-in-out infinite;
-        border:1pt solid #fff;
-        /* make a circle */
-        -moz-border-radius:50px;
-        -webkit-border-radius:50px;
-        border-radius:50px;
-        /* multiply the shadows, inside and outside the circle */
-        -moz-box-shadow:inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
-        -webkit-box-shadow:inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
-        box-shadow:inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
-        /* set the ring's new dimension and re-center it */
-        height:100px!important;
-        margin:-36px 0 0 -36px; 
-        width:100px!important;
-    }
-    
-    #maps div[title="red_sos"] {
-        -moz-animation: pulsate 1.5s ease-in-out infinite;
-        -webkit-animation: pulsate 1.5s ease-in-out infinite;
-        border:1pt solid #fff;
-        /* make a circle */
-        -moz-border-radius:51px;
-        -webkit-border-radius:51px;
-        border-radius:51px;
-        /* multiply the shadows, inside and outside the circle */
-        -moz-box-shadow:inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
-        -webkit-box-shadow:inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
-        box-shadow:inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
-        /* set the ring's new dimension and re-center it */
-        height:100px!important;
-        margin:-36px 0 0 -36px;  
-        width:100px!important;
-    }
+
+#maps div[title="orange_sos"] {
+    -moz-animation: pulsate 1.5s ease-in-out infinite;
+    -webkit-animation: pulsate 1.5s ease-in-out infinite;
+    border: 1pt solid #fff;
+    /* make a circle */
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    /* multiply the shadows, inside and outside the circle */
+    -moz-box-shadow: inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0);
+    -webkit-box-shadow: inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0);
+    box-shadow: inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), inset 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0), 0 0 10px rgb(255, 208, 0);
+    /* set the ring's new dimension and re-center it */
+    height: 100px!important;
+    margin: -36px 0 0 -36px;
+    width: 100px!important;
+}
+
+#maps div[title="blue_sos"] {
+    -moz-animation: pulsate 1.5s ease-in-out infinite;
+    -webkit-animation: pulsate 1.5s ease-in-out infinite;
+    border: 1pt solid #fff;
+    /* make a circle */
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    -moz-box-shadow: inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
+    -webkit-box-shadow: inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
+    box-shadow: inset 0 0 10px #06f, inset 0 0 10px #06f, inset 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f, 0 0 10px #06f;
+    /* multiply the shadows, inside and outside the circle */
+    /* set the ring's new dimension and re-center it */
+    height: 100px!important;
+    margin: -36px 0 0 -36px;
+    width: 100px!important;
+}
+
+#maps div[title="red_sos"] {
+    -moz-animation: pulsate 1.5s ease-in-out infinite;
+    -webkit-animation: pulsate 1.5s ease-in-out infinite;
+    border: 1pt solid #fff;
+    /* make a circle */
+    -moz-border-radius: 51px;
+    -webkit-border-radius: 51px;
+    border-radius: 51px;
+    /* multiply the shadows, inside and outside the circle */
+    -moz-box-shadow: inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
+    -webkit-box-shadow: inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
+    box-shadow: inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), inset 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98), 0 0 10px rgb(255, 0, 98);
+    /* set the ring's new dimension and re-center it */
+    height: 100px!important;
+    margin: -36px 0 0 -36px;
+    width: 100px!important;
+}
+
+
 /* hide the superfluous marker image since it would expand and shrink with its containing element */
+
+
 /*	#map div[style*="987654"][title] img {*/
 
+
 /* compensate for iPhone and Android devices with high DPI, add iPad media query */
+
+
 /* @media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (device-width: 768px) {
     #map div.gmnoprint[title="red_pulse"] {
         margin:-10px 0 0 -10px;

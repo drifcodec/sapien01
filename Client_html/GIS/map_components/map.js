@@ -208,7 +208,10 @@ async function initialize() {
         }
         var myLatlng = new google.maps.LatLng(props.coords.lat, props.coords.lng);
         bounds.extend(myLatlng);
-        var pulse = props.status == 1 ? '' : props.status == 0 ? 'red_sos' : ''
+        var pulse = props.status == 0 ? 'red_sos' :
+            props.status == 1 ? '' :
+            props.status == 2 ? 'blue_sos' :
+            props.status == 3 ? 'orange_sos' : ''
         var marker = new google.maps.Marker({
             position: myLatlng,
             map: map,
