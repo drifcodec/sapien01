@@ -9,12 +9,13 @@
     <!--css-->
     <link rel="stylesheet" type="text/css" href="styles_file/mystyle.css">
     <link rel="stylesheet" href="styles_file/pulse.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </link>
     <!---->
     <script src="js_files/jquery.min.js" type="text/javascript" language="javascript"></script>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
+    <!--  <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+   -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClDGFnyszA_dpXvvYW63HqTSOvz04JJps&callback=initialize" defer></script>
     <!--google chart scripts-->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -46,17 +47,18 @@
             <img src="icons_maps/se-list-red.png" id='from_count_busy' title="Depart &amp; Arrived">
             <span class="filter_red" style="display: inline;">0</span>
         </div>
-        <select id="get_region" class="form-control">
-            <option value=""selected >ALL</option>
+        <input type="checkbox" onclick="marker_toggles('all_site');" CHECKED />Site
+        <input type="checkbox" onclick="marker_toggles('weather')" CHECKED />Weather
+        <input type="checkbox" onclick="marker_toggles('vandalism')" CHECKED />vandalism
+
+        <select id="get_region" class="form-control">      
+            <option value="" selected >ALL</option>
             <option value="GAU">GAU</option>
             <option value="NER">NER</option>
             <option value="NOR">NOR</option>
             <option value="NW">NW</option>
             </select>
-        <input id="submit" type="button" />
-        <input type="checkbox" onclick="marker_toggles('all_site');" CHECKED />Site
-        <input type="checkbox" onclick="marker_toggles('weather')" CHECKED />Weather
-        <input type="checkbox" onclick="marker_toggles('vandalism')" CHECKED />vandalism
+        <button id="submit" type="button">Search</button>
 
     </div>
     <div id="map"></div>
