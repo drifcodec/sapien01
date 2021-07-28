@@ -129,7 +129,14 @@
                 }, {
                     "data": "operation_time",
                 }, {
-                    "data": "status",
+                    'data': null,
+                    "render": function(item, type, full, meta) {
+                        var status = item.status == 0 ? 'offline' :
+                            item.status == 1 ? 'online' :
+                            item.status == 2 ? 'working' :
+                            item.status == 3 ? 'Pending Work' : ''
+                        return status
+                    }
                 }, {
                     "data": "active",
                 }, {
@@ -148,6 +155,24 @@
                     "targets": [0],
                     "visible": false,
                     "searchable": false
+                }, {
+                    "targets": 13,
+                    "createdCell": function(td, cellData, rowData, row, col) {
+                        console.log(cellData)
+                        if (cellData.status === '1') {
+                            $(td).css('background', 'green').css('color', 'white');
+                            cellData = 'onLine'
+                        }
+                        if (cellData.status === '0') {
+                            $(td).css('background', 'red').css('color', 'white');
+                        }
+                        if (cellData.status === '2') {
+                            $(td).css('background', 'blue').css('color', 'white');
+                        }
+                        if (cellData.status === '3') {
+                            $(td).css('background', 'orange').css('color', 'white');
+                        }
+                    }
                 }]
             });
 
