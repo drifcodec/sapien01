@@ -2,7 +2,7 @@ var jwtDecode = require('jwt-decode');
 const users = require("../models/user_db/user")
 
 module.exports = {
-    gisAuth: async(req, res, next) => {
+    gis: async(req, res, next) => {
         try {
             var decoded = jwtDecode(req.headers.authorization);
             var user = await getUser(decoded.id);
@@ -22,7 +22,7 @@ module.exports = {
         }
 
     },
-    AdminAuth: async(req, res, next) => {
+    Admin: async(req, res, next) => {
         try {
             var decoded = jwtDecode(req.headers.authorization);
             var user = await getUser(decoded.id);
@@ -36,18 +36,17 @@ module.exports = {
 
         } catch (error) {
             return res.status(401).json({
-                message: 'Role auth  fail'
+                message: 'Role auth x fail'
             });
 
         }
 
     },
-    AllowedAuth: async(req, res, next) => {
+    Allowed: async(req, res, next) => {
         try {
             var decoded = jwtDecode(req.headers.authorization);
             var user = await getUser(decoded.id);
-            console.log("---------> xx000000000000000000000000000", user)
-            if (user.user_status === 'Active') {
+            if (user.user_status === 'Active' || user.roles.includes('super admin')) {
                 next();
             } else {
                 return res.status(401).json({

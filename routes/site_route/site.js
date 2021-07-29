@@ -34,7 +34,7 @@ router.post('/map_site_create', sysAuth, map_site_ctrl.map_site_create)
 router.get("/map_site_get/:id", sysAuth, map_site_ctrl.map_site_get);
 router.post('/map_site_getList_table', sysAuth, map_site_ctrl.map_site_getList_table)
 router.patch("/map_site_update/:id", sysAuth, map_site_ctrl.map_site_update);
-router.get('/map_site_getList', sysAuth, userAuth.AllowedAuth, map_site_ctrl.map_site_getList)
+router.get('/map_site_getList', sysAuth, userAuth.Allowed, map_site_ctrl.map_site_getList)
 router.delete('/map_site_delete/:id', sysAuth, map_site_ctrl.map_site_delete)
 
 module.exports = router;
