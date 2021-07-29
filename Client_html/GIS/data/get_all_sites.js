@@ -4,8 +4,15 @@ async function siteAPIGetlist(region) {
     return loadSites
 }
 async function getSitesApi(region) {
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+            "Authorization": `Bearer ${localStorage.SapionT}`
+        }
+    };
+    console.log(config)
     return new Promise((resolve, reject) => {
-        axios.get('/api/site/map_site_getList?region=' + region)
+        axios.get('/api/site/map_site_getList?region=' + region, config)
             .then(response => {
                 return resolve(response.data)
             })

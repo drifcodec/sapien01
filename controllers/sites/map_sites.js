@@ -35,7 +35,7 @@ module.exports.map_site_create = async(req, res) => {
 
 
 module.exports.map_site_getList = (req, res) => {
-    console.log("-----------------------------------", req.query.region)
+    console.log("----------------------------------->", req.query.region)
     var seach = {}
     req.query.region ? seach.region = req.query.region : ''
     start = req.body.start == undefined ? 0 : req.body.start

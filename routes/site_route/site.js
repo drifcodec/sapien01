@@ -4,8 +4,8 @@ const site_ctrl = require('../../controllers/sites/all_sites')
 const region_ctrl = require('../../controllers/sites/region')
 const site_type_ctrl = require('../../controllers/sites/site_type')
 const map_site_ctrl = require('../../controllers/sites/map_sites')
-const checkAuth = require('../../middleware/user-auth');
-const RoleAuth = require('../../middleware/roles-auth');
+const sysAuth = require('../../middleware/user-auth');
+const userAuth = require('../../middleware/roles-auth');
 
 //Site
 //router.post('/getList',checkAuth,RoleAuth.admin_role)   
@@ -30,11 +30,11 @@ router.post('/site_type_getList_table', site_type_ctrl.site_type_getList_table)
 router.patch("site_type_update/:id", site_type_ctrl.site_type_update);
 router.delete('site_type_delete/:id', site_type_ctrl.site_type_delete)
     //map site
-router.post('/map_site_create', map_site_ctrl.map_site_create)
-router.get("/map_site_get/:id", map_site_ctrl.map_site_get);
-router.post('/map_site_getList_table', map_site_ctrl.map_site_getList_table)
-router.patch("/map_site_update/:id", map_site_ctrl.map_site_update);
-router.get('/map_site_getList', map_site_ctrl.map_site_getList)
-router.delete('/map_site_delete/:id', map_site_ctrl.map_site_delete)
+router.post('/map_site_create', sysAuth, map_site_ctrl.map_site_create)
+router.get("/map_site_get/:id", sysAuth, map_site_ctrl.map_site_get);
+router.post('/map_site_getList_table', sysAuth, map_site_ctrl.map_site_getList_table)
+router.patch("/map_site_update/:id", sysAuth, map_site_ctrl.map_site_update);
+router.get('/map_site_getList', sysAuth, userAuth.AllowedAuth, map_site_ctrl.map_site_getList)
+router.delete('/map_site_delete/:id', sysAuth, map_site_ctrl.map_site_delete)
 
 module.exports = router;

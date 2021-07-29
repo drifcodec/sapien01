@@ -1,29 +1,57 @@
 var jwtDecode = require('jwt-decode');
+const users = require("../models/user_db/user")
 
 module.exports = {
-    admin_role: (req, res, next) => {
+    gisAuth: async(req, res, next) => {
         try {
             var decoded = jwtDecode(req.headers.authorization);
-            var user_role = decoded.user_role;
-            var expire_date = decoded.exp
-            console.log("---------> ",req.headers.authorizatio)
-            if (Date.now() <= expire_date * 1000) {
-                if (user_role.includes('Admin') || user_role.includes('super admin')) {
-                    next();
-                } else {
-                    return res.status(401).json({
-                        message: 'Not Admin!'
-                    });
-                }
-            }
-            else if (req.headers.authorization==='') {
+            var user = await getUser(decoded.id);
+            if (user.roles.includes('gis') || user.roles.includes('super ffadmin')) {
+                next();
+            } else {
                 return res.status(401).json({
-                    message: 'Permission Denied No Token found!'
+                    message: 'Not Dont Have GIS rights!'
                 });
             }
-            else {
+
+        } catch (error) {
+            return res.status(401).json({
+                message: 'Role auth  fail'
+            });
+
+        }
+
+    },
+    AdminAuth: async(req, res, next) => {
+        try {
+            var decoded = jwtDecode(req.headers.authorization);
+            var user = await getUser(decoded.id);
+            if (user.roles.includes('admin') || user.roles.includes('super admin')) {
+                next();
+            } else {
                 return res.status(401).json({
-                    message: 'Permission Denied expired token!'
+                    message: 'Not Dont Have right to Add Roles!'
+                });
+            }
+
+        } catch (error) {
+            return res.status(401).json({
+                message: 'Role auth  fail'
+            });
+
+        }
+
+    },
+    AllowedAuth: async(req, res, next) => {
+        try {
+            var decoded = jwtDecode(req.headers.authorization);
+            var user = await getUser(decoded.id);
+            console.log("---------> xx000000000000000000000000000", user)
+            if (user.user_status === 'Active') {
+                next();
+            } else {
+                return res.status(401).json({
+                    message: 'you are not Active User, Please contact Admin'
                 });
             }
 
@@ -37,3 +65,19 @@ module.exports = {
     }
 
 };
+async function getUser(id) {
+    return new Promise((resolve, reject) => {
+        users.findOne({ _id: id })
+            .exec()
+            .then(result => {
+                if (result) {
+                    return resolve(result)
+                } else {
+                    return resolve(null)
+                }
+            })
+            .catch(err => {
+                return resolve(null)
+            });
+    })
+}
