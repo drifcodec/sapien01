@@ -45,8 +45,6 @@ module.exports.getMenuList = (req, res) => {
                     .then(results => {
                         if (results) {
                             var menu_list = []
-
-                            console.log("############-----Roles------>###############", results)
                             for (i = 0; i < results.length; i++) {
                                 var menu_obj = {
                                     parent_menu: results[i].parent_menu,
@@ -81,6 +79,7 @@ module.exports.getMenuList = (req, res) => {
                             var data = {
                                 "results": menu_list
                             }
+                            console.log("############-----Roles------>###############", menu_list)
                             res.status(200).json(data)
                         }
 

@@ -61,7 +61,7 @@ module.exports.roll_out_distinct_List = (req, res) => {
         })
 
 }
-module.exports.roll_out_getList = (req, res) => {
+module.exports.roll_out_getList_table = (req, res) => {
     var searchStr = req.body;
     var order = ''
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
@@ -129,7 +129,55 @@ module.exports.roll_out_getList = (req, res) => {
     })
 }
 
+module.exports.roll_out_getList = (req, res) => {
+    var searchStr = req.body;
+    start = req.body.start == undefined ? 0 : req.body.start
+    limit = req.body.length == undefined ? 1000 : req.body.length
+    roll_out.find(searchStr)
+        .skip(Number(start))
+        .limit(Number(limit))
+        .exec()
+        .then(results => {
+            if (results) {
+                var data = {
+                    "results": results,
+                    "total": results.length
+                }
+                res.status(200).json(data)
+            }
 
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+}
+module.exports.roll_out_getList_operator = (req, res) => {
+    var searchStr = {}
+        //req.body.current_status ? searchStr.current_status = { $in: [req.body.current_status] } : ''
+    req.body.current_status ? searchStr.current_status = { $in: req.body.current_status } : ''
+        //searchStr.operator = req.body.operator
+    console.log("Current_status", searchStr)
+    start = req.body.start == undefined ? 0 : req.body.start
+    limit = req.body.length == undefined ? 1000 : req.body.length
+    roll_out.find(searchStr)
+        .skip(Number(start))
+        .limit(Number(limit))
+        .exec()
+        .then(results => {
+            if (results) {
+                var data = {
+                    "results": results,
+                    "total": results.length,
+                    "url": "roll_out_getList_operator"
+                }
+                res.status(200).json(data)
+            }
+
+        }).catch(err => {
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+}
 module.exports.roll_out_get = (req, res) => {
     const _id = req.params.id;
     roll_out.findById(_id)

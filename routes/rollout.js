@@ -4,12 +4,13 @@ const roll_out = require("../controllers/roll_out_ctrl/roll_out");
 const category = require("../controllers/roll_out_ctrl/category");
 const sub_category = require("../controllers/roll_out_ctrl/sub_category");
 
-//roll 
+//roll out
 router.post("/roll_out_create", roll_out.roll_out_create)
 router.get("/roll_out_get/:id", roll_out.roll_out_get)
 router.get("/roll_out_distinct_List", roll_out.roll_out_distinct_List)
-router.post("/roll_out_getList", roll_out.roll_out_getList)
-router.post("/roll_out_getList_table", roll_out.roll_out_getList)
+router.get("/roll_out_getList", roll_out.roll_out_getList)
+router.get("/roll_out_getList_operator", roll_out.roll_out_getList_operator)
+router.post("/roll_out_getList_table", roll_out.roll_out_getList_table)
 router.patch('/roll_out_update/:id', roll_out.roll_out_update);
 router.delete("/roll_out_delete/:id", roll_out.roll_out_delete)
 
