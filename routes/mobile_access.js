@@ -9,8 +9,8 @@ router.post('/mobile_access_getList_table', mobile_access_ctrl.Mobile_access_get
 router.get('/mobile_access_getList', mobile_access_ctrl.Mobile_access_getList)
     //router.get('/getMenuList/:id', mobile_access_ctrl.getMenuList)
 router.get("/:id", mobile_access_ctrl.Mobile_access_get);
-router.post('/mobile_access_create', sysAuth, userAuth.Admin, userAuth.Allowed, mobile_access_ctrl.Mobile_access_create)
+router.post('/mobile_access_create', mobile_access_ctrl.Mobile_access_create)
 router.put("/:id", mobile_access_ctrl.Mobile_access_update);
-router.delete('/:id', sysAuth, userAuth.Admin, userAuth.Allowed, mobile_access_ctrl.Mobile_access_delete)
+router.delete('/:id', mobile_access_ctrl.Mobile_access_delete)
 
 module.exports = router;
