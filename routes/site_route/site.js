@@ -29,7 +29,7 @@ router.get('/site_type_getList', site_type_ctrl.site_type_getList)
 router.post('/site_type_getList_table', site_type_ctrl.site_type_getList_table)
 router.patch("site_type_update/:id", site_type_ctrl.site_type_update);
 router.delete('site_type_delete/:id', site_type_ctrl.site_type_delete)
-    //map site
+    //map .site
 router.post('/map_site_create', map_site_ctrl.map_site_create)
 router.get("/map_site_get/:id", map_site_ctrl.map_site_get);
 router.post('/map_site_getList_table', map_site_ctrl.map_site_getList_table)
