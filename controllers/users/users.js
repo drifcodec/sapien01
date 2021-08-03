@@ -323,7 +323,7 @@ exports.forgot_password = (req, res) => {
         });
 };
 exports.login = (req, res, next) => {
-    if (req.body.user_id && req.body.password) {
+    if (req.body.user_id && req.body.password && req.body.source) {
         User.find({ user_id: req.body.user_id })
             .exec()
             .then(user => {
@@ -346,7 +346,7 @@ exports.login = (req, res, next) => {
                                 user_id: user[0].user_id,
                                 user_role: user[0].role
                             },
-                            "secret", { expiresIn: "1d" }
+                            "secret", { expiresIn: req.body.source==="Mobile"?"365d":"1d"}
                         );
                         var status = user[0].user_status;
                         if (status == 'Active') {
