@@ -38,7 +38,7 @@
                 .catch(error => console.error(error));
 
                 function card_list(data) {
-                var app_e = `<input id="" type="file" accept="image/*;capture=camera">
+                var app_e = `
                         <div class="owl-item cloned" style="width: 70px; margin-right: 5px;">
                 <div class="item">
                     <a href="${data.url}">
@@ -165,6 +165,7 @@
             </div>
 
             <div class="section mt-4">
+                <input id="" type="file" accept="image/*;capture=camera">
                 <div class="transactions">
                 </div>
             </div>
