@@ -323,7 +323,7 @@ exports.forgot_password = (req, res) => {
         });
 };
 exports.login = (req, res, next) => {
-    if (req.body.user_id && req.body.password && req.body.source) {
+    if (req.body.user_id && req.body.password ) {
         User.find({ user_id: req.body.user_id })
             .exec()
             .then(user => {
