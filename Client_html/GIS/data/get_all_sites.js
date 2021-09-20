@@ -10,7 +10,7 @@ async function getSitesApi(region) {
             "Authorization": `Bearer ${localStorage.SapionT}`
         }
     };
-    console.log("the config is ----->",config)
+    aler("the config is ----->",config)
     return new Promise((resolve, reject) => {
         axios.get('/api/site/map_site_getList?region=' + region, config)
             .then(response => {
