@@ -9,8 +9,7 @@ async function getSitesApi(region) {
             "Content-type": "application/json",
             "Authorization": `Bearer ${localStorage.SapionT}`
         }
-    };/* 
-    alert("the config is --ss--->",config.headers) */
+    };/* h */
     return new Promise((resolve, reject) => {
         axios.get('/api/site/map_site_getList?region=' + region, config)
             .then(response => {
