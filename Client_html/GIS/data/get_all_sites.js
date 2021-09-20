@@ -12,7 +12,7 @@ async function getSitesApi(region) {
     };
     console.log("the config is ----->",config)
     return new Promise((resolve, reject) => {
-        axios.get('http://localhost:3000/api/site/map_site_getList?region=' + region, config)
+        axios.get('/api/site/map_site_getList?region=' + region, config)
             .then(response => {
                 return resolve(response.data)
             })
