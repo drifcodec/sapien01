@@ -37,7 +37,7 @@ $(document).ready(function() {
             })
             .then(response => {
                 var types = ["siteName", "sites", "region", "siteType", "siteAddress", "siteLat",
-                    "siteLong", "SiteCat", "siteSubCat", "operator", "Priority"
+                    "siteLong", "SiteCat", "siteSubCat", "operator", "priority"
                 ]
                 alert("Order was created")
                 types.forEach(type => {
