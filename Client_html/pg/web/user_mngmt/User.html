@@ -243,7 +243,7 @@
           }
           if ($(this).val() === "update") {
             var id = $("#id").val();
-            console.log("--> ID ---ID" + $("#id").val());
+            console.log("--> ID ---ID" ,config);
             axios
               .put(`/api/user/user_update/${id}`, {
                 user_id: $("#user_id").val(),
