@@ -3,7 +3,9 @@ $(document).ready(function() {
     //operator
     $("#select").change(function() {
         var value = $(this).val();
+        console.log(value)
         $("#operator").attr("value", value)
+        $("#operator").val(value)
     });
 
     $("#operator").click(function() {
