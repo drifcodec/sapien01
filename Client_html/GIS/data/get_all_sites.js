@@ -3,6 +3,7 @@ async function siteAPIGetlist(region) {
     var loadSites = setSite(getSites)
     return loadSites
 }
+
 async function getSitesApi(region) {
     const config = {
         headers: {
