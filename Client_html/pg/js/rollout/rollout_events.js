@@ -3,10 +3,10 @@ $(document).ready(function() {
     //operator
     $("#select").change(function() {
         var value = $(this).val();
-        $("#input").attr("value", value)
+        $("#operator").attr("value", value)
     });
 
-    $("#input").click(function() {
+    $("#operator").click(function() {
         $("#SelectInput").css('display', 'block')
         var myDropDown = $("#select");
         var length = $('#select> option').length;
