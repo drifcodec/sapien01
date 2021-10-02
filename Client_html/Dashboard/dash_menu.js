@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function() {
     var menu_list = localStorage.Sapian_menu ? localStorage.Sapian_menu : ''
+    var hostURL =window.location.origin
     if (menu_list) {
         menu_list = JSON.parse(localStorage.Sapian_menu)
         console.log("menu have " + menu_list.length)
@@ -28,19 +29,24 @@ document.addEventListener("DOMContentLoaded", async function() {
                 });
         })
     }
-    console.log("IN MENU------------>", menu_list)
 
+    
     function create_menu(menu_list) {
         for (e = 0; e < menu_list.length; e++) {
             var parent_menu = menu_list[e].parent_menu
             var view = menu_list[e].view
             var page_name = menu_list[e].page
-            var page_url = menu_list[e].url
+            var source = menu_list[e].source
+            var page_url=menu_list[e].url
+            console.log("source------------>"+source)
+            if (source==='Internal'){
+                page_url =hostURL+"/"+menu_list[e].url
+            }
+             
             var href = '#'
             var target = ''
             var j_function = ''
             var concat_parent_menu = parent_menu.split(' ').join('_')
-            console.log("Pleave log the Parent Menu " + concat_parent_menu)
             if (view == 'new') {
                 href = page_url
                 target = 'target="_blank"'

@@ -18,7 +18,7 @@ module.exports.Page_access_create = (req, res) => {
         view: req.body.view,
         roles: req.body.roles,
         status: req.body.status,
-        position: req.body.position
+        source: req.body.source
     }
     const OrderObj_input = new Page_access(post_data)
     OrderObj_input.save().then(data => {
@@ -49,8 +49,9 @@ module.exports.getMenuList = (req, res) => {
                                 var menu_obj = {
                                     parent_menu: results[i].parent_menu,
                                     page: results[i].page,
-                                    url: results[i].protocol + results[i].url,
+                                    url: results[i].url,
                                     view: results[i].view,
+                                    source: results[i].source,
                                     position: results[i].position
                                 }
 
