@@ -38,11 +38,12 @@ document.addEventListener("DOMContentLoaded", async function() {
             var page_name = menu_list[e].page
             var source = menu_list[e].source
             var page_url=menu_list[e].url
-            console.log("source------------>"+source)
             if (source==='Internal'){
                 page_url =hostURL+"/"+menu_list[e].url
             }
              
+            console.log("hostURL------------>"+hostURL)
+            console.log("source------------>"+page_url)
             var href = '#'
             var target = ''
             var j_function = ''
