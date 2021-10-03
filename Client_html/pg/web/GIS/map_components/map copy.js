@@ -1,3 +1,5 @@
+
+
 var map;
 var all_markers = []
 var siteCluster = []
@@ -294,22 +296,22 @@ async function initialize() {
             //map.fitBounds(bounds);
 
     };
-    mcOptions = {
+    siteClusterIcon = {
         styles: [{
             height: 36,
-            url: "/GIS/icons_maps/ClusterTL.png",
+            url: clusters.siteCluster,
             width: 30
         }]
     }
-    vandalism_icon = {
+    vandalismClusterIcon = {
         styles: [{
             height: 36,
-            url: "/GIS/icons_maps/cluster_se12.png",
+            url: clusters.vandalismCluster,
             width: 30
         }]
     }
-    siteCluster = new MarkerClusterer(map, all_markers, mcOptions);
-    vandalismCluster = new MarkerClusterer(map, all_markers, vandalism_icon);
+    siteCluster = new MarkerClusterer(map, all_markers, siteClusterIcon);
+    vandalismCluster = new MarkerClusterer(map, all_markers, vandalismClusterIcon);
 }
 
 // Sets the map on all markers in the array.

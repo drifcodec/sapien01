@@ -45,7 +45,7 @@ module.exports = {
     },
     isAllowed: async(req, res, next) => {
         try {
-            var decoded = jwt(req.headers.authorization);
+            var decoded = jwtDecode(req.headers.authorization);
             var user = await getUser(decoded.id);
             if (user.user_status === 'Active' || user.roles.includes('super admin')) {
                 next();

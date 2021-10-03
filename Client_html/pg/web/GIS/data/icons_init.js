@@ -4,10 +4,15 @@ var site_icons = {
    maintenance_icon: 'icons_maps/maintenance.png',
    pending_instalation_icon: 'icons_maps/pending_instalation.png'
 }
+var clusters={
+   siteCluster:"icons_maps/ClusterTL.png",
+   vandalismCluster:"icons_maps/cluster_se12.png"
+}
 var site_status_icons = {
    online: 'icons_maps/green.png',
    offline: 'icons_maps/red.png',
-   maintenance: 'icons_maps/orange.png',
+   pendingWork: 'icons_maps/orange.png',
+   working: 'icons_maps/orange.png',
    dead: 'icons_maps/white.png'
 }
 var se_icons = {

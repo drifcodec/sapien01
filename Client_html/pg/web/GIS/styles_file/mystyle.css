@@ -241,20 +241,21 @@ span.filter_red {
 }
 
 #site_status {
-    width: 30%;
     display: none;
     color: #f1efed;
-    /* border-style: solid; */
     border-color: #569052;
     position: absolute;
     bottom: 0%;
     margin-bottom: 5px;
-    /* margin: 0 auto; */
     font-size: 15px;
     background: rgb(0 0 0 / 90%);
     z-index: 1;
 }
 
+
+tr:nth-child(even) {
+  background-color: #a39f9f;
+}
 html,
 body {
     height: 100%;
