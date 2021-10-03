@@ -5,7 +5,7 @@ $(function() {
         { item: 'medium_risk', color: 'yellow', pannel: 'medium_risk' },
         { item: 'high_risk', color: 'red', pannel: 'high_risk' },
         { item: 'low_risk', color: 'blue', pannel: 'low_risk' }
-    ];
+    ]; //
     var html = '<div id="activeBubble">';
     for (var i = 0; i < noticeData.length; i++) {
         var nt = noticeData[i];
