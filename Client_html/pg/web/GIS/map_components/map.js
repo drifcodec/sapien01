@@ -177,7 +177,7 @@ async function initialize() {
     load_wearther();
     var site_all_list = await siteAPIGetlist($("#get_region").val());
     var vandalism_list = await vandalismAPIGetlist();
-    console.log("#####----------########", site_all_list);
+    
     for (i = 0; i < site_all_list.length; i++) {
       addMarker(site_all_list[i]);
     }

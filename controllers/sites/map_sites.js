@@ -142,6 +142,7 @@ module.exports.map_site_get = (req, res) => {
 
 module.exports.map_site_update = (req, res) => {
     const id = req.params.id;
+    req.body.operation_time=new Date()
     map_site.update({ _id: id }, { $set: req.body })
         .exec()
         .then(result => {

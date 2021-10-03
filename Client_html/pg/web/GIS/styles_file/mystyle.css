@@ -241,7 +241,7 @@ span.filter_red {
 }
 
 #site_status {
-    display: none;
+    /* display: none; */
     color: #f1efed;
     border-color: #569052;
     position: absolute;
@@ -252,7 +252,9 @@ span.filter_red {
     z-index: 1;
 }
 
-
+table, th, td {
+    border: 1px solid #569052;
+  }
 tr:nth-child(even) {
   background-color: #a39f9f;
 }

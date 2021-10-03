@@ -12,7 +12,7 @@ var site_status_icons = {
    online: 'icons_maps/green.png',
    offline: 'icons_maps/red.png',
    pendingWork: 'icons_maps/orange.png',
-   working: 'icons_maps/orange.png',
+   working: 'icons_maps/blue.png',
    dead: 'icons_maps/white.png'
 }
 var se_icons = {
