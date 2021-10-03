@@ -80,9 +80,9 @@ function setSite(marker) {
   return site_all_list;
 }
 function timeConvert(inputTime) {
-  var newDate = new Date(inputTime).toLocaleString();
-//  newDate.setHours(newDate.getHours)
-  return newDate;
+  var newDate = new Date(inputTime.toLocaleString());
+  newDate.setHours(newDate.getHours())
+  return newDate.toLocaleString();
 }
 var siteMapView = {
   content: function (site_id,site_name,time,operator,status) {
