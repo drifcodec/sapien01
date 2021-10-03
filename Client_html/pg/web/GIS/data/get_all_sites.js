@@ -70,8 +70,8 @@ function setSite(marker) {
       status="Pending Work"
     }
     site_data.site_id = data.site_id;
-    site_data.content = siteMapView.content(data.site_id,data.name,data.operation_time,data.operator,status);
-    site_data.tooltip = siteMapView.tooltip(data.site_id,data.name,data.operation_time,data.operator,status);
+    site_data.content = siteMapView.content(data.site_id,data.name, timeConvert(data.operation_time),data.operator,status);
+    site_data.tooltip = siteMapView.tooltip(data.site_id,data.name, timeConvert(data.operation_time),data.operator,status);
     site_data.iconImage = towers_icons.medium;
     if (typeof (data.latitude * 1) == "number" && typeof (data.longitude * 1) == "number") {
       site_all_list.push(site_data);
@@ -79,7 +79,11 @@ function setSite(marker) {
   }
   return site_all_list;
 }
-
+function timeConvert(inputTime) {
+  var newDate = new Date(inputTime).toLocaleString();
+//  newDate.setHours(newDate.getHours)
+  return newDate;
+}
 var siteMapView = {
   content: function (site_id,site_name,time,operator,status) {
     var sites_content = ` 
