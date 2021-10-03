@@ -4,7 +4,7 @@ const site_ctrl = require('../../controllers/sites/all_sites')
 const region_ctrl = require('../../controllers/sites/region')
 const site_type_ctrl = require('../../controllers/sites/site_type')
 const map_site_ctrl = require('../../controllers/sites/map_sites')
-const sysAuth = require('../../middleware/user-auth');
+const tokenAuth = require('../../middleware/user-auth');
 const userAuth = require('../../middleware/roles-auth');
 
 //Site
@@ -34,7 +34,7 @@ router.post('/map_site_create', map_site_ctrl.map_site_create)
 router.get("/map_site_get/:id", map_site_ctrl.map_site_get);
 router.post('/map_site_getList_table', map_site_ctrl.map_site_getList_table)
 router.patch("/map_site_update/:id", map_site_ctrl.map_site_update);
-router.get('/map_site_getList', userAuth.Allowed, map_site_ctrl.map_site_getList)
-router.delete('/map_site_delete/:id', sysAuth, map_site_ctrl.map_site_delete)
+router.get('/map_site_getList', tokenAuth,userAuth.isAllowed, map_site_ctrl.map_site_getList)
+router.delete('/map_site_delete/:id', tokenAuth, map_site_ctrl.map_site_delete)
 
 module.exports = router;
