@@ -197,16 +197,17 @@
             }
             $('#btn_login').click(function() {
                 $('.login-form').append("<div class='loader'></div>")
+                var user_credential={
+                    "user_id": $('#username').val(),
+                    "password": $('#password').val()
+                }
 
                 localStorage.setItem("SapionT", null);
                 localStorage.setItem("Sapion_id", null);
                 localStorage.setItem("Sapion_U_iD", null);
                 localStorage.setItem("Sapion_U_R", null)
-                var stringify_data = JSON.stringify({
-                    "user_id": $('#username').val(),
-                    "password": $('#password').val()
-                });
-                login_service_load(stringify_data)
+                
+                login_service_load(JSON.stringify(user_credential))
             })
 
             function login_service_load(stringify_data) {
