@@ -205,9 +205,10 @@
           ],
         });
         $("#delete_user").click(function () {
+            console.log("--> ID ---ID" ,config);
           var user_id = $(this).val();
           axios
-            .delete(`/api/user/user_delete/${user_id}`,{},config)
+            .delete(`/api/user/user_delete/${user_id}`,config)
             .then((response) => {
               $("#delete_confirm").modal("hide");
               $("#table_id").DataTable().ajax.reload(null, false);
