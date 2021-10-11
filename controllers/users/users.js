@@ -173,7 +173,7 @@ exports.user_update = (req, res) => {
     });
 };
 exports.signup = (req, res) => {
-  var default_password = "CGOS123";
+  var default_password = req.body.password//"CGOS123";
   //{ $or: [{ user_id: req.body.user_id }, { email: req.body.email }] })
   console.log("----------- email 1-----+");
   User.find({ user_id: req.body.user_id })
