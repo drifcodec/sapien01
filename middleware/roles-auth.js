@@ -37,7 +37,7 @@ module.exports = {
 
         } catch (error) {
             return res.status(401).json({
-                message: 'Role auth x fail'
+                message: 'Role auth  fail isAdmin'
             });
 
         }
@@ -57,7 +57,7 @@ module.exports = {
 
         } catch (error) {
             return res.status(401).json({
-                message: 'Role auth  fail'
+                message: 'Role auth  fail isAllowed'
             });
 
         }
