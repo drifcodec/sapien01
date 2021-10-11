@@ -91,6 +91,10 @@ var siteMapView = {
      <div class="tipsTable">
        <table>
          <tbody>
+         
+           <tr>
+           <td colspan="2" class="tipsTitle"><b>Site Details</b></td>
+           </tr>
            <tr>
              <td class="tipsTitle"> Site ID: </td>
              <td title="${site_id}">${site_id}</td>
@@ -100,15 +104,18 @@ var siteMapView = {
              <td title="${site_name}"> ${site_name} </td>
            </tr>
            <tr>
-             <td class="tipsTitle"> Lastest Status: </td>
+             <td colspan="2" class="tipsTitle"><b>Site Latest History</b></td>
+           </tr>
+           <tr>
+             <td class="tipsTitle">Status: </td>
              <td title="${status}"> ${status} </td>
            </tr>
            <tr>
-             <td class="tipsTitle"> Lastest Operator: </td>
+             <td class="tipsTitle">Operator: </td>
              <td title=""> ${operator} </td>
            </tr>
            <tr>
-             <td class="tipsTitle"> Lastest Operation Time: </td>
+             <td class="tipsTitle">Operation Time: </td>
              <td title=""> ${time} </td>
            </tr>
          </tbody>
