@@ -222,7 +222,7 @@
 
         $("#create_update").click(function () {
           if ($(this).val() === "create") {
-            console.log("we here ");
+            $("#password").show()
             axios
               .post("/api/user/signup", {
                 user_id: $("#user_id").val(),
@@ -245,10 +245,9 @@
           }
           //
           if ($(this).val() === "update") {
-            var id = $("#id").val();
-            console.log("--> ID ---ID" ,config);
+            $("#password").hide()
             axios
-              .put(`/api/user/user_update/${id}`, {
+              .put(`/api/user/user_update/${$("#id").val()}`, {
                 user_id: $("#user_id").val(),
                 name: $("#name").val(),
                 surname: $("#surname").val(),
