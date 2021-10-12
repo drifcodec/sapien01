@@ -27,7 +27,13 @@
       #_id {
         display: none;
       }
-
+      #btn_clock_in {
+        display: none;
+      }
+      #btn_clock_out {
+        display: none;
+      }
+      
       #example_processing {
         position: fixed;
         background: red;
@@ -62,24 +68,39 @@
     ></script>
     <script>
       $(document).ready(function () {
-        
-      $("#AddUser").modal("show");
         const config = {
           headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${localStorage.SapionT}`,
           },
         };
-
+      axios.get('/api/clocking/clocking_today_checker',config)
+        .then(response => {
+          var res=response.data.result
+          id=res.id
+          console.log("check-----> ",response.data)
+           if (res && (!res.current_status || res.current_status==='')){  
+             $("#btn_clock_in").css("display","inline-block")
+          }else if (res && res.current_status==='Clocked In'){
+             $("#btn_clock_out").css("display","inline-block")
+           } else if (res && res.current_status==='Clocked Out'){
+            $("#success_clocking_message").append("YOU HAVE CLOCKED IN FOR THE DAY")
+           } 
+        })
+        .catch(error => console.error(error));
+        
+      $("#AddUser").modal("show");
         var html_ = `
         <div class="panel-body">
-        <table id="table_id" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
+          <table id="table_id" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" style="width:100%">
         <thead>
             <tr>
-        <th>Clock In Time</th> 
-        <th>Clock Out Time</th> 
+        <th>Clock In Time</th>
+        <th>Clock Out Time</th>
         <th>Current Status</th>
-        <th>total working hours<th>
+        <th>total_working_hours</th>
+        <th>Total Minutes Worked</th>
+        <th>Completion Status</th>
             </tr>
           </thead>
       </table>
@@ -115,27 +136,44 @@
             },
             {
               data: "total_working_hours",
-            }
+            },
+            {
+              data: "totalInMinutes",
+            },
+            {
+              data: "completion_status",
+            },
+            
           ]
         });
 
-        $(".create_update").click(function () {
-
-          var date=(new Date()).getTime()
-          console.log("--------Status>",$(this).attr('value') )
-          console.log("--------Date->",date)
-          if ($(this).val() === "creatse") {
+        $("#btn_clock_in").click(function () {
             axios
-              .post(`/api/clocking/clocking_create`, {
-                timestamp: new Date()//,
+              .post(`/api/clocking/clocking_create`,{
+                "clockin_time":(new Date()).getTime()
               },config)
               .then((response) => {
                 $("#table_id").DataTable().ajax.reload(null, false);
+                $("#btn_clock_out").css("display","inline-block")
+                $("#btn_clock_in").css("display","none")
               })
               .catch((error) => {
                 console.log("Error Occured . Contact Admin" + error);
               });
-          }
+        }); 
+        $("#btn_clock_out").click(function () {
+            axios
+              .patch(`/api/clocking/clocking_update`,{
+                "clockout_time":(new Date()).getTime()
+              },config)
+              .then((response) => {
+                $("#table_id").DataTable().ajax.reload(null, false);
+                $("#btn_clock_out").css("display","none")
+                $("#success_clocking_message").append("YOU HAVE CLOCKED IN FOR THE DAY")
+              })
+              .catch((error) => {
+                console.log("Error Occured . Contact Admin" + error);
+              });
         });
         
       }); 
@@ -177,10 +215,11 @@
           </div>
           <div class="modal-body">
             <form action="/add" method="POST">
-              <button type="button" id='btn_clock_in' class="btn btn-primary create_update" value="clock in">
+              <span id="success_clocking_message" style="color:green"></span>
+              <button type="button" id='btn_clock_in' class="btn btn-primary" value="clock in">
                 Clock In
               </button>
-              <button type="button" id='btn_clock_out'  class="btn btn-primary create_update" value="clock out">
+              <button type="button" id='btn_clock_out'  class="btn btn-primary" value="clock out">
                 Clock Out
               </button>
             </form>

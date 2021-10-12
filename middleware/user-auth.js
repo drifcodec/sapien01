@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
         next();
     } catch (error) {
         return res.status(401).json({
-            message: 'Auth failed error 401 expired token'
+            message: 'Auth failed error 401 expired token XX'
         });
     }
 };

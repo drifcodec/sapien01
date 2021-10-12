@@ -1,15 +1,24 @@
 const clocking = require('../../models/clocking/clocking')
 const mongoose = require("mongoose");
-const currentUser=require("../../global_js_libs/common_methods")
+const commonMethod=require("../../global_js_libs/common_methods")
+var startDate = new Date(); // this is the starting date that looks like ISODate("2014-10-03T04:00:00.188Z")
+startDate.setSeconds(0);
+startDate.setHours(0);
+startDate.setMinutes(0);
 
-module.exports.clocking_create = (req, res) => {
+var dateMidnight = new Date(startDate);
+dateMidnight.setHours(23);
+dateMidnight.setMinutes(59);
+dateMidnight.setSeconds(59);
+module.exports.clocking_create = async (req, res) => {
+    var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
+    
     var post_data = {
         _id: new mongoose.Types.ObjectId(),
-        user_id: req.body.user_id,
+        user_id: isUser,
         clockin_time: req.body.clockin_time?new Date(req.body.clockin_time):req.body.clockin_time,
         clockout_time: req.body.clockout_time?new Date(req.body.clockout_time):req.body.clockout_time,
         current_status:"Clocked In",
-        total_working_hours: req.body.total_working_hours,
     }
     const OrderObj_input = new clocking(post_data)
     OrderObj_input.save().then(data => {
@@ -68,8 +77,8 @@ module.exports.clocking_getList_table = (req, res) => {
     } else {
         searchStr = {};
     }
-    console.log("drop_down_select " + JSON.stringify(drop_down_select))
-    console.log("searchStr " + JSON.stringify())
+    //console.log("drop_down_select " + JSON.stringify(drop_down_select))
+   // console.log("searchStr " + JSON.stringify())
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
@@ -111,7 +120,7 @@ module.exports.my_clocking_getList_table = async (req, res) => {
     var order = ''
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
     var drop_down_select = {}
-    var isUser = await currentUser.currentUser(req.headers.authorization.split(" ")[1])
+    var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
     if (isUser){
         drop_down_select.user_id=isUser
     }
@@ -138,8 +147,6 @@ module.exports.my_clocking_getList_table = async (req, res) => {
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
     var recordsTotal = 0
-    clocking.countDocuments({}, function(err, total) {
-        recordsTotal = total
         clocking.countDocuments(drop_down_select, function(err, total_searched) {
             recordsFiltered = total_searched;
 
@@ -157,7 +164,7 @@ module.exports.my_clocking_getList_table = async (req, res) => {
                         var data = {
                             "draw": draw,
                             "recordsFiltered": recordsFiltered,
-                            "recordsTotal": recordsTotal,
+                            "recordsTotal": recordsFiltered,
                             "data": results
                         }
                         res.status(200).json(data)
@@ -168,7 +175,7 @@ module.exports.my_clocking_getList_table = async (req, res) => {
                     res.status(500).json({ error: err });
                 });
         })
-    })
+  
 }
 
 module.exports.clocking_get = (req, res) => {
@@ -188,30 +195,18 @@ module.exports.clocking_get = (req, res) => {
             res.status(500).json({ error: "No valid entry found for provided ID" });
         });
 }
-module.exports.clocking_today_checker = (req, res) => {
-var startDate = new Date(); // this is the starting date that looks like ISODate("2014-10-03T04:00:00.188Z")
-startDate.setSeconds(0);
-startDate.setHours(0);
-startDate.setMinutes(0);
-
-var dateMidnight = new Date(startDate);
-dateMidnight.setHours(23);
-dateMidnight.setMinutes(59);
-dateMidnight.setSeconds(59);
-/** Now do your query */
+module.exports.clocking_today_checker = async  (req, res) => {
+var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
 var filter = {"clockin_time": { $gte: startDate,
                                 $lte:dateMidnight },
-              "user_id":req.body.user_id}; 
-
-                 //$gte: startDate means greater then    
-                 //$lte: startDate means less then            
-    clocking.find(filter)
+              "user_id":isUser};           
+    clocking.findOne(filter)
         .exec()
         .then(doc => {
             if (doc) {
                 res.status(200).json({ result: doc });
             } else {
-                res.status(404).json({ message: "No valid entry found for provided ID" });
+                res.status(200).json({ result:{}});
             }
         })
         .catch(err => {
@@ -219,9 +214,16 @@ var filter = {"clockin_time": { $gte: startDate,
         });
 }
 
-module.exports.clocking_update = (req, res) => {
-    const id = req.params.id;
-    clocking.update({ _id: id }, { $set: req.body })
+module.exports.clocking_update = async (req, res) => {
+    var resp= await getClockingID(req)
+        req.body.clockout_time= req.body.clockout_time?new Date(req.body.clockout_time):req.body.clockout_time
+        req.body.current_status="Clocked Out"
+        req.body.total_working_hours=commonMethod.twoTimeDiffence_HM(new Date(req.body.clockout_time),resp.clockin_time)
+        req.body.totalInMinutes=commonMethod.twoTimeDiffence_M(new Date(req.body.clockout_time),resp.clockin_time)
+        req.body.completion_status=commonMethod.twoTimeDiffence_M(new Date(req.body.clockout_time),resp.clockin_time)>=480?"completed":"incomplete"
+        
+    if (resp._id){
+     clocking.update({ _id: resp._id }, { $set: req.body })
         .exec()
         .then(result => {
             if (result.nModified) {
@@ -241,6 +243,7 @@ module.exports.clocking_update = (req, res) => {
                 error: err
             });
         });
+    }
 }
 
 module.exports.clocking_delete = (req, res) => {
@@ -260,4 +263,25 @@ module.exports.clocking_delete = (req, res) => {
             console.log(err);
             res.status(500).json({ error: err });
         });
+}
+async function getClockingID(req) {
+    var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
+    var filter = {"clockin_time": { $gte: startDate,
+        $lte:dateMidnight },
+        "user_id":isUser};
+    return new Promise((resolve, reject) => {
+        clocking.findOne(filter)
+            .exec()
+            .then(result => {
+                if (result) {
+                    return resolve(result)
+                } else {
+                    return resolve(null)
+                }
+
+            })
+            .catch(err => {
+                return resolve(null)
+            });
+    })
 }

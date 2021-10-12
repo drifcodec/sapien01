@@ -7,6 +7,8 @@ const clocking_Schema = mongoose.Schema({
     clockin_time: Date,
     clockout_time: Date,
     current_status:String,  
-    total_working_hours: String,
+    total_working_hours:String ,
+    totalInMinutes:Number,
+    completion_status:String
 });
 module.exports = mongoose.model('clocking', clocking_Schema);

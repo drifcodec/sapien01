@@ -37,7 +37,7 @@
       axios.get('/api/user/user_getList', {
       })
         .then(response => {
-          for (i = 0; i < response.data.results.length; i++) {
+          for (i = 0; i < response.data.result.length; i++) {
             console.log(response.data.results, "--------------------user_id----------->")
             var user_id = response.data.results[i].user_id
             $('#col1').append(`<option value="${user_id}">${user_id}</option>`)
