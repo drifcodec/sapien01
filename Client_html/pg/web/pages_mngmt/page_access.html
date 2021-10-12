@@ -302,6 +302,7 @@
           .then((response) => {
             var data = response.data.result[0];
             console.log(data);
+            $("#create_update").val("update");
             $("#id").val(data._id);
             $("#id").hide();
             $("#parent_menu").val(data.parent_menu);
@@ -312,7 +313,6 @@
             $("#source").val(data.source);
             $("#roles").val(data.roles);
             $("#status").val(data.status);
-            $("#create_update").val("update");
             $("#AddUser").modal();
           })
           .catch((error) => {

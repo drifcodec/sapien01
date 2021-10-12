@@ -18,6 +18,7 @@ const roll_out=require('./routes/rollout')
 const parent_menu=require('./routes/parent_menu')
 const page_access=require('./routes/page_access')
 const mobile_access=require('./routes/mobile_access')
+const clocking=require('./routes/clocking')
 const device_stats_check=require('./background_worker/device_status_cherker')
 let port=process.env.PORT || 3000
 var connection_string='mongodb+srv://dannynho:dannynho@ourdb-uczbc.mongodb.net/test?retryWrites=true&w=majority'
@@ -51,6 +52,7 @@ app.use('/api/parent_menu',parent_menu);
 app.use('/api/page_access',page_access);
 app.use('/api/mobile_access',mobile_access); 
 app.use('/api/notification',notification); 
+app.use('/api/clocking',clocking); 
 //cron.schedule("*/10 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)
