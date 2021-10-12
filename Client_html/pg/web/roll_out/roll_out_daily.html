@@ -23,7 +23,7 @@
             $("#refresh").click(function() {
                 $("#example").DataTable().ajax.reload(null, false)
             })
-            $('.datepicker').datepicker()
+
             axios.get('/api/roll_out/roll_out_distinct_List', {})
                 .then(response => {
                     var cur_status = response.data.results[0].current_status
@@ -46,7 +46,6 @@
         <thead>
             <tr>
             <th>device_id</th>
-            <th>creator</th>
             <th>operator</th>
             <th>Ticket ID</th>
             <th>Current Status</th>
@@ -128,8 +127,6 @@
                 "aoColumns": [{
                         "data": "_id",
                     }, {
-                        "data": "creator",
-                    }, {
                         "data": "operator",
                     }, {
                         "data": "ticket_id",
@@ -140,7 +137,7 @@
                         "render": function(item, type, full, meta) {
 
                             var accept_time = (new Date(`${item.accept_time === undefined ? "" : item.accept_time}`)).toLocaleString();
-                            var create_time = (new Date(`${item.create_time === undefined ? "" : item.create_time}`)).toLocaleString()
+                            var create_time = (new Date(`${item.create_time === undefined ? "" : item.create_time}`)).toLocaleDateString()
                             var depart_time = (new Date(`${item.depart_time === undefined ? "" : item.depart_time}`)).toLocaleString();
                             var arrived_time = (new Date(`${item.arrived_time === undefined ? "" : item.arrived_time}`)).toLocaleString();
                             var cancel_time = (new Date(`${item.cancel_time === undefined ? "" : item.cancel_time}`)).toLocaleString();
@@ -152,10 +149,7 @@
                                                ${completed_time === 'Invalid Date' ? '' : 'Complete:  ' + completed_time + '</br>'}
                                                ${cancel_time === 'Invalid Date' ? '' : 'Cancel:  ' + cancel_time + '</br>'}`
                             return time_object
-                            
-                            
                         }
-                        
                     }, {
                         "data": "category",
                     }, {
@@ -221,7 +215,7 @@
                           "targets": 3
                       }, */
                     {
-                        "targets": 4,
+                        "targets": 3,
                         "createdCell": function(td, cellData, rowData, row, col) {
                             console.log("cellData---------------->" + JSON.stringify(cellData))
                             console.log("td---------------->" + JSON.stringify(td))
@@ -250,7 +244,7 @@
 
                         }
                     }, {
-                        "targets": 9,
+                        "targets": 8,
                         "createdCell": function(td, cellData, rowData, row, col) {
                             if (cellData === 'High') {
                                 $(td).css('background', 'red').css('color', 'white');
@@ -324,12 +318,6 @@
         <div class="form-group col-md-2 no-padding">
             Operator:&nbsp;
             <input type="text" class="form-control" id="operator" placeholder="Enter Driver Name">
-        </div>
-        <div class="input-group date" data-provide="datepicker">
-            <input type="text" class="form-control">
-            <div class="input-group-addon">
-                <span class="glyphicon glyphicon-th"></span>
-            </div>
         </div>
         <!-- 
         <div class="form-group col-md-4 no-padding">
