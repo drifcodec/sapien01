@@ -220,8 +220,7 @@ module.exports.clocking_update = async (req, res) => {
         req.body.current_status="Clocked Out"
         req.body.total_working_hours=commonMethod.twoTimeDiffence_HM(new Date(req.body.clockout_time),resp.clockin_time)
         req.body.totalInMinutes=commonMethod.twoTimeDiffence_M(new Date(req.body.clockout_time),resp.clockin_time)
-        req.body.completion_status=commonMethod.twoTimeDiffence_M(new Date(req.body.clockout_time),resp.clockin_time)>=480?"completed":"incomplete"
-        
+        req.body.completion_status=commonMethod.twoTimeDiffence_M(new Date(req.body.clockout_time),resp.clockin_time)>=450?"completed":"incomplete"
     if (resp._id){
      clocking.update({ _id: resp._id }, { $set: req.body })
         .exec()
