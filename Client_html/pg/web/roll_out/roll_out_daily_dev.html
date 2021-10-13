@@ -30,7 +30,7 @@
           "Authorization": `Bearer ${token}`,
            },
         };
-        axios.get('/api/roll_out/roll_out_distinct_List', {})
+        axios.get('https://cpma.herokuapp.com/api/roll_out/roll_out_distinct_List', {})
                 .then(response => {
                     var cur_status = response.data.results[0].current_status
                     var operator = response.data.results[0].operator
@@ -120,7 +120,7 @@
                 "pageLength": 10,
                 'ajax': {
                     type: "POST",
-                    url: 'cpma.heroku.com/api/roll_out/roll_out_getList_table',
+                    url: 'https://cpma.herokuapp.com/api/roll_out/roll_out_getList_table',
                     beforeSend: function(xhr){
                      xhr.setRequestHeader("Authorization",`${config.headers.Authorization}`);
                   },

@@ -6,7 +6,7 @@ startDate.setSeconds(0);
 startDate.setHours(0);
 startDate.setMinutes(0);
 
-var dateMidnight = new Date(startDate);
+var dateMidnight = new Date();
 dateMidnight.setHours(23);
 dateMidnight.setMinutes(59);
 dateMidnight.setSeconds(59);
@@ -199,7 +199,9 @@ module.exports.clocking_today_checker = async  (req, res) => {
 var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
 var filter = {"clockin_time": { $gte: startDate,
                                 $lte:dateMidnight },
-              "user_id":isUser};           
+              "user_id":isUser}; 
+              console.log("Start Date"+startDate) 
+              console.log("end  Date"+dateMidnight)   
     clocking.findOne(filter)
         .exec()
         .then(doc => {
