@@ -199,9 +199,7 @@ module.exports.clocking_today_checker = async  (req, res) => {
 var isUser = await commonMethod.currentUser(req.headers.authorization.split(" ")[1])
 var filter = {"clockin_time": { $gte: startDate,
                                 $lte:dateMidnight },
-              "user_id":isUser}; 
-              console.log("Start Date"+startDate) 
-              console.log("end  Date"+dateMidnight)   
+              "user_id":isUser};  
     clocking.findOne(filter)
         .exec()
         .then(doc => {

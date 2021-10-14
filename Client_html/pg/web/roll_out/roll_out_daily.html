@@ -114,7 +114,10 @@
                 "pageLength": 10,
                 'ajax': {
                     type: "POST",
-                    url: '/api/roll_out/roll_out_getList_table',
+                    url: '/api/roll_out/roll_out_getList_table', 
+                     beforeSend: function(xhr){
+                     xhr.setRequestHeader("Authorization",`Bearer ${localStorage.SapionT}`);
+                      },
                     data: {
                         data: [{
                             depart_time: '1/21/2021, 10:48:07 PM'
@@ -135,19 +138,18 @@
                     }, {
                         "data": null,
                         "render": function(item, type, full, meta) {
-
-                            var accept_time = (new Date(`${item.accept_time === undefined ? "" : item.accept_time}`)).toLocaleString();
-                            var create_time = (new Date(`${item.create_time === undefined ? "" : item.create_time}`)).toLocaleDateString()
-                            var depart_time = (new Date(`${item.depart_time === undefined ? "" : item.depart_time}`)).toLocaleString();
-                            var arrived_time = (new Date(`${item.arrived_time === undefined ? "" : item.arrived_time}`)).toLocaleString();
-                            var cancel_time = (new Date(`${item.cancel_time === undefined ? "" : item.cancel_time}`)).toLocaleString();
-                            var completed_time = (new Date(`${item.completed_time === undefined ? "" : item.completed_time}`)).toLocaleString();
-                            var time_object = `${create_time === 'Invalid Date' ? '' : 'Create: ' + create_time + '</br>'}
-                                               ${accept_time === 'Invalid Date' ? '' : 'Accept: ' + accept_time + '</br>'}
-                                               ${depart_time === 'Invalid Date' ? '' : 'Depart: ' + depart_time + '</br>'}
-                                               ${arrived_time === 'Invalid Date' ? '' : 'Arrive: ' + arrived_time + '</br>'}
-                                               ${completed_time === 'Invalid Date' ? '' : 'Complete:  ' + completed_time + '</br>'}
-                                               ${cancel_time === 'Invalid Date' ? '' : 'Cancel:  ' + cancel_time + '</br>'}`
+                            var accept_time = (item.accept_time )
+                            var create_time = (item.create_time)
+                            var depart_time = (item.depart_time )
+                            var arrived_time = (item.arrived_time)
+                            var cancel_time = (item.cancel_time)
+                            var completed_time = (item.completed_time )
+                            var time_object = `${create_time ? '' : 'Create: ' + create_time + '</br>'}
+                                               ${accept_time ? '' : 'Accept: ' + accept_time + '</br>'}
+                                               ${depart_time  ? '' : 'Depart: ' + depart_time + '</br>'}
+                                               ${arrived_time ? '' : 'Arrive: ' + arrived_time + '</br>'}
+                                               ${completed_time ? '' : 'Complete:  ' + completed_time + '</br>'}
+                                               ${cancel_time ? '' : 'Cancel:  ' + cancel_time + '</br>'}`
                             return time_object
                         }
                     }, {
