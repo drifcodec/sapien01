@@ -138,18 +138,18 @@
                     }, {
                         "data": null,
                         "render": function(item, type, full, meta) {
-                            var accept_time = (item.accept_time )
-                            var create_time = (item.create_time)
-                            var depart_time = (item.depart_time )
-                            var arrived_time = (item.arrived_time)
-                            var cancel_time = (item.cancel_time)
-                            var completed_time = (item.completed_time )
-                            var time_object = `${create_time ? '' : 'Create: ' + create_time + '</br>'}
-                                               ${accept_time ? '' : 'Accept: ' + accept_time + '</br>'}
-                                               ${depart_time  ? '' : 'Depart: ' + depart_time + '</br>'}
-                                               ${arrived_time ? '' : 'Arrive: ' + arrived_time + '</br>'}
-                                               ${completed_time ? '' : 'Complete:  ' + completed_time + '</br>'}
-                                               ${cancel_time ? '' : 'Cancel:  ' + cancel_time + '</br>'}`
+                            var create_time = formationTime(item.create_time)
+                            var accept_time = formationTime(item.accept_time )
+                            var depart_time = formationTime(item.depart_time )
+                            var arrived_time = formationTime(item.arrived_time)
+                            var cancel_time = formationTime(item.cancel_time)
+                            var completed_time = formationTime(item.completed_time )
+                            var time_object = `${create_time ? 'Create: ' + create_time + '</br>':""}
+                                               ${accept_time ? 'Accept: ' + accept_time + '</br>':''}
+                                               ${depart_time ? 'Depart: ' + depart_time + '</br>':""}
+                                               ${arrived_time ? 'Arrive: ' + arrived_time + '</br>':""}
+                                               ${completed_time ? 'Complete:  ' + completed_time + '</br>':""}
+                                               ${cancel_time ? 'Cancel:  ' + cancel_time + '</br>':""}`
                             return time_object
                         }
                     }, {
@@ -270,13 +270,6 @@
                     table.columns(1).search(this.value).draw();
                 }
             });
-            /*  $('#operator').change(function() {
-                 if (this.value === "All") {
-                     table.columns(1).search('').draw();
-                 } else {
-                     table.columns(1).search(this.value).draw();
-                 }
-             }); */
             $('#task_status').change(function() {
                 if (this.value === "All") {
                     table.columns(3).search('').draw();
@@ -354,6 +347,7 @@
     <!-- 
  // <script src="../data_tables/roll_out_logictic.js" type="text/javascript" language="javascript"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../../js/global/timeConverter.js" type="text/javascript"></script>
 
     <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="https://cdn.datatables.net/1.10.10/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
