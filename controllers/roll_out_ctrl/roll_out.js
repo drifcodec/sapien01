@@ -7,8 +7,6 @@ var today = time_converter.current_local_time()
 module.exports.roll_out_create = (req, res) => {
 
     var creatorobj = jwt.verify(req.body.creator, "secret");
-
-    console.log("UUUUUUUUUUUUUUUUU", creatorobj)
     var post_data = {
             _id: new mongoose.Types.ObjectId(),
             creator: creatorobj.user_id,
@@ -53,7 +51,8 @@ module.exports.roll_out_create = (req, res) => {
     }).catch(err => console.log(err));
 }
 module.exports.roll_out_distinct_List = (req, res) => {
-    roll_out.aggregate([{ $group: { _id: null, current_status: { $addToSet: '$current_status' }, operator: { $addToSet: '$operator' }, priority: { $addToSet: '$priority' } } }],
+    var prop=req.query.prop
+    roll_out.aggregate([{ $group: { _id: null, prop: { $addToSet: '$'+prop}} }],
         function(error, resp) {
             if (resp) {
                 res.status(200).json({ results: resp });
@@ -90,8 +89,8 @@ module.exports.roll_out_getList_table = (req, res) => {
         } else {
             searchStr = {};
         } */
-    console.log("drop_down_select " + JSON.stringify(drop_down_select))
-    console.log("searchStr " + JSON.stringify(searchStr.data))
+    console.log("Object Pass  " + JSON.stringify(drop_down_select))
+    //console.log("searchStr " + JSON.stringify(searchStr.data))
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length

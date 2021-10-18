@@ -20,24 +20,39 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script>
         $(document).ready(function() {
+            const config = {
+             headers: {
+              "Content-type": "application/json",
+               Authorization: `Bearer ${localStorage.SapionT}`,
+                 },
+            };
             $("#refresh").click(function() {
                 $("#example").DataTable().ajax.reload(null, false)
             })
 
-            axios.get('/api/roll_out/roll_out_distinct_List', {})
+            axios.get("/api/roll_out/roll_out_distinct_List?prop=" + "current_status", config)
                 .then(response => {
-                    var cur_status = response.data.results[0].current_status
-                    var operator = response.data.results[0].operator
-                    var priority = response.data.results[0].priority
-                    for (i = 0; i < operator.length; i++) {
+                    var current_status = response.data.results[0].prop
+                    for (i = 0; i < current_status.length; i++) {
+                        $('#task_status').append(`<option value="${current_status[i]}">  ${current_status[i]} </option>`)
+                    }
+                })
+                .catch(error => console.error(error));
+            axios.get("/api/roll_out/roll_out_distinct_List?prop=" + "operator", config)
+                .then(response => {
+                    var operator = response.data.results[0].prop
+                   for (i = 0; i < operator.length; i++) {
                         $('#operator').append(`<option value="${operator[i]}">  ${operator[i]} </option>`)
-                    }
-                    for (i = 0; i < cur_status.length; i++) {
-                        $('#task_status').append(`<option value="${cur_status[i]}">  ${cur_status[i]} </option>`)
-                    }
+                    } 
+                })
+                .catch(error => console.error(error));
+              
+          axios.get("/api/roll_out/roll_out_distinct_List?prop=" + "priority", config)
+                .then(response => {
+                    var priority = response.data.results[0].prop
                     for (i = 0; i < priority.length; i++) {
                         $('#priority').append(`<option value="${priority[i]}">  ${priority[i]} </option>`)
-                    }
+                    } 
                 })
                 .catch(error => console.error(error));
             var html_ = `
@@ -163,14 +178,14 @@
                     }, {
                         data: 'current_status',
                         render: function(data, type, row, meta) {
-                            var process = 0 //"0%"
-                                //data === 'created' ? process = 0 :
-                            data === 'accepted' ? process = 1 : //"20%" :
-                                data === 'departed' ? process = 2 : //"40%" :
-                                data === 'arrived' ? process = 3 : //"60%" :
-                                data === 'completed' ? process = 4 : //"100%" :
-                                data === 'canceled' ? process = 0 : 0 //"0%" : "0%"
-                            return '<progress value="' + process + '" max="4"></progress>'
+                            var process = "0%"
+                                data === 'created' ? process = "10%" :""
+                                data === 'accepted' ? process = "20%" :""
+                                data === 'departed' ? process ="40%" :""
+                                data === 'arrived' ? process = "60%" :""
+                                data === 'completed' ? process = "100%" :""
+                                data === 'canceled' ? process = "XXXXX" : ""
+                            return process 
                         }
                     }, {
                         "data": "distance_estimate",
@@ -218,12 +233,12 @@
                       }, */
                     {
                         "targets": 3,
-                        "createdCell": function(td, cellData, rowData, row, col) {
+                        "createdCell": function(td, cellData, rowData, row, col) {/* 
                             console.log("cellData---------------->" + JSON.stringify(cellData))
                             console.log("td---------------->" + JSON.stringify(td))
                             console.log("rowData---------------->" + JSON.stringify(rowData))
                             console.log("row---------------->" + JSON.stringify(row))
-                            console.log("col---------------->" + JSON.stringify(col))
+                            console.log("col---------------->" + JSON.stringify(col)) */
                             if (cellData === 'created') {
                                 $(td).css('background', '#429476').css('color', 'white');
                             }
@@ -278,10 +293,12 @@
                 }
             });
             $('#priority').change(function() {
+                console.log("<------------------------------table.columns(5)------>")
+               // console.log(table.columns(5).search(this.value))
                 if (this.value === "All") {
-                    table.columns(5).search('').draw();
+                    table.columns(8).search('').draw();
                 } else {
-                    table.columns(5).search(this.value).draw();
+                    table.columns(8).search(this.value).draw();
                 }
             });
             $("#example_filter").remove()
@@ -309,20 +326,22 @@
         <div id="chart_div2" style="width: 400px; height: 250px;border: 2px solid green;display: inline-block"></div>
     </div>
     </div>
+<div id="tool_bar_search">
     <div class="col no-padding">
         <div class="form-group col-md-2 no-padding">
             Operator:&nbsp;
             <input type="text" class="form-control" id="operator" placeholder="Enter Driver Name">
         </div>
-        <!-- 
-        <div class="form-group col-md-4 no-padding">
-            Operator:&nbsp;
-            <select class="form-control" id="operator">
-        <option value="All">All</option>
-      </select>
-        </div> -->
     </div>
-    <div id='tool_bar'>
+    <div id="tool_bar" style="
+    border: 1px solid #cdcdcd;
+    width: 100%;
+    height: 134px;
+">  
+<label for="birthdaytime">from:</label>
+<input type="datetime-local" id="from_date" name="birthdaytime">
+<label for="birthdaytime">to:</label>
+<input type="datetime-local" id="to_date" name="birthdaytime">
         <div class="col no-padding">
             <div class="form-group col-md-1 no-padding">
                 Current Status:&nbsp;
@@ -341,9 +360,11 @@
             </div>
         </div>
         <br><button id="refresh">Refresh<i class="material-icons">refresh</i></button>
+    </div>
         <div class="row" id='table_query'>
         </div>
     </div>
+
     <!-- 
  // <script src="../data_tables/roll_out_logictic.js" type="text/javascript" language="javascript"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" type="text/javascript"></script>
