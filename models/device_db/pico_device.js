@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 var device_structure = {
     _id: mongoose.Schema.Types.ObjectId,
-    device_id: { type: String, required: true },
+    device_id: { type: String, required: true , unique: true},
     device_name: String,
     device_type: String,
     parent_type: String,
     parent_id: String,
-    call_interval: Number,// in seconds
+    call_interval: Number,
     max_current: Number,
     active: { type: String, required: false, default: 1 },
 }

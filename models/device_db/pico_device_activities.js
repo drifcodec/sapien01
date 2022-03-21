@@ -7,7 +7,8 @@ var device_structure = {
     sensor_oil: Number,
     sensor_current: Number,
     sensor_temp: Number,
-    device_status: String
+    device_status: String,
+    activity_time: { type: Date, default: Date.now }
 }
 const device_Schema = mongoose.Schema(device_structure);
 module.exports = mongoose.model('pico_device_activitie', device_Schema);

@@ -40,7 +40,6 @@ if (req.method === 'OPTIONS') {
 app.use(express.static("Client_html"))
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',user); 
-app.use('/api/device',device);
 app.use('/api/site',site); 
 app.use('/api/user_role',user_role);
 app.use('/api/user_log',user_log); 
@@ -52,6 +51,9 @@ app.use('/api/page_access',page_access);
 app.use('/api/mobile_access',mobile_access); 
 app.use('/api/notification',notification); 
 app.use('/api/clocking',clocking); 
+app.use('/api/device',device);
+app.use('/api/device_activity',require('./routes/devices/device_activities')); 
+
 //cron.schedule("*/10 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)

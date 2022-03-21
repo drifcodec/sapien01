@@ -1,25 +1,51 @@
+const device_activity = require('../../models/device_db/pico_device_activities')
 const device = require('../../models/device_db/pico_device')
 const mongoose = require("mongoose");
 
-module.exports.create_device = (req, res) => {
-  req.body._id = new mongoose.Types.ObjectId()
-  const OrderObj_input = new device(req.body)
-  OrderObj_input.save().then(data => {
-    const message = {
-      message: 'Device was created',
-      status: 201,
-      created_data: req.body
+
+module.exports.create_device = async (req, res) => {
+  var isPico = await authPico(req.body.device_id)
+  console.log("*** ***", isPico)
+  if (isPico) {
+    req.body._id = new mongoose.Types.ObjectId()
+    const OrderObj_input = new device_activity(req.body)
+    OrderObj_input.save().then(data => {
+      const message = {
+        message: 'Activity was created',
+        status: 201,
+        data:data
+      }
+      res.status(200).json(message)
     }
-    res.status(200).json(message)
-  }
-  ).catch(err => {
-    console.log(err)
-    res.status(500).json({message:" Error please contact Admin"})
+    ).catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
+  } else {
+    res.status(500).json({ message: "this device isnt registered please contact Admin" })
   }
 
-  );
 }
+async function authPico(pico_id) {
+  return new Promise((resolve, reject) => {
+    device.findOne({ "device_id": pico_id })
+      .exec()
+      .then(result => {
+        if (result) {
+          return resolve(true)
+        } else {
+          return resolve(false)
+        }
 
+      })
+      .catch(err => {
+        res.status(401).json({
+          message: "Error proccesing"
+        });
+      });
+  })
+
+}
 module.exports.get_all_devices = (req, res) => {
   sort_by = req.body.sort == '' ? 'record_date' : req.body.sort
   start = req.body.start == undefined ? 0 : req.body.start
