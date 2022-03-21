@@ -47,19 +47,19 @@ async function authPico(pico_id) {
 
 }
 module.exports.get_all_devices = (req, res) => {
-  sort_by = req.body.sort == '' ? 'record_date' : req.body.sort
+  sort_by = req.body.sort == '' ? 'activity_time' : req.body.sort
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.limit == undefined ? 1000 : req.body.limit
-  device.find(req.body)
+  device_activity.find(req.body)
     .skip(start)
     .limit(limit)
     .sort({ [sort_by]: -1 })
     .exec()
     .then(results => {
-      all_data = []
+      console.error("---results ########3---->",results)
       var data = {
         "total": results.length,
-        "data": all_data,
+        "results": results
       }
       res.status(200).json(data)
     }

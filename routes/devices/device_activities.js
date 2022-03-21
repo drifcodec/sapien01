@@ -5,7 +5,7 @@ const devices_ctrl = require('../../controllers/devices/pico_device_activities')
 const checkAuth = require('../../middleware/user-auth');
 const RoleAuth = require('../../middleware/roles-auth');
 const PageAuth = require('../../middleware/page_auth');
-router.post('/getList', devices_ctrl.get_all_devices)
+router.get('/getList', devices_ctrl.get_all_devices)
 router.get("/:id", devices_ctrl.get_device_by_id);
 router.post('/create', devices_ctrl.create_device)
 router.patch("/:id", devices_ctrl.patch_device);
