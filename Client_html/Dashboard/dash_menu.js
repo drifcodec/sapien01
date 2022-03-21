@@ -3,14 +3,12 @@ document.addEventListener("DOMContentLoaded", async function() {
     var hostURL =window.location.origin
     if (menu_list) {
         menu_list = JSON.parse(localStorage.Sapian_menu)
-        console.log("menu have " + menu_list.length)
         create_menu(menu_list)
         var newMenu = await getNewMenu()
         if (JSON.stringify(newMenu) != JSON.stringify(menu_list)) {
             console.log('not the same')
             window.location.reload();
         }
-        console.log("The Response is ", newMenu)
         localStorage.setItem("Sapian_menu", JSON.stringify(newMenu));
     } else {
         alert("error Please conatct Admin")
@@ -41,9 +39,6 @@ document.addEventListener("DOMContentLoaded", async function() {
             if (source==='Internal'){
                 page_url =hostURL+"/"+menu_list[e].url
             }
-             
-            console.log("hostURL------------>"+hostURL)
-            console.log("source------------>"+page_url)
             var href = '#'
             var target = ''
             var j_function = ''

@@ -271,7 +271,7 @@
               .then((response) => {
                 $("#AddUser").modal("hide");
                 $("#table_id").DataTable().ajax.reload(null, false);
-                setNewMenu();
+               // setNewMenu();
               })
               .catch((error) => {
                 $("#delete_confirm").modal("hide");

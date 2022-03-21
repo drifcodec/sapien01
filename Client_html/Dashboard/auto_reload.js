@@ -9,7 +9,7 @@ var lost_focus_count = 0;
 // This is so we don't get the browser locked into 
 // a state where the refresh never happens.    
 var focus_margin = 10;
-
+///
 // Reset the Timer on users last action
 function reset() {
   last_user_action = 0;

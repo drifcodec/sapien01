@@ -63,16 +63,14 @@ module.exports.roll_out_distinct_List = (req, res) => {
 module.exports.roll_out_getList_table = (req, res) => {
     var searchStr = req.body;
     var order = ''
+    
+    console.log("Request------------------->", req.body.search.value)
     var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
     var drop_down_select = {}
     for (i = 0; i < searchStr.columns.length; i++) {
         var field = searchStr.columns[i].data // name of the field
         var seach_value = searchStr.columns[i].search.value //value of the feild
         var regex = new RegExp(seach_value, "i")
-        if (seach_value) {
-            console.log("field VALUE------------------->", field)
-            console.log("SEARCH VALUE------------------->", seach_value)
-        }
         if (seach_value) {
             drop_down_select[field] = regex
         }
@@ -89,7 +87,6 @@ module.exports.roll_out_getList_table = (req, res) => {
         } else {
             searchStr = {};
         } */
-    console.log("Object Pass  " + JSON.stringify(drop_down_select))
     //console.log("searchStr " + JSON.stringify(searchStr.data))
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
@@ -121,7 +118,6 @@ module.exports.roll_out_getList_table = (req, res) => {
                     }
 
                 }).catch(err => {
-                    console.log(err);
                     res.status(500).json({ error: err });
                 });
         })
@@ -155,7 +151,6 @@ module.exports.roll_out_getList_operator = (req, res) => {
         //req.body.current_status ? searchStr.current_status = { $in: [req.body.current_status] } : ''
     req.body.current_status ? searchStr.current_status = { $in: req.body.current_status } : ''
         //searchStr.operator = req.body.operator
-    console.log("Current_status", searchStr)
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
     roll_out.find(searchStr)
@@ -173,7 +168,6 @@ module.exports.roll_out_getList_operator = (req, res) => {
             }
 
         }).catch(err => {
-            console.log(err);
             res.status(500).json({ error: err });
         });
 }
@@ -182,7 +176,6 @@ module.exports.roll_out_get = (req, res) => {
     roll_out.findById(_id)
         .exec()
         .then(doc => {
-            console.log("From database", doc);
             if (doc) {
                 res.status(200).json({ result: doc });
             } else {
@@ -272,10 +265,9 @@ module.exports.roll_out_update = (req, res) => {
 
 module.exports.roll_out_delete = (req, res) => {
     var id = req.params.id
-    console.log(id)
     roll_out.remove({ _id: id }).exec()
         .then(doc => {
-            console.log("From database", doc);
+          //  console.log("From database", doc);
             if (doc) {
                 res.status(200).json(doc);
             } else {

@@ -26,6 +26,14 @@
                Authorization: `Bearer ${localStorage.SapionT}`,
                  },
             };
+            
+       var options={
+            format: 'mm/dd/yyyy',
+            todayHighlight: true,
+            autoclose: true,
+        };
+    $('#create_time_from').datepicker(options);
+    $('#create_time_to').datepicker(options);
             $("#refresh").click(function() {
                 $("#example").DataTable().ajax.reload(null, false)
             })
@@ -134,9 +142,9 @@
                      xhr.setRequestHeader("Authorization",`Bearer ${localStorage.SapionT}`);
                       },
                     data: {
-                        data: [{
-                            depart_time: '1/21/2021, 10:48:07 PM'
-                        }]
+                        data: {
+                           // create_time: create_time
+                        }
                     },
                     error: function(xhr, error, code) {
                         //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
@@ -291,10 +299,14 @@
                 } else {
                     table.columns(3).search(this.value).draw();
                 }
-            });
+            }); /* 
+            $('#create_time_from').change(function() {    ; */
+                table.search(JSON.stringify({"create_time_from":this.value})).draw()
+            /* }); */
+           /*  $('#create_time_to').change(function() {
+                console.log(table.search(JSON.stringify({"create_time_to":this.value})).draw())
+            }); */
             $('#priority').change(function() {
-                console.log("<------------------------------table.columns(5)------>")
-               // console.log(table.columns(5).search(this.value))
                 if (this.value === "All") {
                     table.columns(8).search('').draw();
                 } else {
@@ -339,9 +351,12 @@
     height: 134px;
 ">  
 <label for="birthdaytime">from:</label>
-<input type="datetime-local" id="from_date" name="birthdaytime">
+<input type="text" id="create_time_from" name="">
 <label for="birthdaytime">to:</label>
-<input type="datetime-local" id="to_date" name="birthdaytime">
+<input type="text" id="create_time_to" name="">
+
+
+
         <div class="col no-padding">
             <div class="form-group col-md-1 no-padding">
                 Current Status:&nbsp;

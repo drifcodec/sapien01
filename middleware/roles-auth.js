@@ -26,7 +26,6 @@ module.exports = {
         try { 
             var decoded = jwtDecode(req.headers.authorization);
             var user = await getUser(decoded.id);
-            console.log("--------------------------->decoded ",decoded)
             if (user.roles.includes('admin') || user.roles.includes('super admin')) {
                 next();
             } else {
