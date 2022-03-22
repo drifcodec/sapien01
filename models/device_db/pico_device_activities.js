@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 var device_structure = {
     _id: mongoose.Schema.Types.ObjectId,
     device_id: { type: String, required: true },
+    unique_id:{ type: String, required: false },
     gps_lattiude: String,
     gps_longitude: String,
     sensor_oil: Number,

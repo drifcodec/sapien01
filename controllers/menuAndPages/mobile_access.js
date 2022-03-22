@@ -34,7 +34,7 @@ module.exports.Mobile_access_getList = (req, res) => {
     var search = {}
     req.query.status ? search.status = req.query.status : ''
     sort_by = req.query.sort == '' ? 'record_date' : req.query.sort
-    console.log("SEARCH>>>>>>>>>>>>>>>>>>>", search)
+    console.log("SEARCH>>>>>>>>>>>>>>>>>>>", req)
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.limit == undefined ? 1000 : req.body.limit
     Mobile_access.find(search)
@@ -47,7 +47,8 @@ module.exports.Mobile_access_getList = (req, res) => {
         .then(results => {
             if (results) {
                 var data = {
-                    "results": results
+                    "total": results.length,
+                    "results": results,
                 }
                 res.status(200).json(data)
             }

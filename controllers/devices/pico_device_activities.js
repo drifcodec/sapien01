@@ -53,7 +53,7 @@ module.exports.get_all_devices = (req, res) => {
   device_activity.find(req.body)
     .skip(start)
     .limit(limit)
-    .sort({ [sort_by]: 1 })
+    .sort({ [sort_by]: "desc" })
     .exec()
     .then(results => {
       console.error("---results ########3---->",results)
