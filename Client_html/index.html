@@ -170,31 +170,7 @@
     </style>
     <script>
         $(document).ready(function () {
-            $('#btn_reset').click(function () {
-                $('.login-form').append("<div class='loader'></div>")
-                //localStorage.clear()
-                reset_function(localStorage.Sapion_U_iD)
-            });
-
-            function reset_function(user_id) {
-                var api_url = '/api/user/forgotPass/' + user_id
-                $.ajax({
-                    url: api_url,
-                    type: "GET",
-                    contentType: "application/json;charset=utf-8",
-                    dataType: 'json',
-                    //data:stringify_data, 
-                    success: function (result) {
-                        $(".register-form").fadeOut()
-                        $(".loader").fadeOut()
-                    },
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-
-                    }
-
-                });
-
-            }
+         
             $('#btn_login').click(function () {
                 var user_credential = {
                     "user_id": $('#username').val(),
@@ -226,7 +202,11 @@
                             localStorage.setItem("Sapion_id", result.data.id);
                             localStorage.setItem("Sapion_U_iD", result.data.user_id);
                             getLocation()
-                            load_menu(result)
+                           //0
+                           
+                           
+                           
+                           load_menu(result)
                             // self.location = "http://localhost:3000/Dashboard/index.html?"
                         }
                     },
@@ -295,6 +275,31 @@
                     opacity: "toggle"
                 }, "slow");
             });
+            $('#btn_reset').click(function () {
+                $('.login-form').append("<div class='loader'></div>")
+                //localStorage.clear()
+                reset_function(localStorage.Sapion_U_iD)
+            });
+
+            function reset_function(user_id) {
+                var api_url = '/api/user/forgotPass/' + user_id
+                $.ajax({
+                    url: api_url,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: 'json',
+                    //data:stringify_data, 
+                    success: function (result) {
+                        $(".register-form").fadeOut()
+                        $(".loader").fadeOut()
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+
+                    }
+
+                });
+
+            }
         });
     </script>
 </head>
