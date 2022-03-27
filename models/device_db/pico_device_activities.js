@@ -9,6 +9,7 @@ var device_structure = {
     sensor_current: Number,
     sensor_temp: Number,
     device_status: String,
+    req_time: String,
     activity_time: { type: Date, default: Date.now }
 }
 const device_Schema = mongoose.Schema(device_structure);
