@@ -32,8 +32,8 @@ exports.user_getList_t = (req, res) => {
     searchStr.order[0].dir === "asc"
       ? 1
       : searchStr.order[0].dir === "desc"
-      ? -1
-      : "";
+        ? -1
+        : "";
   var drop_down_select = {};
   for (i = 0; i < searchStr.columns.length; i++) {
     var field = searchStr.columns[i].data;
@@ -366,48 +366,41 @@ exports.forgot_password = (req, res) => {
     });
 };
 exports.login = (req, res, next) => {
-  if (req.body.user_id && req.body.password) {
-    User.find({ user_id: req.body.user_id })
+  let request = req.body
+  if (request.user_id && request.password) {
+    User.findOne({ user_id: request.user_id })
       .exec()
       .then((user) => {
-        console.log("uSER ---------->", user);
         if (user.length < 1) {
           return res.status(401).json({});
         }
-        bcrypt.compare(req.body.password, user[0].password, (err, result) => {
-          //onsole.log('test compapre')
+        bcrypt.compare(req.body.password, user.password, (err, result) => {
           if (err) {
             return res.status(401).json({
               message: "password not same",
             });
           } else if (result) {
-            const token = jwt.sign(
-              {
-                id: user[0]._id,
-                email: user[0].email,
-                userId: user[0]._id,
-                user_id: user[0].user_id,
-                user_role: user[0].role,
-              },
-              "secret",
+            const token = jwt.sign({
+              id: user._id, email: user.email, userId: user._id, user_id: user.user_id, user_role: user.role,
+            },
+              request.password,
               { expiresIn: req.body.source === "Mobile" ? "365d" : "1d" }
             );
-            var status = user[0].user_status;
-            if (status == "Active") {
+            if (user.user_status == "Active") {
               return res.status(200).json({
                 message: "Auth successful",
                 token: token,
                 data: {
-                  id: user[0]._id,
-                  role: user[0].role,
-                  user_id: user[0].user_id,
+                  id: user._id,
+                  role: user.role,
+                  user_id: user.user_id,
                 },
               });
-            } else if (status == "Pending") {
+            } else if (user.user_status == "Pending") {
               res.status(401).json({
                 message: "Login Pending for Approval by User",
               });
-            } else if (status == "Frozen") {
+            } else if (user.user_status == "Frozen") {
               res.status(401).json({
                 message: "Your Accunt have been frozen please contact Admin",
               });
