@@ -43,6 +43,7 @@ app.use('/api/device_activity',require('./routes/devices/device_activities'));
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)
 //})
+
 app.listen(port,() =>{
     console.log('example listening on port '+port)
 })
