@@ -26,7 +26,7 @@ app.use(express.static("Client_html"))
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',require('./routes/user') ); 
 app.use('/api/site',require('./routes/sites/site')); 
-app.use('/api/user_role',require('./routes/user_role') );
+app.use('/api/sys_role',require('./routes/sys_role') );
 app.use('/api/user_log',require('./routes/user_log')); 
 app.use('/api/vandalism',require('./routes/vandalism'));
 app.use('/api/roll_out',require('./routes/rollout'));

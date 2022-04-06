@@ -3,12 +3,13 @@ const axios = require('axios')
 
 module.exports.get_distancematrix= function (_id, depart_lat, depart_long, arrive_lat, arrive_long, status) {
     //console.log('https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyB9ruoW9fo6I58xNlvaHUDn6Ejl9S04mXs&origins=' + depart_lat + ',' + depart_long + '&destinations=' + arrive_lat + ',' + arrive_long + '')
-    axios.get('https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyB9ruoW9fo6I58xNlvaHUDn6Ejl9S04mXs&origins=' + depart_lat + ',' + depart_long + '&destinations=' + arrive_lat + ',' + arrive_long + '').then(resp => {
+    axios.get('https://maps.googleapis.com/maps/api/distancematrix/json?key=AIzaSyB9ruoW9fo6I58xNlvaHUDn6Ejl9S04mXs&origins=' + depart_lat + ',' + depart_long + '&destinations=' + arrive_lat + ',' + arrive_long + '')
+    .then(resp => {
   
       var post_data = {}
       if (status === "departed") {
-        post_data.id = _id
-        post_data.origin_addresses = resp.data.origin_addresses[0] === undefined ? '' : resp.data.origin_addresses[0],
+          post_data.id = _id
+          post_data.origin_addresses = resp.data.origin_addresses[0] === undefined ? '' : resp.data.origin_addresses[0],
           post_data.destination_addresses = resp.data.destination_addresses[0] === undefined ? '' : resp.data.destination_addresses[0],
           post_data.duration_estimate = resp.data.rows[0].elements[0].duration.text === undefined ? '' : resp.data.rows[0].elements[0].duration.text,
           post_data.duration_estimate_in_minutes = resp.data.rows[0].elements[0].duration.value === undefined ? '' : (resp.data.rows[0].elements[0].duration.value / 60).toFixed(0),
