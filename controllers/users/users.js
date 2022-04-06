@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -366,56 +367,53 @@ exports.forgot_password = (req, res) => {
     });
 };
 exports.login = (req, res, next) => {
-  let request = req.body
-  if (request.user_id && request.password) {
-    User.findOne({ user_id: request.user_id })
-      .exec()
-      .then((user) => {
-        if (user.length < 1) {
-          return res.status(401).json({});
-        }
-        bcrypt.compare(req.body.password, user.password, (err, result) => {
-          if (err) {
-            return res.status(401).json({
-              message: "password not same",
+  if (req.body.user_id && req.body.password) {
+    User.findOne({ user_id: req.body.user_id }).exec().then((user) => {
+      var status = user.user_status;
+      if (user.length < 1) {
+        return res.status(401).json({result:"user not found"});
+      }
+      bcrypt.compare(req.body.password, user.password, (err, result) => {
+        if (result) {
+          const token = jwt.sign(
+            {
+              id: user._id,
+              email: user.email,
+              userId: user._id,
+              user_id: user.user_id,
+              user_role: user.role,
+            },"secret",{ expiresIn: req.body.source === "Mobile" ? "365d" : "1d" }
+          );
+          if (status == "Active") {
+            return res.status(200).json({
+              message: "Auth successful",
+              token: token,
+              data: {
+                id: user._id,
+                role: user.role,
+                user_id: user.user_id,
+              },
             });
-          } else if (result) {
-            const token = jwt.sign({
-              id: user._id, email: user.email, userId: user._id, user_id: user.user_id, user_role: user.role,
-            },
-              request.password,
-              { expiresIn: req.body.source === "Mobile" ? "365d" : "1d" }
-            );
-            if (user.user_status == "Active") {
-              return res.status(200).json({
-                message: "Auth successful",
-                token: token,
-                data: {
-                  id: user._id,
-                  role: user.role,
-                  user_id: user.user_id,
-                },
-              });
-            } else if (user.user_status == "Pending") {
-              res.status(401).json({
-                message: "Login Pending for Approval by User",
-              });
-            } else if (user.user_status == "Frozen") {
-              res.status(401).json({
-                message: "Your Accunt have been frozen please contact Admin",
-              });
-            } else {
-              res.status(401).json({
-                message: "unexpected error, login failed Contact Admin",
-              });
-            }
+          } else if (status == "Pending") {
+            res.status(401).json({
+              message: "Login Pending for Approval by User",
+            });
+          } else if (status == "Frozen") {
+            res.status(401).json({
+              message: "Your Accunt have been frozen please contact Admin",
+            });
           } else {
             res.status(401).json({
-              message: "Wrong Password .",
+              message: "unexpected error, login failed Contact Admin",
             });
           }
-        });
-      })
+        } else {
+          res.status(401).json({
+            message: "Wrong Password .",
+          });
+        }
+      });
+    })
       .catch((err) => {
         res.status(500).json({
           error: err,

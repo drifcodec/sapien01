@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema({
       _id: mongoose.Schema.Types.ObjectId,
+      secret_key: mongoose.Schema.Types.ObjectId,
       active_state:{ type: Number,required:false,default:1},
       user_id:{  type: String, required: true},
       password: { type: String, required: true },
@@ -10,8 +11,8 @@ const userSchema = mongoose.Schema({
       phone:{type: Number},
       roles:[],
       permission:[],
-     // valid_from:{type: Date,required: true},
-     // expire_from:{type: Date,required: true},
+      valid_from:{type: Date,required: false},
+      expire_from:{type: Date,required: false},
       user_status:{ type: String,required:false,default:'Active'},
       last_gps_last:{ type: String},
       last_gps_long:{ type: String},
