@@ -1,6 +1,6 @@
 const Mobile_access = require('../../models/menuAndPages_db/mobile_access')
 const mongoose = require("mongoose");
-const User = require("../../models/user_db/user");
+const User = require("../../models/users/user");
 
 module.exports.Mobile_access_create = (req, res) => {
     var lower = ''

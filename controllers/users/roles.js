@@ -1,19 +1,16 @@
-const user_log = require('../../models/users/user_log')
+const role = require('../../models/users/roles')
 const mongoose = require("mongoose");
-const { start } = require('repl');
+const time_converter = require('../../global_js_libs/time_format')
+var today = time_converter.current_local_time()
 
-module.exports.user_log_create = (req, res) => {
-  var ip = req.headers['x-forwarded-for'] ||req.socket.remoteAddress ||null;
+module.exports.create = (req, res) => {
   var post_data = {
     _id: new mongoose.Types.ObjectId(),
-    user_id:req.body.user_id,
-    log_type:req.body.log_type,
-    log_lat:req.body.log_lat,
-    log_long:req.body.log_long,
-    log_type:req.body.log_type,
-    ip_address:ip
+    create_time: today,
+    role_name: (req.body.role_name).toLowerCase(),
+    role_description: req.body.role_description,
   }
-  const OrderObj_input = new user_log(post_data)
+  const OrderObj_input = new role(post_data)
   OrderObj_input.save().then(data => {
     const message = {
       message: 'Role created',
@@ -22,22 +19,19 @@ module.exports.user_log_create = (req, res) => {
     }
     res.status(200).json(message)
   }
-  ).catch(err =>{
-    console.log(err)
-  res.status(400).json({ error: err });
-  } 
-  
-  );
+  ).catch(err => console.log(err));
+
 }
 
-module.exports.user_log_getList = (req, res) => {
-  let start = req.body.start == undefined ? 0 : req.body.start
-  let limit = req.body.limit == undefined ? 1000 : req.body.limit
-  console.log("---------Start "+start)
-  console.log("---------Start "+limit)
-      //user_log.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
-      //user_log.find(searchStr) for globale search 
-      user_log.find()
+module.exports.getList = (req, res) => {
+
+
+  start = req.body.start == undefined ? 0 : req.body.start
+  limit = req.body.length == undefined ? 1000 : req.body.length
+
+      //role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
+      //role.find(searchStr) for globale search 
+      role.find()
         .skip(Number(start))
         .limit(Number(limit))
         .exec()
@@ -56,7 +50,7 @@ module.exports.user_log_getList = (req, res) => {
         });
   
 }
-module.exports.user_log_getList_table = (req, res) => {
+module.exports.getList_table = (req, res) => {
   var searchStr = req.body;
   var order = ''
   var dir = searchStr.order[0].dir === 'asc' ? 1 : searchStr.order[0].dir === 'desc' ? -1 : ''
@@ -82,17 +76,17 @@ module.exports.user_log_getList_table = (req, res) => {
   console.log("drop_down_select " + JSON.stringify(drop_down_select))
   console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
-  var start = req.body.start == undefined ? 0 : req.body.start
-  var limit = req.body.length == undefined ? 1000 : req.body.length
+  start = req.body.start == undefined ? 0 : req.body.start
+  limit = req.body.length == undefined ? 1000 : req.body.length
   var recordsTotal = 0
-  user_log.countDocuments({}, function (err, total) {
+  role.countDocuments({}, function (err, total) {
     recordsTotal = total
-    user_log.countDocuments(drop_down_select, function (err, total_searched) {
+    role.countDocuments(drop_down_select, function (err, total_searched) {
       recordsFiltered = total_searched;
 
-      //user_log.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
-      //user_log.find(searchStr) for globale search 
-      user_log.find(drop_down_select)
+      //role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
+      //role.find(searchStr) for globale search 
+      role.find(drop_down_select)
         .skip(Number(start))
         .limit(Number(limit))
         .sort({ [order]: dir })
@@ -118,9 +112,9 @@ module.exports.user_log_getList_table = (req, res) => {
 }
 
 
-module.exports.user_log_get = (req, res) => {
+module.exports.get = (req, res) => {
   const _id = req.params.id;
-  user_log.findById(_id)
+  role.findById(_id)
     .exec()
     .then(doc => {
       console.log("From database", doc);
@@ -136,6 +130,47 @@ module.exports.user_log_get = (req, res) => {
     });
 }
 
+module.exports.update = (req, res) => {
+  const id = req.params.id;
+  role.update({ _id: id }, { $set: req.body })
+    .exec()
+    .then(result => {
+      if (result.nModified) {
+        res.status(200).json({
+          "Messaage": result,
+        });
+      } else {
+        res.status(200).json({
+          "update_status": "No",
+        });
+      }
 
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+}
+
+module.exports.delete = (req, res) => {
+  var id = req.params.id
+  console.log("###########################_>>>>>>>>>"+id)
+  role.remove({ _id: id })
+    .exec()
+    .then(doc => {
+      console.log("From database", doc);
+      if (doc) {
+        res.status(200).json(doc);
+      } else {
+        res.status(404).json({ message: "No valid entry found for provided ID" });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ error: err });
+    });
+}
 
 

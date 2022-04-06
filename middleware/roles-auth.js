@@ -1,5 +1,5 @@
 var jwtDecode = require('jwt-decode');
-const users = require("../models/user_db/user")
+const users = require("../models/users/user")
 
 module.exports = {
     gis: async(req, res, next) => {

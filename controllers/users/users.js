@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/user_db/user");
+const User = require("../../models/users/user");
 const email_server = require("../../emails/user_confirmation_email");
 const reset_email = require("../../emails/user_forgotPass");
 const { resolve } = require("path");
@@ -145,24 +145,17 @@ exports.user_update = (req, res) => {
   if (req.body.roles) {
     data.roles = req.body.roles;
   }
-  User.update(
-    { _id: id },
-    {
-      $set: data,
-      //"$addToSet": {"roles": req.body.roles}
-    },
-    { new: true, upsert: true }
-  )
+  User.update({ _id: id }, { $set: data }, { new: true, upsert: true })
     .exec()
     .then((result) => {
       if (result.nModified) {
         res.status(200).json({
-          Messaage: "yes " + result.nModified,
+          "Messaage": "yes " + result.nModified,
           "fileds updated ": req.body,
         });
       } else {
-        res.status(200).json({
-          update_status: "No" + result.nModified,
+        res.status(400).json({
+          "update_status": "No" + result.nModified,
           "fileds failed to update": req.body,
         });
       }
@@ -371,7 +364,7 @@ exports.login = (req, res, next) => {
     User.findOne({ user_id: req.body.user_id }).exec().then((user) => {
       var status = user.user_status;
       if (user.length < 1) {
-        return res.status(401).json({result:"user not found"});
+        return res.status(401).json({ result: "user not found" });
       }
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (result) {
@@ -382,7 +375,7 @@ exports.login = (req, res, next) => {
               userId: user._id,
               user_id: user.user_id,
               user_role: user.role,
-            },"secret",{ expiresIn: req.body.source === "Mobile" ? "365d" : "1d" }
+            }, "secret", { expiresIn: req.body.source === "Mobile" ? "365d" : "1d" }
           );
           if (status == "Active") {
             return res.status(200).json({
