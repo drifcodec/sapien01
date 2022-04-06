@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", async function() {
             axios.get(`/api/page_access/getMenuList/${localStorage.Sapion_id}`, {})
                 .then(response => {
                     resolve(response.data.results)
+                        /* console.log("The Response is ", response.data.results)
+                        localStorage.setItem("Sapian_menu", JSON.stringify(response.data.results));*/
                 })
                 .catch(error => {
                     console.log("Error Occured . Contact Admin" + error)

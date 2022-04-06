@@ -78,7 +78,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: '/api/user_role/user_role_getList_table',
+          url: '/api/sys_role/role_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -98,7 +98,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`/api/user_role/user_role_delete/${id}`)
+        axios.delete(`/api/sys_role/user_role_delete/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
