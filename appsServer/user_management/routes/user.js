@@ -1,8 +1,8 @@
    const express = require("express");
    const router = express.Router();
-   const User_ctrl = require("../controllers/users/users");
-   const tokenAuth = require('../middleware/user-auth');
-   const userAuth = require('../middleware/roles-auth');
+   const User_ctrl = require("../services/users");
+   const tokenAuth = require('../../../middleware/user-auth');
+   const userAuth = require('../../../middleware/roles-auth');
    router.post("/signup", User_ctrl.signup)
    router.post('/signup_confirmation_email/:token', User_ctrl.signup_confirmation_email)
    router.post('/change_password_email/:token', User_ctrl.change_password_email);

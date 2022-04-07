@@ -1,5 +1,5 @@
 const notification = require('../../models/notifications_db/notification')
-const User = require('../../models/users/user')
+const User = require('../../appsServer/user_management/models/user')
 const email_server = require("../../emails/user_confirmation_email");
 const local_time = require("../../global_js_libs/time_format");
 const jwt = require('jsonwebtoken');

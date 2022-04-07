@@ -1,7 +1,5 @@
 const Mobile_access = require('../../models/menuAndPages_db/mobile_access')
 const mongoose = require("mongoose");
-const User = require("../../models/users/user");
-
 module.exports.Mobile_access_create = (req, res) => {
     var lower = ''
     var upper = ''
@@ -90,9 +88,6 @@ module.exports.Mobile_access_getList_table = (req, res) => {
         recordsTotal = total
         Mobile_access.countDocuments(drop_down_select, function(err, total_searched) {
             recordsFiltered = total_searched;
-
-            //user_role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
-            //user_role.find(searchStr) for globale search 
             Mobile_access.find(drop_down_select)
                 .skip(Number(start))
                 .limit(Number(limit))

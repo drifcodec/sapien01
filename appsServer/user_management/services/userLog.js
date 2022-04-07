@@ -1,4 +1,4 @@
-const user_log = require('../../models/users/user_log')
+const user_log = require('../models/user_log')
 const mongoose = require("mongoose");
 const { start } = require('repl');
 

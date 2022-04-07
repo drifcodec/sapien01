@@ -1,6 +1,6 @@
    const express = require("express");
    const router = express.Router();
-   const UserLog_ctrl = require("../controllers/users/userLog");
+   const UserLog_ctrl = require("../services/userLog");
    router.post("/userLog_create", UserLog_ctrl.user_log_create)
    router.post("/userLog_getList_table/", UserLog_ctrl.user_log_getList_table);
    router.get("/userLog_getList/", UserLog_ctrl.user_log_getList);

@@ -1,6 +1,6 @@
 const Page_access = require('../../models/menuAndPages_db/pages_access')
 const mongoose = require("mongoose");
-const User = require("../../models/users/user");
+const User = require("../../appsServer/user_management/models/user");
 
 module.exports.Page_access_create = (req, res) => {
     var lower = ''

@@ -78,7 +78,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: '/api/sys_role/role_getList_table',
+          url: '/api/sys_role/getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -98,7 +98,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`/api/sys_role/user_role_delete/${id}`)
+        axios.delete(`/api/sys_role/delete/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -112,7 +112,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`/api/user_role/user_role_create`, {
+          axios.post(`/api/sys_role/create`, {
             //user_id: $('#user_id').val(),
             role_name: $('#role_name').val(),
             role_description: $('#description').val(),
@@ -123,12 +123,11 @@
           })
             .catch(error => {
               $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
             });
         }
         if ($(this).val() === 'update') {
           var id = $('#id').val()
-          axios.put(`/api/user_role/user_role_update/${id}`, {
+          axios.put(`/api/sys_role/update/${id}`, {
             role_description: $('#description').val(),
           }).then(response => {
             $("#AddUser").modal('hide');
@@ -136,17 +135,14 @@
           })
             .catch(error => {
               $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
             });
         }
       })
     });
     function load_update(id) {
-      axios.get(`/api/user_role/user_role_get/${id}`)
+      axios.get(`/api/sys_role/get/${id}`)
         .then(response => {
           var data = response.data.result
-      
-      console.log("----------------data----------->" + JSON.stringify(data._id))
           $("#id").val(data._id)
           $("#id").hide()
           $('#role_name').val(data.role_name)
@@ -158,7 +154,6 @@
         .catch(error => {
           alert(error)
           $("#delete_confirm").modal('hide');
-          console.log("Error Occured . Contact Admin" + error)
         });
     }
 

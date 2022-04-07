@@ -1,6 +1,6 @@
-const role = require('../../models/users/roles')
+const role = require('../models/roles')
 const mongoose = require("mongoose");
-const time_converter = require('../../global_js_libs/time_format')
+const time_converter = require('../../../global_js_libs/time_format')
 var today = time_converter.current_local_time()
 
 module.exports.create = (req, res) => {

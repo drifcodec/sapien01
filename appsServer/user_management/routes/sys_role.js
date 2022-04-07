@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const role = require("../controllers/users/roles");
-const tokenAuth = require('../middleware/user-auth');
-const userAuth = require('../middleware/roles-auth');
+const role = require("../services/roles");
+const tokenAuth = require('../../../middleware/user-auth');
+const userAuth = require('../../../middleware/roles-auth');
 
 router.post("/getList_table/", role.getList_table)
 router.get("/getList", role.getList)

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const utc_time=require("../../global_js_libs/time_format")
+const utc_time=require("../../../global_js_libs/time_format")
 
 const user_log_Schema = mongoose.Schema({
       _id: mongoose.Schema.Types.ObjectId,

@@ -2,9 +2,9 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/users/user");
-const email_server = require("../../emails/user_confirmation_email");
-const reset_email = require("../../emails/user_forgotPass");
+const User = require("../models/user");
+const email_server = require("../../../emails/user_confirmation_email");
+const reset_email = require("../../../emails/user_forgotPass");
 const { resolve } = require("path");
 
 exports.user_getList = (req, res) => {
