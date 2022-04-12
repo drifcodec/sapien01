@@ -1,9 +1,12 @@
 // "bcrypt": "^5.0.0",
+const dotenv = require("dotenv")
+dotenv.config();
 const express =require("express");/* 
 const cron = require("node-cron"); */
 const app=express()
 const morgan=require('morgan')
-const mongoose=require('mongoose')  
+const mongoose=require('mongoose') 
+console.error("##--------------",process.env.MONGO_PASSWORD)
 //const device_stats_check=require('./background_worker/device_status_cherker')
 let port=process.env.PORT || 3000
 var connection_string='mongodb+srv://dannynho:dannynho@ourdb-uczbc.mongodb.net/test?retryWrites=true&w=majority'

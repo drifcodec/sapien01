@@ -32,11 +32,12 @@ module.exports.Page_access_create = (req, res) => {
 
 }
 module.exports.getMenuList = (req, res) => {
+    //
     _id = req.params.id
     User.findById({ _id })
         .exec()
-        .then(user_data => {
-            if (user_data) {
+        .then(user => {
+            if (user) {
                 Page_access.find({ status: 'online' })
                     .sort({
                         ['position']: 'asc'
@@ -46,27 +47,22 @@ module.exports.getMenuList = (req, res) => {
                         if (results) {
                             var menu_list = []
                             for (i = 0; i < results.length; i++) {
-                                var menu_obj = {
-                                    parent_menu: results[i].parent_menu,
-                                    page: results[i].page,
-                                    url: results[i].url,
-                                    view: results[i].view,
-                                    source: results[i].source,
-                                    position: results[i].position
-                                }
+                                var menu =  results[i]
 
-                                if (results[i].roles && user_data.roles) {
-                                    var permitionallowed = permitionChecker(user_data.roles, results[i].roles)
-                                    if (user_data.roles.includes('admin')) {
-                                        menu_list.push(menu_obj)
+                                if (results[i].roles && user.roles) {
+                                    console.error('----user->>>',user.roles)
+                                    console.error('--roles--->>>',results[i].roles)
+                                    var permitionallowed = permitionChecker(user.roles, results[i].roles)
+
+                                    console.error('--permitionallowed--->>>',permitionallowed)
+                                    if (user.roles.includes('admin')) {
+                                        menu_list.push(menu)
                                     } else if (permitionallowed) {
-                                        menu_list.push(menu_obj)
-                                    } else {}
+                                        menu_list.push(menu)
+                                    } else { }
                                 }
 
                             }
-
-                            // console.log("############-----results------>###############" + JSON.stringify(menu_list))
                             function permitionChecker(array1, array2) {
                                 for (let i = 0; i < array1.length; i++) {
                                     for (let j = 0; j < array2.length; j++) {
@@ -80,7 +76,6 @@ module.exports.getMenuList = (req, res) => {
                             var data = {
                                 "results": menu_list
                             }
-                            console.log("############-----Roles------>###############", menu_list)
                             res.status(200).json(data)
                         }
 
@@ -141,7 +136,7 @@ module.exports.Page_access_getList_table = (req, res) => {
     }
     if (req.body.search.value) {
         var regex = new RegExp(req.body.search.value, "i")
-            //searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
+        //searchStr = { $or: [{ 'operator': regex }, { 'current_status': regex }] };
     } else {
         searchStr = {};
     }
@@ -151,9 +146,9 @@ module.exports.Page_access_getList_table = (req, res) => {
     start = req.body.start == undefined ? 0 : req.body.start
     limit = 10 //req.body.length == undefined ? 1000 : req.body.length
     var recordsTotal = 0
-    Page_access.countDocuments({}, function(err, total) {
+    Page_access.countDocuments({}, function (err, total) {
         recordsTotal = total
-        Page_access.countDocuments(drop_down_select, function(err, total_searched) {
+        Page_access.countDocuments(drop_down_select, function (err, total_searched) {
             recordsFiltered = total_searched;
 
             //user_role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds

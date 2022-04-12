@@ -8,9 +8,7 @@ const time_converter = require('../../global_js_libs/time_format');
 module.exports.notification_create = async(req, res) => {
     var isReciever = await getUserID(req.body.to)
     var isSender = await getSender(req.headers.authorization.split(" ")[1])
-
-    //console.log("sen d isSender---------------------------------->>>>>>>>>>>>>>.", isSender)
-    if (isSender && isReciever && isReciever.status === true && req.body.category) {
+ if (isSender && isReciever && isReciever.status === true && req.body.category) {
         console.log(req.body.category.length)
         req.body._id = new mongoose.Types.ObjectId()
         req.body.from = isSender

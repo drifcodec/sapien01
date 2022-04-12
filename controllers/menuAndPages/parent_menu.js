@@ -47,7 +47,6 @@ module.exports.parent_menu_getList = (req, res) => {
             }
 
         }).catch(err => {
-            console.log(err);
             res.status(500).json({ error: err });
         });
 }
@@ -73,8 +72,6 @@ module.exports.parent_menu_getList_table = (req, res) => {
     } else {
         searchStr = {};
     }
-    console.log("drop_down_select " + JSON.stringify(drop_down_select))
-    console.log("searchStr " + JSON.stringify())
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = req.body.length == undefined ? 1000 : req.body.length
