@@ -23,7 +23,6 @@ if (req.method === 'OPTIONS') {
     next();
   });
   
-// use the express-static middleware
 app.use(express.static("Client_html"))
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',require('./appsServer/user_management/routes/user') ); 
