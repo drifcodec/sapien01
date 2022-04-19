@@ -1,0 +1,75 @@
+.slideshow
+{
+    position: relative;
+    /* float: left;*/
+} 
+.slideshow__item
+{
+    position: absolute;
+    /* top: 0;
+    left: 0;
+    right: 0; */
+    width: 100%;
+}
+.slideshow__prev,
+.slideshow__next
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+.slideshow__prev
+{
+    left: 0;
+    right: 50%;
+}/* 
+.slideshow__prev:hover
+{
+    background: rgba(0,0,0,0.2);
+    background: -moz-linear-gradient(left, rgba(0,0,0,0.2) 0%, rgba(231,56,39,0) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(0,0,0,0.2)), color-stop(100%, rgba(231,56,39,0)));
+    background: -webkit-linear-gradient(left, rgba(0,0,0,0.2) 0%, rgba(231,56,39,0) 100%);
+    background: -o-linear-gradient(left, rgba(0,0,0,0.2) 0%, rgba(231,56,39,0) 100%);
+    background: -ms-linear-gradient(left, rgba(0,0,0,0.2) 0%, rgba(231,56,39,0) 100%);
+    background: linear-gradient(to right, rgba(0,0,0,0.2) 0%, rgba(231,56,39,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#e73827', GradientType=1 );
+} */
+/* .slideshow__next
+{
+    left: 50%;
+    right: 0;
+}
+.slideshow__next:hover
+{
+    background: rgba(231,56,39,0);
+    background: -moz-linear-gradient(left, rgba(231,56,39,0) 0%, rgba(231,56,39,0) 0%, rgba(0,0,0,0.2) 100%);
+    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(231,56,39,0)), color-stop(0%, rgba(231,56,39,0)), color-stop(100%, rgba(0,0,0,0.2)));
+    background: -webkit-linear-gradient(left, rgba(231,56,39,0) 0%, rgba(231,56,39,0) 0%, rgba(0,0,0,0.2) 100%);
+    background: -o-linear-gradient(left, rgba(231,56,39,0) 0%, rgba(231,56,39,0) 0%, rgba(0,0,0,0.2) 100%);
+    background: -ms-linear-gradient(left, rgba(231,56,39,0) 0%, rgba(231,56,39,0) 0%, rgba(0,0,0,0.2) 100%);
+    background: linear-gradient(to right, rgba(231,56,39,0) 0%, rgba(231,56,39,0) 0%, rgba(0,0,0,0.2) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e73827', endColorstr='#000000', GradientType=1 );
+} */
+/* .slideshow__dots
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    text-align: center;
+} */
+.slideshow__dot
+{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+}
+.slideshow__dot.active
+{
+    background-color: #606060;
+}

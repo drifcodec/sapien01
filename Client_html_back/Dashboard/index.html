@@ -21,6 +21,9 @@
     <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
     <link href="../Dashboard/css/silde_show.css" rel="stylesheet">
     <!-- -->
+
+
+
     <script>
         $(window).resize(function() {
             var window_width = $(window).width();
@@ -223,117 +226,45 @@
     </div>
 
     <div id='main_body'>
-       
-        <div id="container" style="height: 50%;width: 50%"></div>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.3.2/dist/echarts.min.js"></script>
-      
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" async>
-          var dom = document.getElementById("container");
-          var myChart = echarts.init(dom);
-      
-      
-          var option;
-      
-        
-        setInterval(function(){ 
-          $.ajax({
-            url: 'http://cpma.herokuapp.com/api/device_activity/getlist',
-            //headers: { 'Authorization': 'Bearer ' + localStorage.SapionT },
-            contentType: 'application/json',
-            type: "GET",
-            dataType: 'json',
-            // data: JSON.stringify({"user_id":"dannynho","password": "dannynho" })
-            success: function (data) {
-             var res=data.results
-              var xAxisData = [];
-              var data1 = [];
-              for (var i = 0; i < res.length; i++) {
-                xAxisData.push(res[i].req_time);
-                var colorpellete=res[i].sensor_temp>30?'red':res[i].sensor_temp<10?'orange':'green'
-                data1.push( {  
-                  value: res[i].sensor_temp,
-                  itemStyle: {color: colorpellete}});
-              }
-              option = {
-                title: {
-                  text: 'IOT Transformer Temperature'
-                },
-                legend: {
-                  data: ['bar']
-                },
-                toolbox: {
-                  // y: 'bottom',
-                  feature: {
-                    magicType: {
-                      type: ['stack']
-                    },
-                    dataView: {},
-                    saveAsImage: {
-                      pixelRatio: 2
-                    }
-                  }
-                },
-                tooltip: {},
-                xAxis: {
-                  data: xAxisData,
-                  splitLine: {
-                    show: false
-                  }
-                },
-                yAxis: {},
-                series: [
-                  {
-                    name: 'bar',
-                    type: 'bar',
-                    data: data1,
-                    emphasis: {
-                      focus: 'series'
-                    },
-                    animationDelay: function (idx) {
-                      return idx * 10;
-                    }
-                  }
-                ],
-                animationEasing: 'elasticOut',
-                animationDelayUpdate: function (idx) {
-                  return idx * 5;
-                }
-              };
-                if (option && typeof option === 'object') {
-                myChart.setOption(option);
-              }
-              
-              
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-              alert(errorThrown)
-            }
-      
-          });},10000)
-      
-          async function getpicodata() {
-            return new Promise((resolve, reject) => {
-              $.ajax({
-                url: 'http://cpma.herokuapp.com/api/device_activity/getlist',
-                //headers: { 'Authorization': 'Bearer ' + localStorage.SapionT },
-                contentType: 'application/json',
-                type: "GET",
-                dataType: 'json',
-                // data: JSON.stringify({"user_id":"dannynho","password": "dannynho" })
-                success: function (result) {
-                  resolve(result)
-                  // console.log("COUNT ", result)
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                  alert(errorThrown)
-                }
-      
-              });
-            })
-      
-          }
-        </script>
+        <div id="tt" class="easyui-tabs" style="min-width:100% !important;min-height:70% !important;">
+            <div title="Home" style="min-width:100% !important;min-height:70% !important;">
+                <div class="wrapper">
+                    <div class="home-hero">
+                        <div class="feature">
+                            <h3>We like balloons</h3>
+                            <p>You can find all kinds of balloon related things here.</p>
+                        </div>
+                        <div class="special">
+                            <h3>GIS Map</h3>
+                            <p>view  location/status of Transformers amd Site Engineer </p>
+
+                        </div>
+                        <div class="amazing">
+                            <h3>10 things you discover when taking a balloon ride.</h3>
+                            <p>Number 8 will AMAZE you.</p>
+                        </div>
+                        <div class="news">
+                            <h3>Angry people at balloon fiestas</h3>
+                            <p>Hot air balloons. A bit weather sensitive. </p>
+
+
+
+                        </div>
+                        <div class="photos">
+                            <h3>Balloon photos</h3>
+                            <p>I have quite a few.</p>
+                        </div>
+                        <div class="cta">
+                            <p>Sign up for more information about balloons. </p>
+                            <a class="spam-button" href="/spam-machine">Sign me up!</a>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="js/jquery.jside.menu.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
