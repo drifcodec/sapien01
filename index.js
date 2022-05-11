@@ -4,7 +4,7 @@ dotenv.config();
 const express =require("express");/* 
 const cron = require("node-cron"); */
 const app=express()
-const morgan=require('morgan')
+//const morgan=require('morgan')
 const mongoose=require('mongoose') 
 //const device_stats_check=require('./background_worker/device_status_cherker')
 let port=process.env.PORT || 3000
@@ -23,7 +23,7 @@ if (req.method === 'OPTIONS') {
     next();
   });
   
-app.use(express.static("Client_html"))
+app.use(express.static("Client_html_back"))
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',require('./appsServer/user_management/routes/user') ); 
 app.use('/api/site',require('./routes/sites/site')); 
