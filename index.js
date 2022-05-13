@@ -24,6 +24,7 @@ if (req.method === 'OPTIONS') {
   });
   
 app.use(express.static("Client_html_back"))
+
 app.use('/uploads',express.static("uploads")) 
 app.use('/api/user',require('./appsServer/user_management/routes/user') ); 
 app.use('/api/site',require('./routes/sites/site')); 
