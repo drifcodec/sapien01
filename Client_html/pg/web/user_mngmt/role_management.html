@@ -78,7 +78,7 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: '/api/user_role/user_role_getList_table',
+          url: '/api/user/user_role_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
@@ -98,7 +98,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`/api/user_role/user_role_delete/${id}`)
+        axios.delete(`/api/role/user_role_delete/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -112,7 +112,7 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`/api/user_role/user_role_create`, {
+          axios.post(`/api/role/user_role_create`, {
             //user_id: $('#user_id').val(),
             role_name: $('#role_name').val(),
             role_description: $('#description').val(),
@@ -128,7 +128,7 @@
         }
         if ($(this).val() === 'update') {
           var id = $('#id').val()
-          axios.put(`/api/user_role/user_role_update/${id}`, {
+          axios.put(`/api/role/user_role_update/${id}`, {
             role_description: $('#description').val(),
           }).then(response => {
             $("#AddUser").modal('hide');
@@ -142,7 +142,7 @@
       })
     });
     function load_update(id) {
-      axios.get(`/api/user_role/user_role_get/${id}`)
+      axios.get(`/api/role/user_role_get/${id}`)
         .then(response => {
           var data = response.data.result
       

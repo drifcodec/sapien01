@@ -110,8 +110,6 @@ module.exports.getList_table = (req, res) => {
     })
   })
 }
-
-
 module.exports.get = (req, res) => {
   const _id = req.params.id;
   role.findById(_id)
