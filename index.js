@@ -25,18 +25,25 @@ if (req.method === 'OPTIONS') {
   
 app.use(express.static("Client_html"))//m
 
-app.use('/uploads',express.static("uploads")) 
+//app.use('/uploads',express.static("uploads")) 
+
+// #User Management
 app.use('/api/user',require('./appsServer/user_management/routes/user') ); 
-app.use('/api/site',require('./routes/sites/site')); 
-app.use('/api/roles',require('./appsServer/user_management/routes/roles') );
+app.use('/api/user_role',require('./appsServer/user_management/routes/roles') );
 app.use('/api/user_log',require('./appsServer/user_management/routes/user_log')); 
-app.use('/api/vandalism',require('./routes/vandalism'));
-app.use('/api/roll_out',require('./routes/rollout'));
-app.use('/api/page_auth',require('./routes/page-auth') );
+
+// #Menu
 app.use('/api/parent_menu',require('./routes/parent_menu')); 
 app.use('/api/page_access',require('./routes/page_access'));
 app.use('/api/mobile_access',require('./routes/mobile_access')); 
 app.use('/api/notification',require('./routes/notification_route/notification')); 
+
+
+// #
+app.use('/api/site',require('./routes/sites/site')); 
+app.use('/api/vandalism',require('./routes/vandalism'));
+app.use('/api/roll_out',require('./routes/rollout'));
+app.use('/api/page_auth',require('./routes/page-auth') );
 app.use('/api/clocking',require('./routes/clocking')); 
 app.use('/api/device',require('./routes/devices/device'));
 app.use('/api/device_activity',require('./routes/devices/device_activities')); 
