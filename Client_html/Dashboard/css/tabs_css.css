@@ -541,7 +541,7 @@
    padding: 0;
    position: relative;
    border: 0;
-   border: 2px solid #569050;
+   border: 0px solid #569050;
  }
  .tabs li a.tabs-inner {
    display: inline-block;

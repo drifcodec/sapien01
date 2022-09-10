@@ -2,7 +2,7 @@
 const dotenv = require("dotenv")
 dotenv.config();
 const express =require("express");
-//const cron = require("node-cron"); 
+const cron = require("node-cron"); 
 const app=express()
 //const morgan=require('morgan')
 const mongoose=require('mongoose') 
@@ -46,6 +46,11 @@ app.use('/api/page_auth',require('./routes/page-auth') );
 app.use('/api/clocking',require('./routes/clocking')); 
 app.use('/api/device',require('./routes/devices/device'));
 app.use('/api/device_activity',require('./routes/devices/device_activities')); 
+
+
+cron.schedule("*/10 * * * * *", function() {
+  console.log("running a task every 10 second");
+});
 //cron.schedule("*/1 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)
