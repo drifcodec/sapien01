@@ -48,9 +48,7 @@ app.use('/api/device',require('./routes/devices/device'));
 app.use('/api/device_activity',require('./routes/devices/device_activities')); 
 
 
-cron.schedule("*/10 * * * * *", function() {
-  console.log("running a task every 10 second");
-});
+cron.schedule("*/10 * * * * *",device_stats_check);
 //cron.schedule("*/1 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)
