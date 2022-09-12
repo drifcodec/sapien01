@@ -6,12 +6,10 @@ const cron = require("node-cron");
 const app=express()
 //const morgan=require('morgan')
 const mongoose=require('mongoose') 
-const device_stats_check=require('./background_worker/device_status_cherker')
 let port=process.env.PORT || 3000
 var connection_string='mongodb+srv://dannynho:dannynho@ourdb-uczbc.mongodb.net/test?retryWrites=true&w=majority'
 mongoose.connect(connection_string,{useUnifiedTopology: true,useNewUrlParser: true})
-//mongoose.set('useCreateIndex', true);
-app.use(express.urlencoded({extended:true})) //this line convert complex data into json readable format ---DATATABLE SETTING
+app.use(express.urlencoded({extended:true})) // this convert complex data format  into json readable format ---DATATABLE SETTING
 app.use(express.json()) 
 app.use((req, res, next) => {
 res.header("Access-Control-Allow-Origin", "*");
@@ -48,7 +46,7 @@ app.use('/api/device',require('./routes/devices/device'));
 app.use('/api/device_activity',require('./routes/devices/device_activities')); 
 
 
-cron.schedule("*/10 * * * * *",device_stats_check);
+cron.schedule("*/10 * * * * *",require('./background_worker/device_status_cherker'));
 //cron.schedule("*/1 * * * * *", device_stats_check);
 //app.get("/devices",(req,res)=>{ 
    //  res.send(importedJson)

@@ -184,6 +184,7 @@
               data: null,
               render: function (item, type, full, meta) {
                 //console.log(item._id)
+                
                 var operation = `<div style="display: inline-block;"><i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
                                <div style="display: inline-block;"><i class="material-icons delete md-18"  onclick="delete_value('${item._id} ')">delete</i></div>`;
                 return operation;

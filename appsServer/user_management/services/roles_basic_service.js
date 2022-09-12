@@ -24,11 +24,8 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.getList = (req, res) => {
-
-
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.length == undefined ? 1000 : req.body.length
-
       //role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //role.find(searchStr) for globale search 
       role.find()
