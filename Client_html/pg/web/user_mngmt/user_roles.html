@@ -34,7 +34,7 @@
         <thead>
             <tr>
         <th>Role Name</th>
-        <th>role description</th>
+        <th>User</th>
         <th>Operation</th>
             </tr>
           </thead>
@@ -78,19 +78,18 @@
         "info": true,
         'ajax': {
           type: "POST",
-          url: '/api/user_role/role_getList_table',
+          url: '/api/user_roles/user_role_getList_table',
           error: function (xhr, error, code) {
             //  self.location = "C:/Users/User/Desktop/Restfull_api/server-side/html/login.html";
           }
         },
         "aoColumns": [
           { "data": "role_name" },
-          { "data": "role_description" },
+          { "data": "account_id" },
           {
             'data': null, "render": function (item, type, full, meta) {
 
-              var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
-                                 <div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>`
+              var operation = `<div style="display: inline-block;"> <i class="material-icons md-18" onclick="delete_value('${item._id} ')" >delete</i></div>`
               return operation
             }
           }
@@ -98,7 +97,7 @@
       });
       $("#delete_user").click(function () {
         var id = $(this).val();
-        axios.delete(`/api/user_role/role_delete/${id}`)
+        axios.delete(`/api/user_roles/user_role_delete/${id}`)
           .then(response => {
             $("#delete_confirm").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
@@ -112,25 +111,12 @@
 
       $("#create_update").click(function () {
         if ($(this).val() === 'create') {
-          axios.post(`/api/user_role/role_create`, {
+          axios.post(`/api/user_roles/user_role_create`, {
             //user_id: $('#user_id').val(),
             role_name: $('#role_name').val(),
-            role_description: $('#description').val(),
+            account_id: $('#account_id').val(),
           }).then(response => {
 
-            $("#AddUser").modal('hide');
-            $("#table_id").DataTable().ajax.reload(null, false)
-          })
-            .catch(error => {
-              $("#delete_confirm").modal('hide');
-              console.log("Error Occured . Contact Admin" + error)
-            });
-        }
-        if ($(this).val() === 'update') {
-          var id = $('#id').val()
-          axios.put(`/api/user_role/role_update/${id}`, {
-            role_description: $('#description').val(),
-          }).then(response => {
             $("#AddUser").modal('hide');
             $("#table_id").DataTable().ajax.reload(null, false)
           })
@@ -142,16 +128,13 @@
       })
     });
     function load_update(id) {
-      axios.get(`/api/user_role/role_get/${id}`)
+      axios.get(`/api/user_roles/user_role_get/${id}`)
         .then(response => {
           var data = response.data.result
-      
-      console.log("----------------data----------->" + JSON.stringify(data._id))
           $("#id").val(data._id)
           $("#id").hide()
           $('#role_name').val(data.role_name)
           $("#role_name").attr("disabled", "disabled");
-          $('#description').val(data.role_description)
           $("#create_update").val('update')
           $('#AddUser').modal();
         })
@@ -167,7 +150,7 @@
       $("#id").hide()
       $("#role_name").prop("disabled", false)
       $('#role_name').val('')
-      $('#role_description').val('')
+      $('#account_id').val('')
       $('#_id').val('')
       $('#AddUser').modal();
     }
@@ -217,7 +200,7 @@
               <input type="text" class="form-control" id="role_name" placeholder="role_name">
             </div>
             <div class="form-group">
-              <input type="text" class="form-control" id="description" placeholder="role_description">
+              <input type="text" class="form-control" id="account_id" placeholder="Account_id">
             </div>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

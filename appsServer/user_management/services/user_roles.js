@@ -7,10 +7,10 @@ module.exports.create = (req, res) => {
   var post_data = {
     _id: new mongoose.Types.ObjectId(),
     create_time: today,
-    role_name: (req.body.role_name).toLowerCase(),
+    role_name: req.body.role_name,
     account_id: req.body.account_id,
   }
-  const OrderObj_input = new role(post_data)
+  const OrderObj_input = new user_roles(post_data)
   OrderObj_input.save().then(data => {
     const message = {
       message: 'Role created',
@@ -28,7 +28,7 @@ module.exports.getList = (req, res) => {
   limit = req.body.length == undefined ? 1000 : req.body.length
       //role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //role.find(searchStr) for globale search 
-      role.find()
+      user_roles.find()
         .skip(Number(start))
         .limit(Number(limit))
         .exec()
@@ -37,7 +37,7 @@ module.exports.getList = (req, res) => {
             var data = {
               "results": results
             }
-            res.status(200).json(results)
+            res.status(200).json(data)
           }
 
         }
@@ -76,14 +76,14 @@ module.exports.getList_table = (req, res) => {
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.length == undefined ? 1000 : req.body.length
   var recordsTotal = 0
-  role.countDocuments({}, function (err, total) {
+  user_roles.countDocuments({}, function (err, total) {
     recordsTotal = total
-    role.countDocuments(drop_down_select, function (err, total_searched) {
+    user_roles.countDocuments(drop_down_select, function (err, total_searched) {
       recordsFiltered = total_searched;
 
       //role.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //role.find(searchStr) for globale search 
-      role.find(drop_down_select)
+      user_roles.find(drop_down_select)
         .skip(Number(start))
         .limit(Number(limit))
         .sort({ [order]: dir })
@@ -108,8 +108,8 @@ module.exports.getList_table = (req, res) => {
   })
 }
 module.exports.get = (req, res) => {
-  const _id = req.params.id;
-  role.findById(_id)
+  const id = req.params.id;
+  user_roles.findById(id)
     .exec()
     .then(doc => {
       console.log("From database", doc);
@@ -127,7 +127,7 @@ module.exports.get = (req, res) => {
 
 module.exports.update = (req, res) => {
   const id = req.params.id;
-  role.update({ _id: id }, { $set: req.body })
+  user_roles.update({ _id: id }, { $set: req.body })
     .exec()
     .then(result => {
       if (result.nModified) {
@@ -152,7 +152,7 @@ module.exports.update = (req, res) => {
 module.exports.delete = (req, res) => {
   var id = req.params.id
   console.log("###########################_>>>>>>>>>"+id)
-  role.remove({ _id: id })
+  user_roles.remove({ _id: id })
     .exec()
     .then(doc => {
       console.log("From database", doc);

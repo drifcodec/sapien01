@@ -7,4 +7,6 @@ const user_role_Schema = mongoose.Schema({
       account_id: { type: String, required: true }
 });
 
-module.exports = mongoose.model('user_role',user_role_Schema);
+user_role_Schema.index({ "role_name": 1, "account_id": 1}, { "unique": true });
+
+module.exports = mongoose.model('user_rolexx',user_role_Schema);

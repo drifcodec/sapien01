@@ -7,7 +7,7 @@ module.exports.create = (req, res) => {
   var post_data = {
     _id: new mongoose.Types.ObjectId(),
     create_time: today,
-    role_name: (req.body.role_name).toLowerCase(),
+    role_name: req.body.role_name,
     role_description: req.body.role_description,
   }
   const OrderObj_input = new role(post_data)

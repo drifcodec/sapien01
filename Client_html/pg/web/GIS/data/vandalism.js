@@ -27,11 +27,9 @@ function setVandalism(marker) {
             vandalism_data.iconImage = vandalism_icons.high
         } else if (data.medioum_priority == 'medium') {
             vandalism_data.iconImage = vandalism_icons.medium
-        } else if (data.priority == 'low') {
-            vandalism_data.iconImage = vandalism_icons.low
         } else {
             vandalism_data.iconImage = vandalism_icons.low
-        }
+        } 
         vandalism_data.reporter = data.report_by
         vandalism_data.type = "vandalism"
         vandalism_data.status = data.priority

@@ -70,12 +70,13 @@
         };
 
         axios
-          .get("/api/user_role/user_role_getList", {})
+          .get("/api/roles/role_getList", {})
           .then((response) => {
+            console.error(response)
             for (i = 0; i < response.data.length; i++) {
-              var role_name = response.data[i].role_name;
+              var name = response.data[i].role_name;
               $("#roles").append(
-                `<option value="${role_name}">${role_name}</option>`
+                `<option value="${name}">${name}</option>`
               );
             }
           })

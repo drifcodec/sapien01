@@ -26,7 +26,8 @@ app.use(express.static("Client_html"))//m
 
 // #User Management
 app.use('/api/user',require('./appsServer/user_management/routes/user') ); 
-app.use('/api/user_role',require('./appsServer/user_management/routes/roles') );
+app.use('/api/roles',require('./appsServer/user_management/routes/roles') );
+app.use('/api/user_roles',require('./appsServer/user_management/routes/user_roles') );
 app.use('/api/user_log',require('./appsServer/user_management/routes/user_log')); 
 
 // #Menu
