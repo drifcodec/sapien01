@@ -1,3 +1,6 @@
+
+
+
 async function siteAPIGetlist(region) {
   var getSites = await getSitesApi(region);
   if (getSites) {
@@ -21,7 +24,6 @@ async function getSitesApi(region) {
       })
       .catch((error) => {
         return resolve(null);
-        console.error(error);
       });
   });
 }
@@ -54,21 +56,14 @@ function setSite(marker) {
   var site_all_list = [];
   for (i = 0; i < marker.length; i++) {
     var data = marker[i];
-    site_data = {};
-    site_data.coords = { lat:  data.latitude * 1, lng: data.longitude * 1 };
-    site_data.id = data.site_id;
-    site_data.type = "all_site";
-    site_data.status = data.status;
-    var status='unknown'
-    if (marker[i].status == 0) {
-      status ="offline"
-    } else if (marker[i].status == 1) {
-      status="online"
-    } else if (marker[i].status == 2) {
-       status="working"
-    } else if (marker[i].status == 3) {
-      status="Pending Work"
-    }
+    var status =data.status==0?'offline':data.status==1?'online':data.status==2?'working':data.status==3?'Pending work':'Unknown'
+    site_data = {
+      coords : { lat:  data.latitude * 1, lng: data.longitude * 1 },
+      id : data.site_id,
+      type : "all_site",
+      status :status
+
+    };
     site_data.site_id = data.site_id;
     site_data.content = siteMapView.content(data.site_id,data.name, timeConvert(data.operation_time),data.operator,status);
     site_data.tooltip = siteMapView.tooltip(data.site_id,data.name, timeConvert(data.operation_time),data.operator,status);
@@ -91,7 +86,6 @@ var siteMapView = {
      <div class="tipsTable">
        <table>
          <tbody>
-         
            <tr>
            <td colspan="2" class="tipsTitle"><b>Site Details</b></td>
            </tr>

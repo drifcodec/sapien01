@@ -172,7 +172,7 @@ exports.signup = (req, res) => {
   console.log("----------- email 1-----+");
   User.find({ user_id: req.body.user_id })
     .exec()
-    .then((result) => {
+    .then((result) => { //
       if (result.length >= 1) {
         return res.status(409).json({
           message: "User exists",

@@ -70,12 +70,13 @@
         };
 
         axios
-          .get("/api/user_role/user_role_getList", {})
+          .get("/api/roles/role_getList", {})
           .then((response) => {
+            console.error(response)
             for (i = 0; i < response.data.length; i++) {
-              var role_name = response.data[i].role_name;
+              var name = response.data[i].role_name;
               $("#roles").append(
-                `<option value="${role_name}">${role_name}</option>`
+                `<option value="${name}">${name}</option>`
               );
             }
           })
@@ -184,6 +185,7 @@
               data: null,
               render: function (item, type, full, meta) {
                 //console.log(item._id)
+                
                 var operation = `<div style="display: inline-block;"><i class="material-icons md-18" onclick="load_update('${item._id}')" >edit</i></div>
                                <div style="display: inline-block;"><i class="material-icons delete md-18"  onclick="delete_value('${item._id} ')">delete</i></div>`;
                 return operation;
@@ -512,10 +514,6 @@
     ></script>
     <script
       src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"
-      type="text/javascript"
-    ></script>
-    <script
-      src="https://nightly.datatables.net/responsive/js/dataTables.responsive.min.js"
       type="text/javascript"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
