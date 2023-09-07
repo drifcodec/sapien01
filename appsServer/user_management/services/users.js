@@ -361,9 +361,12 @@ exports.forgot_password = (req, res) => {
 };
 exports.login = (req, res, next) => {
   if (req.body.user_id && req.body.password) {
+   // console.log(req.body)
     User.findOne({ user_id: req.body.user_id }).exec().then((user) => {
+
       var status = user.user_status;
-      if (user.length < 1) {
+
+      if (!user && user.user_id) {
         return res.status(401).json({ result: "user not found" });
       }
       bcrypt.compare(req.body.password, user.password, (err, result) => {
@@ -406,13 +409,18 @@ exports.login = (req, res, next) => {
           });
         }
       });
+      console.log("########## 1")
     })
       .catch((err) => {
+        
+      console.log("########## 2")
         res.status(500).json({
           error: err,
         });
       });
   } else {
+    
+    console.log("########## 3")
     res.status(401).json({
       message: "ensure both username and password is filled",
     });

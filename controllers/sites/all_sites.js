@@ -1,4 +1,5 @@
 const site = require('../../models/site_db/all_sites')
+const time=require('../../global_js_libs/time_format')
 const mongoose = require("mongoose");
 
 module.exports.site_create = (req, res) => {
@@ -12,7 +13,7 @@ module.exports.site_create = (req, res) => {
         latitude: req.body.latitude,
         longitude: req.body.longitude,
         site_type: req.body.site_type,
-        record_date: today,
+        record_date: time.current_local_time,
     }
     const OrderObj_input = new site(post_data)
 
