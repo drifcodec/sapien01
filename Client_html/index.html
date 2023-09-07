@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./index.css"  />
+    <title>Sapien IO</title>
+    <script>
+        $(document).ready(function () {
+            $('#btn_login').click(function () {
+                document.getElementById("btn_login").disabled = true;
+                $('.login-form').append("<div class='loader'></div>")
+                localStorage.removeItem("Sapian_menu");
+                localStorage.removeItem("SapionT", null);
+                localStorage.removeItem("Sapion_id", null);
+                localStorage.removeItem("Sapion_U_iD", null);
+                localStorage.removeItem("Sapion_U_R", null)
+                $.ajax({
+                    url: '/api/user/login',
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify({"user_id": $('#username').val(),"password": $('#password').val()}),
+                    success: function (result) {
+                        if (result) {
+                            localStorage.setItem("SapionT", result.token);
+                            localStorage.setItem("Sapion_id", result.data.id);
+                            localStorage.setItem("Sapion_U_iD", result.data.user_id);
+                            getLocation()
+                            load_menu(result)
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        document.getElementById("btn_login").disabled = false;
+                        console.error(XMLHttpRequest)
+                        console.error(XMLHttpRequest)
+                        console.error(XMLHttpRequest)
+
+                        $('#error').remove()
+                        $('.login-form').append(`<div id='error'>${JSON.stringify(XMLHttpRequest.responseJSON.result) }</div>`)
+                        $('.loader').remove()
+                    }
+                });
+            })
+            function load_menu(result) {
+                $.ajax({
+                    url: `/api/page_access/getMenuList/${localStorage.Sapion_id}`,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result) {
+                            localStorage.setItem("Sapian_menu", JSON.stringify(result.results));
+                            self.location = "/Dashboard"
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        $('#error').remove()
+                        $('.login-form').append("<div id='error'>" + JSON.stringify(XMLHttpRequest.responseJSON.message) + "</div>")
+                        $('.loader').remove()
+                    }
+                });
+            }
+
+
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    login_log('', '')
+                }
+            }
+            function showPosition(position) {
+                login_log(position.coords.latitude, position.coords.longitude)
+            }
+            function login_log(lat, long) {
+                $.ajax({
+                    url: '/api/user_log/userLog_create',
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: 'json',
+                    data: JSON.stringify({
+                        "user_id": localStorage.Sapion_U_iD,
+                        "log_type": "Log in",
+                        "log_lat": lat,
+                        "log_long": long
+                    }),
+                    success: function (result) { },
+                });
+            }
+            $('.message a').click(function () {
+                $('form').animate({
+                    height: "toggle",
+                    opacity: "toggle"
+                }, "slow");
+            });
+            $('#btn_reset').click(function () {
+                $('.login-form').append("<div class='loader'></div>")
+                reset_function(localStorage.Sapion_U_iD)
+            });
+
+            function reset_function(user_id) {
+                $.ajax({
+                    url: '/api/user/forgotPass/' + user_id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: 'json',
+                    //data:stringify_data, 
+                    success: function (result) {
+                        $(".register-form").fadeOut()
+                        $(".loader").fadeOut()
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    }
+                });
+
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="form">
+            <div class="login-form">
+                <input type="text" placeholder="username" id='username' />
+                <input type="password" placeholder="password" id='password' />
+                <button id='btn_login'>Login</button>
+                <p class="message">forgot Password? <a href="#">reset password</a></p>
+                <p id="download_app"><a href="#">Download CGOS App</a></p>
+            </div>
+
+
+            <form class="register-form">
+                <button id='btn_reset'>Reset password</button>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+
+</html>
