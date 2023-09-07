@@ -1,5 +1,0 @@
-1.Log In to your Pi. ( use screen or even through PUTTY)
-2.Navigate to  /home/pi
-3.Create a python file ( consider  " hello.py ")
-4.now open a hidden file  .bashrc  ( type "sudo nano .bashrc" on terminal and press enter)
-6.At the end of the file type "python" followed by your file name (eg: python hello.py)
