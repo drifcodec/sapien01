@@ -1,5 +1,10 @@
 
+<<<<<<< HEAD
 
+=======
+const UserRoles = require('../../appsServer/user_management/models/user_roles')
+const Page_access = require('../../models/menuAndPages_db/pages_access')
+>>>>>>> e9b95a57353bd043318bf990af785fb1aad467bb
 const mongoose = require("mongoose");
 const Page_access = require('../../models/menuAndPages_db/pages_access')
 const UserRoles = require('../../appsServer/user_management/models/user_roles')
