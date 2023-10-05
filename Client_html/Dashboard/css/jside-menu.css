@@ -134,8 +134,8 @@
 .menu-container {
     font-family: 'Questrial', sans-serif;
     overflow: auto;
-    display: block;
-    top: 120px;
+    display: block;/* 
+    top: 120px; */
 }
 
 .menu-container::-webkit-scrollbar {
@@ -184,8 +184,8 @@
 .menu-container,
 .menu-head {
     /* 
-    top: 49px;
-    height: 100%; */
+    top: 49px;*/
+    height: 100%; 
     background: var(--skin);
     position: fixed;
     z-index: 1000;

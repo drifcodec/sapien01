@@ -1,4 +1,4 @@
-const parent_menu = require('../../models/menuAndPages/parent_menu')
+const parent_menu = require('../../models/menuAndPages_db/parent_menu')
 const mongoose = require("mongoose");
 module.exports.parent_menu_create = (req, res) => {
     var lower = ''
@@ -158,6 +158,7 @@ module.exports.parent_menu_delete = (req, res) => {
         .exec()
         .then(doc => {
             var deteteStattus = isDeletedStatus(doc[0].parent_menu)
+            console.log("From database", deteteStattus);
             if (deteteStattus) {
                 parent_menu.remove({ _id: id })
                     .exec()

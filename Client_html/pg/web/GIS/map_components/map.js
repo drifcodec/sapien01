@@ -23,7 +23,7 @@ async function initialize() {
 
   Tooltip.prototype = {
     // Define draw method to keep OverlayView happy
-    draw: function () { },
+    draw: function () {},
     visible_changed: function () {
       var vis = this.get("visible");
       this.div_.style.visibility = vis ? "visible" : "hidden";
@@ -177,7 +177,7 @@ async function initialize() {
     load_wearther();
     var site_all_list = await siteAPIGetlist($("#get_region").val());
     var vandalism_list = await vandalismAPIGetlist();
-
+    
     for (i = 0; i < site_all_list.length; i++) {
       addMarker(site_all_list[i]);
     }
@@ -211,7 +211,16 @@ async function initialize() {
     }
     var myLatlng = new google.maps.LatLng(props.coords.lat, props.coords.lng);
     bounds.extend(myLatlng);
-    var pulse = props.status == 0 ? "red_sos" : props.status == 1 ? "" : props.status == 2 ? "blue_sos" : props.status == 3 ? "orange_sos" : "";
+    var pulse =
+      props.status == 0
+        ? "red_sos"
+        : props.status == 1
+        ? ""
+        : props.status == 2
+        ? "blue_sos"
+        : props.status == 3
+        ? "orange_sos"
+        : "";
     var marker = new google.maps.Marker({
       position: myLatlng,
       map: map,
@@ -280,13 +289,8 @@ async function initialize() {
     google.maps.event.addListener(marker, "click", function () {
       marker.setIcon(resize_icon(icon_size));
       tooltip.removeTip();
-      infowindow.open({
-        anchor: marker,
-        map,
-        shouldFocus: false,
-      });/* 
       infowindow.open(map, marker);
-      console.log(map); */
+      console.log(map);
     });
     all_markers.push(marker);
     //map.fitBounds(bounds);
@@ -316,6 +320,38 @@ async function initialize() {
     vandalismClusterIcon
   );
 }
+
+// Sets the map on all markers in the array.
+/* function setMapOnAll(map) {
+    for (let i = 0; i < all_markers.length; i++) {
+        all_markers[i].setMap(map);
+    }
+}
+ */
+// Removes the markers from the map, but keeps them in the array.
+/* function clearMarkers() {
+    siteCluster.clearMarkers();
+    vandalismCluster.clearMarkers();
+    setMapOnAll(null);
+} */
+
+// Shows any markers currently in the array.
+/* function showMarkers() {
+    setMapOnAll(map);
+} */
+
+// Deletes all markers in the array by removing references to them.
+
+/* function deleteMarkers() {
+  markers = [];
+  siteCluster.length = 0;
+  vandalismCluster.length = 0;
+  $(".tooltip").remove()
+} */
+/* 
+setInterval(() => {
+  deleteMarkers()
+}, timer_interval) */
 
 function clear_cluster(type) {
   for (let i = 0; i < all_markers.length; i++) {

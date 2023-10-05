@@ -1,17 +1,10 @@
-
-
-module.exports=(req,res)=>{
-  console.log("Test+++++++")
-
-
-}
 /* const device= require('../models/device_db/device')
 const device_checker_email = require("../emails/device_checker");
 const axios=require('axios')
 module.exports=(req,res)=>{
 axios.post('http://localhost:3000/api/device/getList').then(resp => {
-              console.log(resp.data)
-        var today = new Date(); 
+                                  //console.log(resp.data)
+          var today = new Date(); 
           today.setHours( today.getHours() + 2 )
           var diff = Math.abs(new Date(resp.data.data[0].record_date) - new Date(today));
           //var minutes = Math.floor((diff/1000)/60);
