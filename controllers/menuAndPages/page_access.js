@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 const Page_access = require('../../models/menuAndPages/pages_access')
 const UserRoles = require('../../appsServer/user_management/models/user_roles')
-=======
-const Page_access = require('../../models/menuAndPages_db/pages_access')
->>>>>>> 0568fd7f1b1f4778a62e07092bc649d2b0db9028
 const mongoose = require("mongoose");
 const User = require("../../appsServer/user_management/models/user");
 
