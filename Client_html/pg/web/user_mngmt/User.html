@@ -44,7 +44,7 @@
         $("#example").DataTable().ajax.reload(null, false);
       });
       axios
-        .get("/api/user_role/user_role_getList", {})
+        .get("/api/roles/role_getList", {})
         .then((response) => {
           for (i = 0; i < response.data.length; i++) {
             var role_name = response.data[i].role_name;

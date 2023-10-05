@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const user_roles = require("../models/user_roles");
 const email_server = require("../../../emails/user_confirmation_email");
 const reset_email = require("../../../emails/user_forgotPass");
 const { resolve } = require("path");
@@ -16,7 +17,6 @@ exports.user_getList = (req, res) => {
     .limit(limit)
     .exec()
     .then((result) => {
-      //console.log(result)
       res.status(200).json({
         total: result.length,
         results: result,
@@ -88,17 +88,25 @@ exports.user_getList_t = (req, res) => {
     });
   });
 };
-
-exports.user_get = (req, res) => {
+exports.user_get = async (req, res) => {
+  User.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId('616429d49238af0004a5431d') } },
+    { $lookup: { from: 'user_roles', localField: 'user_id', foreignField: 'account_id', as: 'RolesArr' } }
+  ]).exec()
+    .then((res) => {
+      let result = result[0]
+      res.json(result)
+    })
+  /* 
   User.findOne({ _id: req.params.id })
     .select("-password")
     .exec()
-    .then((result) => {
+    .then(async (result) => {
       if (result) {
         res.status(200).json({
           result: {
             id: result._id,
-            roles: result.roles,
+            roles: "",//await userRoles(result.user_id),//result.roles,
             user_id: result.user_id,
             name: result.name,
             surname: result.surname,
@@ -116,8 +124,20 @@ exports.user_get = (req, res) => {
       res.status(401).json({
         message: "Error proccesing",
       });
-    });
+    }); */
 };
+
+/* async function userRoles(user) {
+  let data = await user_roles.find({ account_id: user }).exec().then((res) => {
+    let roles=[]
+    res.forEach(element => {
+      roles.push(element.role_name)
+    });
+    return roles
+
+  })
+  return data
+} */
 exports.user_update = (req, res) => {
   const id = req.params.id;
   var data = {};

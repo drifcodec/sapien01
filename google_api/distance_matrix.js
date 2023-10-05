@@ -62,3 +62,13 @@ module.exports.get_distancematrix= function (_id, depart_lat, depart_long, arriv
         res.status(500).json({ error: "No valid entry found for provided ID" });
       });
   }
+
+
+  /* 
+  1. User management and page management
+  2. clokcing
+  3.Messaging
+  4.GIS and GIS Dashboard
+  5.WO creation and WO dashboard
+  */
+  

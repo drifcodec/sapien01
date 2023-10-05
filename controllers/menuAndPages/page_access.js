@@ -1,4 +1,5 @@
 const Page_access = require('../../models/menuAndPages/pages_access')
+const UserRoles = require('../../appsServer/user_management/models/user_roles')
 const mongoose = require("mongoose");
 const User = require("../../appsServer/user_management/models/user");
 
@@ -32,7 +33,6 @@ module.exports.Page_access_create = (req, res) => {
 
 }
 module.exports.getMenuList = (req, res) => {
-    //
     _id = req.params.id
     User.findById({ _id })
         .exec()
@@ -43,18 +43,15 @@ module.exports.getMenuList = (req, res) => {
                         ['position']: 'asc'
                     })
                     .exec()
-                    .then(results => {
+                    .then(async results => {
                         if (results) {
                             var menu_list = []
+                            var allRoles = await getUserRoles(user.user_id)
                             for (i = 0; i < results.length; i++) {
-                                var menu =  results[i]
-
+                                var menu = results[i]
                                 if (results[i].roles && user.roles) {
-                                    console.error('----user->>>',user.roles)
-                                    console.error('--roles--->>>',results[i].roles)
-                                    var permitionallowed = permitionChecker(user.roles, results[i].roles)
 
-                                    console.error('--permitionallowed--->>>',permitionallowed)
+                                    var permitionallowed = permitionChecker(user.roles, allRoles)
                                     if (user.roles.includes('admin')) {
                                         menu_list.push(menu)
                                     } else if (permitionallowed) {
@@ -80,19 +77,40 @@ module.exports.getMenuList = (req, res) => {
                         }
 
                     }).catch(err => {
-                        console.log(err);
                         res.status(500).json({ error: err });
                     });
-                //res.status(200).json({ result: doc });
             } else {
-                // res.status(404).json({ message: "No valid entry found for provided ID" });
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({ error: "No valid entry found for provided ID" });
         });
 
+}
+
+async function getUserRoles(user,) {
+    return new Promise
+        ((resolve, reject) => {
+            UserRoles.find({ account_id: user })
+                .exec()
+                .then(results => {
+                    if (results) {
+                        var allRoles = []
+                        for (i = 0; i < results.length; i++) {
+                            allRoles.push(results[i].role_name)
+                        }
+                        return resolve(allRoles)
+                    } else {
+                        return resolve(null)
+                    }
+
+                })
+                .catch(err => {
+                    res.status(401).json({
+                        message: "Error proccesing"
+                    });
+                });
+        })
 }
 module.exports.Page_access_getList = (req, res) => {
     sort_by = req.body.sort == '' ? 'record_date' : req.body.sort
@@ -114,7 +132,6 @@ module.exports.Page_access_getList = (req, res) => {
             }
 
         }).catch(err => {
-            console.log(err);
             res.status(500).json({ error: err });
         });
 }
@@ -140,8 +157,6 @@ module.exports.Page_access_getList_table = (req, res) => {
     } else {
         searchStr = {};
     }
-    console.log("drop_down_select " + JSON.stringify(drop_down_select))
-    console.log("searchStr " + JSON.stringify())
     var draw = req.body.draw
     start = req.body.start == undefined ? 0 : req.body.start
     limit = 10 //req.body.length == undefined ? 1000 : req.body.length
@@ -172,7 +187,6 @@ module.exports.Page_access_getList_table = (req, res) => {
                     }
 
                 }).catch(err => {
-                    console.log(err);
                     res.status(500).json({ error: err });
                 });
         })
@@ -183,7 +197,6 @@ module.exports.Page_access_get = (req, res) => {
     Page_access.find({ _id: id })
         .exec()
         .then(doc => {
-            console.log("From database", doc);
             if (doc) {
                 res.status(200).json({ result: doc });
             } else {
@@ -191,7 +204,6 @@ module.exports.Page_access_get = (req, res) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({ error: "No valid entry found for provided ID" });
         });
 }
@@ -212,7 +224,6 @@ module.exports.Page_access_update = (req, res) => {
 
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({
                 error: err
             });
@@ -225,12 +236,10 @@ module.exports.Page_access_delete = (req, res) => {
         .exec()
         .then(doc => {
             var deteteStattus = isDeletedStatus(doc[0].page)
-            console.log("From database", deteteStattus);
             if (deteteStattus) {
                 Page_access.remove({ _id: id })
                     .exec()
                     .then(doc => {
-                        console.log("From database", doc);
                         if (doc) {
                             res.status(200).json(doc);
                         } else {
@@ -238,7 +247,6 @@ module.exports.Page_access_delete = (req, res) => {
                         }
                     })
                     .catch(err => {
-                        console.log(err);
                         res.status(500).json({ error: err });
                     });
             } else {
@@ -247,7 +255,6 @@ module.exports.Page_access_delete = (req, res) => {
             }
         })
         .catch(err => {
-            console.log(err);
             res.status(500).json({ error: "No valid entry found for provided ID" });
         });
 

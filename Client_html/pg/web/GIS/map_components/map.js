@@ -142,7 +142,7 @@ async function initialize() {
   var mapOptions = {
     zoom: 6,
     center: { lat: -27.760670805627804, lng: 26.816038817267415 },
-    styles: mapStyle_, //white_style//mapStyle_,
+    styles: white_style, //white_style//mapStyle_,
   };
   map = new google.maps.Map(document.getElementById("map"), mapOptions);
   // This event listener will call addMarker() when the map is clicked.
