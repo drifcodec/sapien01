@@ -1,8 +1,6 @@
 
-const UserRoles = require('../../appsServer/user_management/models/user_roles')
 const Page_access = require('../../models/menuAndPages_db/pages_access')
 const mongoose = require("mongoose");
-const Page_access = require('../../models/menuAndPages_db/pages_access')
 const UserRoles = require('../../appsServer/user_management/models/user_roles')
 const User = require("../../appsServer/user_management/models/user");
 
@@ -36,59 +34,44 @@ module.exports.Page_access_create = (req, res) => {
 
 }
 module.exports.getMenuList = (req, res) => {
-    _id = req.params.id
-    User.findById({ _id })
-        .exec()
-        .then(user => {
+    User.aggregate([
+        { $match: { _id: new mongoose.Types.ObjectId(req.params.id) } },
+        { $lookup: { from: 'user_roles', localField: 'user_id', foreignField: 'account_id', as: 'RolesArr' } }
+    ]).exec()
+        .then(user_ => {
+            let user = user_[0]
             if (user) {
-                Page_access.find({ status: 'online' })
-                    .sort({
-                        ['position']: 'asc'
-                    })
-                    .exec()
-                    .then(async results => {
-                        if (results) {
-                            var menu_list = []
-                            var allRoles = await getUserRoles(user.user_id)
-                            for (i = 0; i < results.length; i++) {
-                                var menu = results[i]
-                                if (results[i].roles && user.roles) {
-
-                                    var permitionallowed = permitionChecker(user.roles, allRoles)
-                                    if (user.roles.includes('admin')) {
-                                        menu_list.push(menu)
-                                    } else if (permitionallowed) {
-                                        menu_list.push(menu)
-                                    } else { }
-                                }
-
-                            }
-                            function permitionChecker(array1, array2) {
-                                for (let i = 0; i < array1.length; i++) {
-                                    for (let j = 0; j < array2.length; j++) {
-                                        if (array1[i] === array2[j]) {
-                                            return true;
-                                        }
-                                    }
-                                }
-                                return false;
-                            }
-                            var data = {
-                                "results": menu_list
-                            }
-                            res.status(200).json(data)
-                        }
-
+                let roles = ["super_admin"]
+                user.RolesArr.forEach(e => {
+                    roles.push(e.role_name)
+                });
+                Page_access.find({ status: 'online', roles: { "$in": roles } })
+                    //.select("-roles")
+                    .sort({ ['position']: 'asc' }).exec()
+                    .then(results => {
+                        res.status(200).json({
+                            "results": results
+                        })
                     }).catch(err => {
                         res.status(500).json({ error: err });
                     });
-            } else {
             }
         })
         .catch(err => {
             res.status(500).json({ error: "No valid entry found for provided ID" });
         });
 
+}
+
+function permitionChecker(array1, array2) {
+    for (let i = 0; i < array1.length; i++) {
+        for (let j = 0; j < array2.length; j++) {
+            if (array1[i] === array2[j]) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 async function getUserRoles(user,) {

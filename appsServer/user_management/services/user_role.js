@@ -1,25 +1,24 @@
-const role = require('../models/roles')
+const role = require('../models/user_roles')
 const mongoose = require("mongoose");
 const time_converter = require('../../../global_js_libs/time_format')
 var today = time_converter.current_local_time()
 
 module.exports.create = (req, res) => {
-  var post_data = {
-    _id: new mongoose.Types.ObjectId(),
+  const OrderObj_input = new role({
+    _id: mongoose.Schema.Types.ObjectId,
+    account_id:req.body.role_name,
     create_time: today,
-    role_name: (req.body.role_name).toLowerCase(),
-    role_description: req.body.role_description,
-  }
-  const OrderObj_input = new role(post_data)
+    role_name: req.body.role_name
+  })
   OrderObj_input.save().then(data => {
     const message = {
-      message: 'Role created',
+      message: 'User Role created',
       status: 201,
       created_data: post_data
     }
     res.status(200).json(message)
   }
-  ).catch(err => {});
+  ).catch(err => console.log(err));
 
 }
 
@@ -45,6 +44,7 @@ module.exports.getList = (req, res) => {
 
         }
         ).catch(err => {
+          console.log(err);
           res.status(500).json({ error: err });
         });
   
@@ -72,6 +72,8 @@ module.exports.getList_table = (req, res) => {
   else {
     searchStr = {};
   }
+  console.log("drop_down_select " + JSON.stringify(drop_down_select))
+  console.log("searchStr " + JSON.stringify())
   var draw = req.body.draw
   start = req.body.start == undefined ? 0 : req.body.start
   limit = req.body.length == undefined ? 1000 : req.body.length
@@ -101,6 +103,7 @@ module.exports.getList_table = (req, res) => {
 
         }
         ).catch(err => {
+          console.log(err);
           res.status(500).json({ error: err });
         });
     })
@@ -113,6 +116,7 @@ module.exports.get = (req, res) => {
   role.findById(_id)
     .exec()
     .then(doc => {
+      console.log("From database", doc);
       if (doc) {
         res.status(200).json({ result: doc });
       } else {
@@ -120,6 +124,7 @@ module.exports.get = (req, res) => {
       }
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({ error: "No valid entry found for provided ID" });
     });
 }
@@ -141,6 +146,7 @@ module.exports.update = (req, res) => {
 
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({
         error: err
       });
@@ -149,9 +155,11 @@ module.exports.update = (req, res) => {
 
 module.exports.delete = (req, res) => {
   var id = req.params.id
+  console.log("###########################_>>>>>>>>>"+id)
   role.remove({ _id: id })
     .exec()
     .then(doc => {
+      console.log("From database", doc);
       if (doc) {
         res.status(200).json(doc);
       } else {
@@ -159,8 +167,34 @@ module.exports.delete = (req, res) => {
       }
     })
     .catch(err => {
+      console.log(err);
       res.status(500).json({ error: err });
     });
 }
 
 
+
+
+
+
+
+
+
+
+
+
+exports.delete = (req, res) => {
+    UserRoles.deleteOne({ _id: req.params.id })
+      .exec()
+      .then((result) => {
+        res.status(200).json({
+          message: "User deleted",
+        });
+      })
+      .catch((err) => {
+        res.status(404).json({
+          message: "User not found",
+        });
+      });
+  };
+  

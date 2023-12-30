@@ -8,24 +8,25 @@
     <script src="https://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./index.css"  />
+    <link rel="stylesheet" type="text/css" href="./index.css" />
     <title>Sapien IO</title>
     <script>
         $(document).ready(function () {
             $('#btn_login').click(function () {
                 document.getElementById("btn_login").disabled = true;
                 $('.login-form').append("<div class='loader'></div>")
+                
+                let items = ['SapionT', 'Sapion_id', 'Sapion_U_iD', 'Sapion_U_R']
                 localStorage.removeItem("Sapian_menu");
-                localStorage.removeItem("SapionT", null);
-                localStorage.removeItem("Sapion_id", null);
-                localStorage.removeItem("Sapion_U_iD", null);
-                localStorage.removeItem("Sapion_U_R", null)
+                items.forEach(item => {
+                    localStorage.removeItem(item, null);
+                });
                 $.ajax({
                     url: '/api/user/login',
                     type: "POST",
                     contentType: "application/json;charset=utf-8",
                     dataType: 'json',
-                    data: JSON.stringify({"user_id": $('#username').val(),"password": $('#password').val()}),
+                    data: JSON.stringify({ "user_id": $('#username').val(), "password": $('#password').val() }),
                     success: function (result) {
                         if (result) {
                             localStorage.setItem("SapionT", result.token);
@@ -42,7 +43,7 @@
                         console.error(XMLHttpRequest)
 
                         $('#error').remove()
-                        $('.login-form').append(`<div id='error'>${JSON.stringify(XMLHttpRequest.responseJSON.result) }</div>`)
+                        $('.login-form').append(`<div id='error'>${JSON.stringify(XMLHttpRequest.responseJSON.result)}</div>`)
                         $('.loader').remove()
                     }
                 });

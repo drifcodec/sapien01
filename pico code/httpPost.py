@@ -20,7 +20,7 @@ current = 0
 status = "online"
 packetArr = []
 
-#temp of pico pi
+#temp of pico pi s
 TempSensor = machine.ADC(4)
 conversion_factor = 3.3 / 65535 
 

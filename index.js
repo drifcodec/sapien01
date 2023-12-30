@@ -1,4 +1,5 @@
 // "bcrypt": "^5.0.0",
+const { Console } = require("console");
 const dotenv = require("dotenv")
 dotenv.config();
 const express = require("express");/* 
@@ -24,10 +25,21 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static("Client_html"))
+
+//let permittedLinker = ['localhost', '127.0.0.1'];  // who can link here?
+
+/* app.use(function (req, res, next) {
+  var i = 0, notFound = 1, referer = req.get('Referer');
+  console.error(req)
+  console.error("--------=====================================")
+ 
+  next()
+}); */
 app.use('/uploads', express.static("uploads"))
 app.use('/api/user', require('./appsServer/user_management/routes/user'));
+app.use('/api/user_roles', require('./appsServer/user_management/routes/user_roles'));
 app.use('/api/site', require('./routes/sites/site'));
-app.use('/api/sys_role', require('./appsServer/user_management/routes/sys_role'));
+app.use('/api/roles', require('./appsServer/user_management/routes/roles'));
 app.use('/api/user_log', require('./appsServer/user_management/routes/user_log'));
 app.use('/api/vandalism', require('./routes/vandalism'));
 app.use('/api/roll_out', require('./routes/rollout'));

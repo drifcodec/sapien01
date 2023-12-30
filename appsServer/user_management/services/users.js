@@ -11,11 +11,19 @@ const { resolve } = require("path");
 exports.user_getList = (req, res) => {
   start = req.body.start == undefined ? 0 : req.body.start;
   limit = req.body.limit == undefined ? 1000 : req.body.limit;
+  /* 
   User.find(req.body)
     .select("-password")
     .skip(start)
-    .limit(limit)
-    .exec()
+    .limit(limit) */
+  User.aggregate([
+    { $match: req.body },
+    { $lookup: { from: 'user_roles', localField: 'user_id', foreignField: 'account_id', as: 'RolesArr' } },
+    { $limit: Number(limit) },
+    { $skip: (Number(start)) },
+    { $sort: { [order]: dir } },
+    { $project: { "password": 0 } }
+  ]).exec()
     .then((result) => {
       res.status(200).json({
         total: result.length,
@@ -63,25 +71,23 @@ exports.user_getList_t = (req, res) => {
 
       //User.find(searchStr, '_id operator current_status') if i only want to return speficif fileds
       //User.find(searchStr) for globale search
-      User.find(drop_down_select)
-        .select("-password")
-        .skip(Number(start))
-        .limit(Number(limit))
-        .sort({
-          [order]: dir,
-        })
-        .exec()
-        .then((results) => {
-          if (results) {
-            var data = {
-              draw: draw,
-              recordsFiltered: recordsFiltered,
-              recordsTotal: recordsTotal,
-              data: results,
-            };
-            res.status(200).json(data);
-          }
-        })
+      User.aggregate([
+        { $lookup: { from: 'user_roles', localField: 'user_id', foreignField: 'account_id', as: 'RolesArr' } },
+        { $limit: Number(limit) },
+        { $skip: (Number(start)) },
+        { $sort: { [order]: dir } },
+        { $project: { "password": 0 } }
+      ]).exec().then((results) => {
+        if (results) {
+          var data = {
+            draw: draw,
+            recordsFiltered: recordsFiltered,
+            recordsTotal: recordsTotal,
+            data: results,
+          };
+          res.status(200).json(data);
+        }
+      })
         .catch((err) => {
           res.status(500).json({ error: err });
         });
@@ -90,12 +96,28 @@ exports.user_getList_t = (req, res) => {
 };
 exports.user_get = async (req, res) => {
   User.aggregate([
-    { $match: { _id: new mongoose.Types.ObjectId('616429d49238af0004a5431d') } },
+    { $match: { _id: new mongoose.Types.ObjectId(req.params.id) } },
     { $lookup: { from: 'user_roles', localField: 'user_id', foreignField: 'account_id', as: 'RolesArr' } }
   ]).exec()
-    .then((res) => {
-      let result = result[0]
-      res.json(result)
+    .then((result_) => {
+      let result = result_[0]
+      if (result) {
+        res.status(200).json({
+          result: {
+            id: result._id,
+            roles: result.RolesArr,
+            user_id: result.user_id,
+            name: result.name,
+            surname: result.surname,
+            phone: result.phone,
+            email: result.email,
+          },
+        });
+      } else {
+        res.status(401).json({
+          message: "User doesnt Exist",
+        });
+      }
     })
   /* 
   User.findOne({ _id: req.params.id })
@@ -126,7 +148,6 @@ exports.user_get = async (req, res) => {
       });
     }); */
 };
-
 /* async function userRoles(user) {
   let data = await user_roles.find({ account_id: user }).exec().then((res) => {
     let roles=[]
@@ -381,7 +402,7 @@ exports.forgot_password = (req, res) => {
 };
 exports.login = (req, res, next) => {
   if (req.body.user_id && req.body.password) {
-   // console.log(req.body)
+    // console.log(req.body)
     User.findOne({ user_id: req.body.user_id }).exec().then((user) => {
 
       var status = user.user_status;
@@ -432,14 +453,14 @@ exports.login = (req, res, next) => {
       console.log("########## 1")
     })
       .catch((err) => {
-        
-      console.log("########## 2")
+
+        console.log("########## 2")
         res.status(500).json({
           error: err,
         });
       });
   } else {
-    
+
     console.log("########## 3")
     res.status(401).json({
       message: "ensure both username and password is filled",
