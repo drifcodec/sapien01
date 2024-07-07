@@ -8,7 +8,7 @@ const app = express()
 //const morgan=require('morgan')
 const mongoose = require('mongoose')
 //const device_stats_check=require('./background_worker/device_status_cherker')
-let port = process.env.PORT || 3000
+let port = process.env.PORT || 5000
 var connection_string = 'mongodb+srv://dannynho:dannynho@ourdb-uczbc.mongodb.net/test?retryWrites=true&w=majority'
 mongoose.connect(connection_string, { useUnifiedTopology: true, useNewUrlParser: true })
 mongoose.set('useCreateIndex', true);

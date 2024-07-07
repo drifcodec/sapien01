@@ -63,41 +63,6 @@ module.exports.getMenuList = (req, res) => {
 
 }
 
-function permitionChecker(array1, array2) {
-    for (let i = 0; i < array1.length; i++) {
-        for (let j = 0; j < array2.length; j++) {
-            if (array1[i] === array2[j]) {
-                return true;
-            }
-        }
-    }
-    return false;
-}
-
-async function getUserRoles(user,) {
-    return new Promise
-        ((resolve, reject) => {
-            UserRoles.find({ account_id: user })
-                .exec()
-                .then(results => {
-                    if (results) {
-                        var allRoles = []
-                        for (i = 0; i < results.length; i++) {
-                            allRoles.push(results[i].role_name)
-                        }
-                        return resolve(allRoles)
-                    } else {
-                        return resolve(null)
-                    }
-
-                })
-                .catch(err => {
-                    res.status(401).json({
-                        message: "Error proccesing"
-                    });
-                });
-        })
-}
 module.exports.Page_access_getList = (req, res) => {
     sort_by = req.body.sort == '' ? 'record_date' : req.body.sort
     start = req.body.start == undefined ? 0 : req.body.start
